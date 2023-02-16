@@ -5,11 +5,12 @@ import {View, StyleSheet} from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import MatchesScreen from './src/screens/MatchesScreen';
 import InitScreen from './src/screens/InitScreen';
+import LoginScreen from './src/screens/LoginScreen'
 
 const App = () => {
   return (
     <View style={styles.pageContainer}>
-      <InitScreen />
+      <LoginScreen />
     </View>
   );
 };
