@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 const InitScreen = () => {
   return (
     <View style={styles.pageContainer}>
-      <Text>hi</Text>
+      <Text>Sprint1</Text>
     </View>
   );
 };
