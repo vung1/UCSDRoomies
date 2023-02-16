@@ -3,7 +3,7 @@ import '@firebase/auth';
 import '@firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyChUkB-lvJ4v36ro_hqub3M5PsnMm8Ehis',
+  apiKey: 'AIzaSyAAPY4x1Ci1Jsjw8a8-T0ZR4ouTy-BgIKw',
   authDomain: 'ucsdroomies-bc16f.firebaseapp.com',
   databaseURL: 'https://ucsdroomies-bc16f.firebaseio.com',
   projectId: 'ucsdroomies-bc16f',
