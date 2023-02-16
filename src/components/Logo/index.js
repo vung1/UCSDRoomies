@@ -24,7 +24,7 @@ const Logo = () => {
 
   return (
     <View style={styles.logoContainer}>
-      <Image source={require('../../../assets/images/icon.png')} style={styles.image} />
+      <Image source={require('../../../assets/images/logo.png')} style={styles.image} />
       <Text style={{fontSize: 20, fontFamily: 'Almendra_700Bold_Italic'}}> UCSD </Text>
       <Text style={{fontSize: 20, fontFamily: 'Almendra_700Bold_Italic'}}> Roomies </Text>
     </View>
