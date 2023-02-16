@@ -24,26 +24,26 @@ const Logo = () => {
 
   return (
     <View style={styles.logoContainer}>
-      <Image source={require('../../../assets/images/logo.png')} style={styles.image} />
-      <Text style={{fontSize: 20, fontFamily: 'Almendra_700Bold_Italic'}}> UCSD </Text>
-      <Text style={{fontSize: 20, fontFamily: 'Almendra_700Bold_Italic'}}> Roomies </Text>
+      <Image source={require('../../../assets/images/appLogo.png')} style={styles.image} />
+      <Text style={{fontSize: 24, fontFamily: 'Almendra_700Bold_Italic'}}> UCSD </Text>
+      <Text style={{fontSize: 25, fontFamily: 'Almendra_700Bold_Italic'}}> Roomies </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   logoContainer: {
-    width: 160,
-    height: 160,
+    width: 200,
+    height: 200,
     backgroundColor: "white",
     alignItems: "center",
-    borderRadius: 80
+    borderRadius: 100,
   },
   image: {
-    width: 70,
-    height: 70,
+    width: 90,
+    height: 90,
     marginTop: "8%",
-    marginBottom: "2%"
+    marginBottom: "3%"
   },
 });
 
