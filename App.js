@@ -9,7 +9,7 @@ import InitScreen from './src/screens/InitScreen';
 const App = () => {
   return (
     <View style={styles.pageContainer}>
-      <InitScreen />
+      <MatchesScreen />
     </View>
   );
 };
