@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
-import {LinearGradient} from 'expo-linear-gradient';
+import { View, Text, StyleSheet } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import Logo from '../components/Logo'
 
@@ -8,7 +8,9 @@ const LoginScreen = () => {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
       
-      <View style={styles.pageContainer}></View><Logo/>
+      <View style={styles.pageContainer}></View> 
+      
+      <Logo/>
       
       <View style={styles.buttonContainer}>
         <Text style={styles.buttonText}> LOGIN WITH UCSD EMAIL </Text>
