@@ -15,11 +15,11 @@ const LoginButton = () => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    padding: 15, 
+    padding: 15,
+    borderRadius: 30,
     alignItems: "center",
     backgroundColor: "white",
-    borderRadius: 30,
-    flexDirection:'row'
+    flexDirection:'row',
   },
   buttonText: {
     fontWeight: "bold",

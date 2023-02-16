@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     width: 90,
     height: 90,
     marginTop: "8%",
-    marginBottom: "3%"
+    marginBottom: "3%",
   },
 });
 

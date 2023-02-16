@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     marginTop: "42%",
-  }
+  },
 });
 
 export default InitScreen;
