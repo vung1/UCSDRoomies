@@ -1,54 +1,37 @@
 import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Image} from 'react-native';
-import Svg, {Path} from 'react-native-svg';
-
-
 import { ScrollView } from 'react-native-gesture-handler';
 import users from '../../assets/data/users';
-import ChatScreen from './ChatScreen';
+import Svg, {Path} from 'react-native-svg';
 
-// const xml = `
-// <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-// width="500px" height="500px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
-// ...
-// </svg>
-// `;
-
-const MatchesScreen = ({navigation}) => {
+const ChatScreen = ({navigation, user}) => {
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
-        <View style={{flexDirection: "row"}}>
-        <Svg xmlns="http://www.w3.org/2000/svg" height="100%" width="10%" viewBox="0 0 448 512" >
+      <TouchableOpacity onPress={() =>
+                  navigation.navigate('Matches', {
+                    screen: 'MatchesScreen' 
+                  })
+                }><View style={{flexDirection: "row"}}>
+      <Svg xmlns="http://www.w3.org/2000/svg" height="100%" width="10%" viewBox="0 0 448 512" >
           <Path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" fill="#000000" fillRule='evenodd'/>
         </Svg>
-           <Text style={{fontWeight: 'bold', fontSize: 24, color: '#247DCF', marginLeft: 20}}>
-            New Matches
-          </Text>
-        </View>
-        <ScrollView style={styles.scrollView} horizontal={true}>
-          <View style={styles.users}>
-            {users.map(user => (
-              <View style={styles.user} key={user.id}>
+        {/* <View style={styles.user} key={user.id}>
                 <Image source={{uri: user.image}} style={styles.simp_image} />
                 <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
-              </View>
-              
-            ))}
-          </View>
-        </ScrollView>
+              </View> */}
+           <Text style={{fontWeight: 'bold', fontSize: 24, color: '#247DCF', marginLeft: 20}}>
+            Chat
+          </Text>
+          </View></TouchableOpacity>
+        
       </View>
-      <View style={styles.message_area}>
+      {/* <View style={styles.message_area}>
       <ScrollView style={styles.scrollView} vertical={true}>
               <View style={styles.container}>
                 {users.map(user => (
                 (user.messages) ?
-                <TouchableOpacity onPress={() =>
-                  navigation.navigate('Chat', {
-                    paramKey: user, screen: 'Profile' 
-                  })
-                }>
-                  <View style={styles.message_box} key={user.id}>
+                <View style={styles.message_box} key={user.id}>
                   <View style={styles.user} key={user.id}>
                     <Image source={{uri: user.image}} style={styles.simp_image} />
                   </View>
@@ -62,14 +45,13 @@ const MatchesScreen = ({navigation}) => {
                     <Text style={styles.time}>{user.messages[0].split("\n").pop()}
                     </Text>
                   </View>
-                  </View>
-                </TouchableOpacity>
-                 : null
+                  
+                </View> : null
                 
               ))}
               </View>
-      </ScrollView>
-      </View>
+      </ScrollView> */}
+      {/* </View> */}
       
     </SafeAreaView>
   );
@@ -84,7 +66,7 @@ const styles = StyleSheet.create({
   ver_container:{
     padding: 10,
     flexDirection: "column",
-    flex:1,
+    flex: 1,
   },
   container: {
     padding: 10,
@@ -163,4 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MatchesScreen;
+export default ChatScreen;
