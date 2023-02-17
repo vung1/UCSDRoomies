@@ -3,27 +3,21 @@ import {TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Image} from 'rea
 import { ScrollView } from 'react-native-gesture-handler';
 import users from '../../assets/data/users';
 import Svg, {Path} from 'react-native-svg';
+import BackArrow from '../components/BackArrow';
 
-const ChatScreen = ({navigation, user}) => {
+const ChatScreen = ({route, navigation}) => {
+  const { user} = route.params;
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
-      <TouchableOpacity onPress={() =>
-                  navigation.navigate('Matches', {
-                    screen: 'MatchesScreen' 
-                  })
-                }><View style={{flexDirection: "row"}}>
-      <Svg xmlns="http://www.w3.org/2000/svg" height="100%" width="10%" viewBox="0 0 448 512" >
-          <Path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" fill="#000000" fillRule='evenodd'/>
-        </Svg>
-        {/* <View style={styles.user} key={user.id}>
+      
+      <View style={{flexDirection: "row"}}>
+        <BackArrow navigation={navigation} screen={'MatchesScreen'} screenName={'Matches'}/>
+        <View style={styles.user} key={user.id}>
                 <Image source={{uri: user.image}} style={styles.simp_image} />
-                <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
-              </View> */}
-           <Text style={{fontWeight: 'bold', fontSize: 24, color: '#247DCF', marginLeft: 20}}>
-            Chat
-          </Text>
-          </View></TouchableOpacity>
+              </View>
+              <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
+          </View>
         
       </View>
       {/* <View style={styles.message_area}>
@@ -76,35 +70,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   user: {
-    width: 85,
-    height: 85,
-    margin: 8,
+    width: 40,
+    height: 40,
+    marginLeft: 30,
     borderRadius: 50,
-
-    borderWidth: 2,
-    padding: 3,
-    borderColor: '#247DCF',
   },
-  // new_user:{
-  //   width: 85,
-  //   height: 85,
-  //   margin: 8,
-  //   borderRadius: 50,
-
-  //   borderWidth: 2,
-  //   padding: 3,
-  //   borderColor: '#247DCF',
-  // },
   simp_image: {
     width: '100%',
     height: '100%',
     borderRadius: 50,
   },
   name: {
-    fontWeight:"300",
-    fontSize:14,
-    textAlign: "center",
+    fontWeight:"600",
+    fontSize:20,
+    textAlign: "justify",
     lineHeight: 40,
+    marginLeft: 15,
   },
   message_area:{
     flex: 4,
