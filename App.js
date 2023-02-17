@@ -11,23 +11,18 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator, createAppContainer, createSwitchNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
-// const AppContainer = createAppContainer(AppNavigator);
-// const AppNavigator = createSwitchNavigator({
-//   /*
-//    * Rather than being rendered by a screen component, the
-//    * AuthenticationNavigator is a screen component
-//    */
-//   Home: MatchesScreen,
-// });
 
 const App = () => {
-  return (<MainStackNavigator /> );
+  return (<SafeAreaView style={styles.pageContainer}>
+    <MainStackNavigator />
+    </SafeAreaView> );
 };
 
 const styles = StyleSheet.create({
   pageContainer: {
     justifyContent: 'center',
     flex: 1,
+    backgroundColor:"#FFFFFF"
   },
 });
 

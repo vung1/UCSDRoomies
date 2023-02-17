@@ -4,6 +4,8 @@ import { ScrollView } from 'react-native-gesture-handler';
 import users from '../../assets/data/users';
 import Svg, {Path} from 'react-native-svg';
 import BackArrow from '../components/BackArrow';
+import TypeInBox from '../components/TypeInBox';
+
 
 const ChatScreen = ({route, navigation}) => {
   const { user} = route.params;
@@ -20,32 +22,32 @@ const ChatScreen = ({route, navigation}) => {
           </View>
         
       </View>
-      {/* <View style={styles.message_area}>
-      <ScrollView style={styles.scrollView} vertical={true}>
-              <View style={styles.container}>
-                {users.map(user => (
-                (user.messages) ?
-                <View style={styles.message_box} key={user.id}>
-                  <View style={styles.user} key={user.id}>
-                    <Image source={{uri: user.image}} style={styles.simp_image} />
-                  </View>
-                  <View style={styles.message_mid}>
-                    <Text style={styles.msg_name}>{user.name}</Text>
-                    <Text style={styles.message}>{user.messages[0].split("\n")[0]}</Text>
-                  </View>
-                  <View >
-                    <Text style={styles.time}>
-                    </Text>
-                    <Text style={styles.time}>{user.messages[0].split("\n").pop()}
-                    </Text>
-                  </View>
-                  
-                </View> : null
-                
-              ))}
+
+      <View style={styles.message_area}>
+        <ScrollView style={styles.scrollView} vertical={true}>
+          {user.messages.map( msg => 
+          <View style={styles.message_box}>
+              <View style={styles.message_side} >
+                <View style={styles.user} key={user.id}>
+                  <Image source={{uri: user.image}} style={styles.simp_image} />
+                </View>
               </View>
-      </ScrollView> */}
-      {/* </View> */}
+                <View style={styles.message_mid}>
+                  <Text style={styles.message}>{msg.split("\n")[0]}</Text>
+                </View>
+                <View style={styles.message_side}>
+                  
+                </View>
+          </View>
+          
+              ) 
+          }
+        </ScrollView> 
+      </View>
+
+      <View style={styles.container}>
+         <TypeInBox />
+      </View>
       
     </SafeAreaView>
   );
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "column",
     flex: 1,
+    backgroundColor:"#FFFFFF"
   },
   container: {
     padding: 10,
@@ -88,34 +91,43 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   message_area:{
-    flex: 4,
+    flex: 9,
+    flexDirection:"column",
+    justifyContent: 'flex-end',
   },
   message_box: {
-    height: 85,
+    backgroundColor:"#FFFFFF",
+    // height: '100%',
     flexDirection:"row",
-    margin: 8,
+  },
+  message_side: {
+    // backgroundColor:"#F1F1F1",
+    // lineHeight: 40,
+    width:"100%",
+    height:"100%",
+    flex:1,
+    alignItems: "left",
+    margin:3,
   },
   message_mid: {
     fontWeight:"300",
     fontSize:14,
-    textAlign: "center",
-    lineHeight: 40,
-    flex:2,
-    margin:8,
-  },
-  msg_name: {
-    fontWeight:"400",
-    fontSize:16,
-    textAlign: "left",
-    lineHeight: 40,
-    flex:1,
+    alignItems: "left",
+    flex:3,
+    margin:2,
   },
   message: {
     fontWeight:"300",
     fontSize:14,
     textAlign: "left",
-    lineHeight: 40,
-    flex:1,
+    lineHeight: 20,
+    // flex:1,
+    margin:10,
+    borderRadius:20,
+    borderWidth:10,
+    backgroundColor:"#F1F1F1",
+    borderColor:"#F1F1F1",
+    overflow: 'hidden',
   },
   time: {
     fontWeight:"300",

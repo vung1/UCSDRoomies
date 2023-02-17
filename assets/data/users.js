@@ -29,15 +29,15 @@ export default [
     image:
       'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/jeff.jpeg',
     bio: 'CEO, entrepreneur born in 1964, Jeffrey, Jeffrey Bezos',
-    messages:["Hello\n09:20", "How are you?\n09:20", "Doy you have a leasing in hand?\n09:25"],
+    messages:["Hello\n09:20", "How are you?\n09:20", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25", "Do you have a leasing in hand?\n09:25"],
   },
   {
     id: '5',
-    name: 'Vadim Savin',
+    name: 'LongText Savin',
     image:
       'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim1.JPG',
     bio: 'Hola',
-    messages:["Hello\n11:20", "How are you?\n12:20"],
+    messages:["Hello\n11:20", "Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups\n12:20"],
   },
   {
     id: '6',

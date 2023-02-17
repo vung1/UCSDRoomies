@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     padding: 10,
     flexDirection: "column",
     flex:1,
+    backgroundColor:"#FFFFFF"
   },
   container: {
     padding: 10,
@@ -95,16 +96,7 @@ const styles = StyleSheet.create({
     padding: 3,
     borderColor: '#247DCF',
   },
-  // new_user:{
-  //   width: 85,
-  //   height: 85,
-  //   margin: 8,
-  //   borderRadius: 50,
-
-  //   borderWidth: 2,
-  //   padding: 3,
-  //   borderColor: '#247DCF',
-  // },
+ 
   simp_image: {
     width: '100%',
     height: '100%',
