@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, useWindowDimensions} from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, useWindowDimensions } from "react-native";
 
 import Animated, {
   useSharedValue,
@@ -9,16 +9,16 @@ import Animated, {
   interpolate,
   withSpring,
   runOnJS,
-} from 'react-native-reanimated';
-import {PanGestureHandler} from 'react-native-gesture-handler';
-import Like from '../../../assets/images/LIKE.png';
-import Nope from '../../../assets/images/nope.png';
+} from "react-native-reanimated";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Like from "../../../assets/images/LIKE.png";
+import Nope from "../../../assets/images/nope.png";
 
 const ROTATION = 60;
 const SWIPE_VELOCITY = 800;
 
-const AnimatedStack = props => {
-  const {data, renderItem, onSwipeRight, onSwipeLeft} = props;
+const AnimatedStack = (props) => {
+  const { data, renderItem, onSwipeRight, onSwipeLeft } = props;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextIndex, setNextIndex] = useState(currentIndex + 1);
@@ -26,7 +26,7 @@ const AnimatedStack = props => {
   const currentProfile = data[currentIndex];
   const nextProfile = data[nextIndex];
 
-  const {width: screenWidth} = useWindowDimensions();
+  const { width: screenWidth } = useWindowDimensions();
 
   const hiddenTranslateX = 2 * screenWidth;
 
@@ -34,7 +34,7 @@ const AnimatedStack = props => {
   const rotate = useDerivedValue(
     () =>
       interpolate(translateX.value, [0, hiddenTranslateX], [0, ROTATION]) +
-      'deg',
+      "deg",
   );
 
   const cardStyle = useAnimatedStyle(() => ({
@@ -80,7 +80,7 @@ const AnimatedStack = props => {
     onActive: (event, context) => {
       translateX.value = context.startX + event.translationX;
     },
-    onEnd: event => {
+    onEnd: (event) => {
       if (Math.abs(event.velocityX) < SWIPE_VELOCITY) {
         translateX.value = withSpring(0);
         return;
@@ -107,7 +107,7 @@ const AnimatedStack = props => {
       {nextProfile && (
         <View style={styles.nextCardContainer}>
           <Animated.View style={[styles.animatedCard, nextCardStyle]}>
-            {renderItem({item: nextProfile})}
+            {renderItem({ item: nextProfile })}
           </Animated.View>
         </View>
       )}
@@ -117,15 +117,15 @@ const AnimatedStack = props => {
           <Animated.View style={[styles.animatedCard, cardStyle]}>
             <Animated.Image
               source={Like}
-              style={[styles.like, {left: 10}, likeStyle]}
+              style={[styles.like, { left: 10 }, likeStyle]}
               resizeMode="contain"
             />
             <Animated.Image
               source={Nope}
-              style={[styles.like, {right: 10}, nopeStyle]}
+              style={[styles.like, { right: 10 }, nopeStyle]}
               resizeMode="contain"
             />
-            {renderItem({item: currentProfile})}
+            {renderItem({ item: currentProfile })}
           </Animated.View>
         </PanGestureHandler>
       )}
@@ -135,27 +135,27 @@ const AnimatedStack = props => {
 
 const styles = StyleSheet.create({
   root: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     flex: 1,
-    width: '100%',
+    width: "100%",
   },
   animatedCard: {
-    width: '90%',
-    height: '70%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "90%",
+    height: "70%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
 
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   like: {
     width: 150,
     height: 150,
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     zIndex: 1,
     elevation: 1,
