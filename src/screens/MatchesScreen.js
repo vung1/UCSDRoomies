@@ -1,6 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Image} from 'react-native';
 import users from '../../assets/data/users';
+import tw from 'tailwind-rn'
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 const MatchesScreen = () => {
   return (
@@ -18,6 +21,7 @@ const MatchesScreen = () => {
         </View>
       </View>
     </SafeAreaView>
+  
   );
 };
 
