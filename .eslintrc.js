@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['airbnb', , 'plugin:prettier/recommended'],
+  extends: ['airbnb', 'plugin:prettier/recommended'],
   plugins: [
     'react',
     'react-native',
