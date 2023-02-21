@@ -35,15 +35,15 @@ const styles = StyleSheet.create({
   logoContainer: {
     width: 200,
     height: 200,
-    backgroundColor: "white",
-    alignItems: "center",
+    backgroundColor: 'white',
+    alignItems: 'center',
     borderRadius: 100,
   },
   image: {
     width: 90,
     height: 90,
-    marginTop: "8%",
-    marginBottom: "3%",
+    marginTop: '8%',
+    marginBottom: '3%',
   },
 });
 

@@ -119,13 +119,13 @@ const AnimatedStack = props => {
               source={Like}
               style={[styles.like, {left: 10}, likeStyle]}
               transform={[{rotate: '-12deg'}]}
-              resizeMode="contain"
+              resizeMode='contain'
             />
             <Animated.Image
               source={Nope}
               style={[styles.nope, {right: 10}, nopeStyle]}
               transform={[{rotate: '12deg'}]}
-              resizeMode="contain"
+              resizeMode='contain'
             />
             {renderItem({item: currentProfile})}
           </Animated.View>
@@ -137,28 +137,28 @@ const AnimatedStack = props => {
 
 const styles = StyleSheet.create({
   root: {
-    // justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
     width: '100%',
   },
   animatedCard: {
     width: '90%',
-    height: '70%',
-    // justifyContent: 'center',
+    height: '95%',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
 
-    // justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   like: {
     width: 80,
     height: 80,
     position: 'absolute',
-    top: "2.5%",
+    top: '2.5%',
     zIndex: 1,
     elevation: 1,
   },
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     position: 'absolute',
-    top: "2.5%",
+    top: '2.5%',
     zIndex: 1,
     elevation: 1,
   },

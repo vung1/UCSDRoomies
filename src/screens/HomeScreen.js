@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import Card from '../components/TinderCard';
 import users from '../../assets/data/users';
 
@@ -25,8 +25,18 @@ const HomeScreen = () => {
           onSwipeLeft={onSwipeLeft}
           onSwipeRight={onSwipeRight}
         />
-
+        <View style={styles.buttonContainer}>
+          <Image 
+            source={require('../../assets/images/nope.png')} 
+            style={styles.image}
+          />
+          <Image 
+            source={require('../../assets/images/like.png')} 
+            style={styles.image}
+          />
+        </View>
       </View>
+      <View style={styles.barContainer}></View>
     </View>
   );
 };
@@ -38,14 +48,27 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   logoContainer: {
-    height: "10%",
-    marginTop: "12%",
+    height: '10%',
+    marginTop: '12%',
   },
   matchContainer: {
     justifyContent: 'center',
     flex: 1,
     width: '100%',
-    marginTop: "3%",
+  },
+  buttonContainer: {
+    flexDirection:'row',
+    height: '10%',
+    justifyContent: 'center',
+    top: '2.5%',
+  },
+  image: {
+    width: 65,
+    height: 65,
+    marginHorizontal: '15%',
+  },
+  barContainer: {
+    height: '15%',
   }
 });
 

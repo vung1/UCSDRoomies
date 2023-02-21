@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: 15,
     borderRadius: 30,
-    alignItems: "center",
-    backgroundColor: "white",
+    alignItems: 'center',
+    backgroundColor: 'white',
     flexDirection:'row',
   },
   buttonText: {
-    fontWeight: "bold",
-    fontFamily: "Arial",
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
     fontSize: 16,
-    color: "black",
+    color: 'black',
     marginRight: 10,
   },
   image: {

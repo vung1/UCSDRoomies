@@ -32,7 +32,7 @@ const HomoLogo = () => {
 
 const styles = StyleSheet.create({
   logoContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flexDirection:'row',
   },
   image: {
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   text: {
-    marginTop: "12%",
+    marginTop: '12%',
     fontSize: 25, 
     fontFamily: 'Almendra_400Regular_Italic',
   },
