@@ -11,7 +11,7 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import {PanGestureHandler} from 'react-native-gesture-handler';
-import Like from '../../../assets/images/LIKE.png';
+import Like from '../../../assets/images/like.png';
 import Nope from '../../../assets/images/nope.png';
 
 const ROTATION = 60;
@@ -118,11 +118,13 @@ const AnimatedStack = props => {
             <Animated.Image
               source={Like}
               style={[styles.like, {left: 10}, likeStyle]}
+              transform={[{rotate: '-12deg'}]}
               resizeMode="contain"
             />
             <Animated.Image
               source={Nope}
-              style={[styles.like, {right: 10}, nopeStyle]}
+              style={[styles.nope, {right: 10}, nopeStyle]}
+              transform={[{rotate: '12deg'}]}
               resizeMode="contain"
             />
             {renderItem({item: currentProfile})}
@@ -153,10 +155,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   like: {
-    width: 150,
-    height: 150,
+    width: 80,
+    height: 80,
     position: 'absolute',
-    top: 10,
+    top: "2.5%",
+    zIndex: 1,
+    elevation: 1,
+  },
+  nope: {
+    width: 80,
+    height: 80,
+    position: 'absolute',
+    top: "2.5%",
     zIndex: 1,
     elevation: 1,
   },
