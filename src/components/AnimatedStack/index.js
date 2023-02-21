@@ -135,7 +135,7 @@ const AnimatedStack = props => {
 
 const styles = StyleSheet.create({
   root: {
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
     width: '100%',
@@ -143,13 +143,13 @@ const styles = StyleSheet.create({
   animatedCard: {
     width: '90%',
     height: '70%',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
   },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
 
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
   },
   like: {

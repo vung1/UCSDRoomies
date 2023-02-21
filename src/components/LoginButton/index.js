@@ -1,15 +1,17 @@
 import React from 'react';
-import { Text, Image, View, StyleSheet } from 'react-native';
+import { Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 const LoginButton = () => {
   return (
-    <View style={styles.buttonContainer}>
+    <TouchableOpacity 
+      onPress={() => console.log('Tocuh Button')}
+      style={styles.buttonContainer}>
       <Image 
         source={require('../../../assets/images/tritonLogo.png')} 
         style={styles.image}
       />
       <Text style={styles.buttonText}> LOGIN WITH UCSD EMAIL </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

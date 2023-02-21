@@ -10,7 +10,7 @@ import LoginScreen from './src/screens/LoginScreen'
 const App = () => {
   return (
     <View style={styles.pageContainer}>
-      <LoginScreen />
+      <HomeScreen />
     </View>
   );
 };

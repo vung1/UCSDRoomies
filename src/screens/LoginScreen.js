@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import Logo from '../components/Logo'
+import LoginLogo from '../components/LoginLogo'
 import LoginButton from '../components/LoginButton';
 
 const LoginScreen = () => {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      <View style={styles.logoContainer}><Logo/></View>
+      <View style={styles.logoContainer}><LoginLogo/></View>
       <View style={styles.textContainer}>
         <Text style={styles.agreementText}>
           By clicking Log In, you agree with our Terms. {'\n'}
@@ -16,7 +16,7 @@ const LoginScreen = () => {
           Policy and Cookies Policy.  
         </Text>
       </View>
-      <View style={styles.loginButtonContainer}><LoginButton /></View>
+      <View style={styles.loginButtonContainer}><LoginButton/></View>
     </LinearGradient>
   );
 }

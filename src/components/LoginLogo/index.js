@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { Text, Image, View, StyleSheet } from 'react-native';
 import { useFonts, Almendra_700Bold_Italic } from '@expo-google-fonts/almendra';
 
-const Logo = () => {
+const LoginLogo = () => {
 
     // Load the font
     const [fontsLoaded] = useFonts({Almendra_700Bold_Italic});
@@ -47,4 +47,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Logo;
+export default LoginLogo;
