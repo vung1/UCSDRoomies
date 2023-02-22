@@ -11,14 +11,13 @@
     "build:tailwind": "tailwindcss --input input.css --output tailwind.css --no-autoprefixer && tailwind-rn",
     "dev:tailwind": "concurrently \"tailwindcss --input input.css --output tailwind.css --no-autoprefixer --watch\" \"tailwind-rn --watch\""
   },
-
-
   "dependencies": {
     "@ant-design/react-native": "^5.0.3",
     "@react-native-firebase/app": "^17.3.0",
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
     "@react-navigation/stack": "^6.3.14",
+    "entypo": "^2.2.1",
     "expo": "~47.0.12",
     "expo-status-bar": "~1.4.2",
     "nativewind": "^2.0.11",
