@@ -2,12 +2,12 @@ import React from 'react';
 import { useEffect } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import { Text, Image, View, StyleSheet } from 'react-native';
-import { useFonts, Almendra_400Regular_Italic } from '@expo-google-fonts/almendra';
+import { useFonts, Almendra_700Bold_Italic } from '@expo-google-fonts/almendra';
 
 const HomoLogo = () => {
 
     // Load the font
-    const [fontsLoaded] = useFonts({Almendra_400Regular_Italic});
+    const [fontsLoaded] = useFonts({Almendra_700Bold_Italic});
   
     useEffect(() => {
       if (fontsLoaded) {
@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   text: {
-    marginTop: '12%',
+    marginTop: '5%',
     height: 25,
     fontSize: 25, 
-    fontFamily: 'Almendra_400Regular_Italic',
+    fontFamily: 'Almendra_700Bold_Italic',
   },
 });
 

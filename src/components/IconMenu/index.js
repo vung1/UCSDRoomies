@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
-const HomeMenu = () => {
+const IconMenu = () => {
 
   return (
     <View style={styles.menuContainer}>
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   elevation: 1
   },
   button: {
-    marginHorizontal: '6%',
+    marginHorizontal: '6.8%',
   },
 });
 
-export default HomeMenu;
+export default IconMenu;
