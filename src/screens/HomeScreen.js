@@ -5,7 +5,7 @@ import users from '../../assets/data/users';
 
 import AnimatedStack from '../components/AnimatedStack';
 import HomeLogo from '../components/HomeLogo';
-import HomeMenu from '../components/HomeMenu';
+import IconMenu from '../components/IconMenu';
 
 const HomeScreen = () => {
   const onSwipeLeft = user => {
@@ -47,7 +47,9 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <HomeMenu />
+
+      <IconMenu />
+      
     </View>
   );
 };
