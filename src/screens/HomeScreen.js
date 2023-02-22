@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Card from '../components/TinderCard';
 import users from '../../assets/data/users';
 
@@ -26,14 +26,24 @@ const HomeScreen = () => {
           onSwipeRight={onSwipeRight}
         />
         <View style={styles.buttonContainer}>
-          <Image 
-            source={require('../../assets/images/nope.png')} 
-            style={styles.image}
-          />
-          <Image 
-            source={require('../../assets/images/like.png')} 
-            style={styles.image}
-          />
+          <TouchableOpacity
+            onPress={() => console.log('Nope')}
+            activeOpacity={0.8}
+            style={styles.button}
+            >
+            <Image 
+              source={require('../../assets/images/nope.png')} 
+              style={styles.image}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => console.log('Like')}
+            activeOpacity={0.8}
+            style={styles.button}>
+            <Image 
+              source={require('../../assets/images/like.png')} 
+              style={styles.image}></Image>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.barContainer}></View>
@@ -60,12 +70,19 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     height: '10%',
     justifyContent: 'center',
+    alignItems: 'center',
     top: '2.5%',
+  },
+  button: {
+    width: 65,
+    height: 65,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: '12%',
   },
   image: {
     width: 65,
     height: 65,
-    marginHorizontal: '15%',
   },
   barContainer: {
     height: '15%',

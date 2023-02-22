@@ -5,6 +5,7 @@ const LoginButton = () => {
   return (
     <TouchableOpacity 
       onPress={() => console.log('Tocuh Button')}
+      activeOpacity={0.8}
       style={styles.buttonContainer}>
       <Image 
         source={require('../../../assets/images/tritonLogo.png')} 
