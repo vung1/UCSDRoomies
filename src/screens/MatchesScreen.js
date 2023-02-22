@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   },
   users: {
     flexDirection: 'row',
+    height:"30%"
   },
   user: {
     width: 85,
