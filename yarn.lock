@@ -1079,11 +1079,6 @@
   resolved "https://registry.yarnpkg.com/@expo-google-fonts/almendra/-/almendra-0.2.2.tgz#94f570af52d604ebbd50aec674dfefa715af041c"
   integrity sha512-1gJ+zBVQoc+yGtPNtEDdGVm9M+EVLaIV8POB/SuyWHw+HXX08pUIvq2Y/SN6gFa9IMtsMUUCzCpVf8hE6sCysA==
 
-"@expo-google-fonts/inter@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@expo-google-fonts/inter/-/inter-0.2.2.tgz#bd5624be6c92e7621aa9ddb5bd72757604729121"
-  integrity sha512-dU6mSczI2xkRZbUhQQ5VB+D4AqLOF8ufCIfA1iBjrPZ/Qnka88E5Ez2Mvm41exdKR76norVvYD5GJIQYEEoO/Q==
-
 "@expo/bunyan@4.0.0", "@expo/bunyan@^4.0.0":
   version "4.0.0"
   resolved "https://registry.npmjs.org/@expo/bunyan/-/bunyan-4.0.0.tgz"

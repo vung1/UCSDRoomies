@@ -29,7 +29,7 @@ const HomeMenu = () => {
           activeOpacity={1}
           style={styles.icon_button}>
           <Image 
-            source={require('../../assets/images/icon_profile.png')} 
+            source={require('../../../assets/images/icon_profile.png')} 
             style={styles.icon_image}></Image>
         </TouchableOpacity>
     </View>
