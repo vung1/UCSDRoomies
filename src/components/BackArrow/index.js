@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, Text, ImageBackground, View, StyleSheet} from 'react-native';
 import Svg, {Path} from 'react-native-svg';
+// import {Entypo} from "react-native-vector-icons";
 
 const BackArrow = props => {
   const {navigation, screen, screenName} = props;
