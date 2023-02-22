@@ -5,6 +5,7 @@ import users from '../../assets/data/users';
 
 import AnimatedStack from '../components/AnimatedStack';
 import HomeLogo from '../components/HomeLogo';
+import HomeMenu from '../components/HomeMenu';
 
 const HomeScreen = () => {
   const onSwipeLeft = user => {
@@ -46,7 +47,7 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.barContainer}></View>
+      <HomeMenu />
     </View>
   );
 };
@@ -65,13 +66,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     width: '100%',
+    height: '100%',
   },
   buttonContainer: {
     flexDirection:'row',
-    height: '10%',
+    height: '15%',
     justifyContent: 'center',
     alignItems: 'center',
-    top: '2.5%',
+    marginBottom: '2%',
+    
   },
   button: {
     width: 65,
@@ -84,9 +87,6 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
   },
-  barContainer: {
-    height: '15%',
-  }
 });
 
 export default HomeScreen;
