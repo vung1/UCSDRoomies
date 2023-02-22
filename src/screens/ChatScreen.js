@@ -2,6 +2,7 @@ import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet, SafeAreaView, Image} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import users from '../../assets/data/users';
+import user_prof from '../../assets/data/user_prof';
 import Svg, {Path} from 'react-native-svg';
 import BackArrow from '../components/BackArrow';
 import TypeInBox from '../components/TypeInBox';
@@ -46,7 +47,8 @@ const ChatScreen = ({route, navigation}) => {
                 </View>
                 <View style={styles.message_self_side}>
                   <View style={styles.user_self} key={user.id}>
-                    <Image source={{ uri: user.image }} style={styles.simp_image} />
+                    
+                    <Image source={{ uri: user_prof[0].image }} style={styles.simp_image} />
                   </View>
                 </View></>
               }

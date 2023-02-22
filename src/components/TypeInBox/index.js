@@ -6,7 +6,7 @@ const TypeInBox = () => {
   const [number, onChangeText] = React.useState('');
   const [contentHeight, setContentHeight] = React.useState({height: 90 });
   // this.onContentSizeChange = this.onContentSizeChange.bind(this);
-  console.log("outside "+typeof(contentHeight));
+  // console.log("outside "+typeof(contentHeight));
   return (
     <View>
       <TextInput
@@ -18,7 +18,7 @@ const TypeInBox = () => {
         onContentSizeChange={e=>{
           let inputH = Math.max(e.nativeEvent.contentSize, 60)
           if(inputH>100) inputH =100
-          console.log("inside "+typeof(inputH));
+          // console.log("inside "+typeof(inputH));
           setContentHeight(contentHeight + inputH)
         }}
       />

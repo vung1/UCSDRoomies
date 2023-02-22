@@ -46,7 +46,7 @@ const MatchesScreen = ({navigation}) => {
                   </View>
                   <View style={styles.message_mid}>
                     <Text style={styles.msg_name}>{user.name}</Text>
-                    <Text style={styles.message}>{user.messages[0].split("\n")[0]}</Text>
+                    <Text style={styles.message}>{(user.messages.slice(-1)[0]).split("\n")[0]}</Text>
                   </View>
                   <View >
                     <Text style={styles.time}>

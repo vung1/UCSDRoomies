@@ -59,7 +59,7 @@ export default [
     id: '8',
     name: 'Vadim Savin',
     image:
-      'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim1.JPG',
+      'http://www.classictvinfo.com/PerryMason/TVSeries1/Person.jpg',
     bio: 'Hola',
     messages:["Hello\n11:20", "How are you?\n12:20"],
   },
