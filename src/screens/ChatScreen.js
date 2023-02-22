@@ -27,17 +27,30 @@ const ChatScreen = ({route, navigation}) => {
         <ScrollView style={styles.scrollView} vertical={true}>
           {user.messages.map( msg => 
           <View style={styles.message_box}>
-              <View style={styles.message_side} >
-                <View style={styles.user} key={user.id}>
-                  <Image source={{uri: user.image}} style={styles.simp_image} />
+            {/* other one  */}
+              {(msg.split(":")[0] != "me")?
+                <><View style={styles.message_side}>
+                  <View style={styles.user} key={user.id}>
+                    <Image source={{ uri: user.image }} style={styles.simp_image} />
+                  </View>
+                </View><View style={styles.message_mid}>
+                    <Text style={styles.message}>{msg.split("\n")[0]}</Text>
+                  </View><View style={styles.message_side}>
+
+                  </View></> : 
+                <>
+              {/* self user */}
+                <View style={styles.message_self_side}></View>
+                <View style={styles.message_self_mid}>
+                    <Text style={styles.message_self}>{((msg.split(":")).slice(1)).join(":").split("\n")[0]}</Text>
                 </View>
-              </View>
-                <View style={styles.message_mid}>
-                  <Text style={styles.message}>{msg.split("\n")[0]}</Text>
-                </View>
-                <View style={styles.message_side}>
-                  
-                </View>
+                <View style={styles.message_self_side}>
+                  <View style={styles.user_self} key={user.id}>
+                    <Image source={{ uri: user.image }} style={styles.simp_image} />
+                  </View>
+                </View></>
+              }
+              
           </View>
           
               ) 
@@ -78,6 +91,13 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     borderRadius: 50,
   },
+  user_self: {
+    width: 40,
+    height: 40,
+    marginRight: 30,
+    borderRadius: 50,
+    backgroundColor: "#F1f1f1"
+  },
   simp_image: {
     width: '100%',
     height: '100%',
@@ -97,24 +117,47 @@ const styles = StyleSheet.create({
   },
   message_box: {
     backgroundColor:"#FFFFFF",
-    // height: '100%',
     flexDirection:"row",
   },
   message_side: {
-    // backgroundColor:"#F1F1F1",
-    // lineHeight: 40,
     width:"100%",
     height:"100%",
     flex:1,
-    alignItems: "left",
+    alignItems: "flex-start",
+    margin:3,
+  },
+  message_self_side: {
+    width:"100%",
+    height:"100%",
+    flex:1,
+    alignItems: 'flex-end',
     margin:3,
   },
   message_mid: {
     fontWeight:"300",
     fontSize:14,
-    alignItems: "left",
+    alignItems: 'flex-start',
     flex:3,
     margin:2,
+  },
+  message_self_mid: {
+    fontWeight:"300",
+    fontSize:14,
+    alignItems: "flex-end",
+    flex:3,
+    margin:2,
+  },
+  message_self: {
+    fontWeight:"300",
+    fontSize:14,
+    textAlign: "right",
+    lineHeight: 20,
+    margin:10,
+    borderRadius:20,
+    borderWidth:10,
+    backgroundColor:"#F1F1F1",
+    borderColor:"#F1F1F1",
+    overflow: 'hidden',
   },
   message: {
     fontWeight:"300",

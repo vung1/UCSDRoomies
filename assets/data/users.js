@@ -21,7 +21,7 @@ export default [
     image:
       'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/zuck.jpeg',
     bio: 'No need to send me your nudes, I already saw them',
-    messages:["Hello\n11:20", "How are you?\n12:20"],
+    messages:["Hello\n11:20", "How are you?\n12:20", "me:Hello I am doing good\n12:21"],
   },
   {
     id: '4',
