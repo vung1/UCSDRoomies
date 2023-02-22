@@ -181,15 +181,14 @@ const HomeScreen = () => {
       <View style = {tailwind('mb-8 flex-row justify-evenly ')}>
           <TouchableOpacity 
           onPress = {() => {swipeRef.current.swipeLeft()}}
-          style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-red-200')}>
-            <Entypo  name = "cross" size = {24} color = "red "/>
+          style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-red-500')}>
+            <Entypo  name = "cross" size = {40} color = "white"/>
           </TouchableOpacity>
 
-          <TouchableOpacity style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-blue-200')}
+          <TouchableOpacity 
            onPress = {() => {swipeRef.current.swipeRight()}}
-          >
-          
-            <Entypo  name = "heart" size = {24} color = "red"/>
+           style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-blue-500')}>
+            <Entypo  name = "heart" size = {40} color = "white"/>
           </TouchableOpacity>
       </View>
      
