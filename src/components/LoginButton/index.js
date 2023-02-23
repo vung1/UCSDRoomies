@@ -1,10 +1,14 @@
 import React from "react";
 import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-function LoginButton() {
+
+function LoginButton(props) {
+  const { navigation } = props;
   return (
     <TouchableOpacity
-      onPress={() => console.log("Tocuh Button")}
+      onPress={() => navigation.navigate("HomeScreen",
+      "HomeScreen"
+     )}
       activeOpacity={0.8}
       style={styles.buttonContainer}
     >

@@ -3,12 +3,17 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import { checkPluginState } from "react-native-reanimated/lib/reanimated2/core";
 
-function IconMenu() {
+
+function IconMenu(props) {
+  const { navigation, screenCurr, screenCurrName} = props;
   return (
     <View style={styles.menuContainer}>
       <TouchableOpacity
-        onPress={() => console.log("home")}
+        onPress={() => {screenCurr != "HomeScreen" ? navigation.navigate("HomeScreen",
+          "HomeScreen"
+        ) : console.log("stay")}}
         activeOpacity={0.8}
         style={styles.button}
       >
@@ -24,7 +29,9 @@ function IconMenu() {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => console.log("message")}
+        onPress={() => {screenCurr != "MatchesScreen" ? navigation.navigate("Matches", "MatchesScreen"
+          
+        ) : console.log("stay")}}
         activeOpacity={0.8}
         style={styles.button}
       >
