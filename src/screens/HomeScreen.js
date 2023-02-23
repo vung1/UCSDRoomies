@@ -85,8 +85,8 @@ const DUMMY_DATA = [
   },
 ];
 
-function HomeScreen() {
-  const navigation = useNavigation();
+function HomeScreen({ navigation }) {
+  // const navigation = useNavigation();
   const swipeRef = React.useRef(null);
   const tailwind = useTailwind();
   return (
@@ -228,7 +228,11 @@ function HomeScreen() {
         </View>
       </SafeAreaView>
 
-      <IconMenu />
+      <IconMenu 
+      navigation={navigation}
+      screenCurr="HomeScreen"
+      screenCurrName="HomeScreen"
+      />
     </View>
   );
 }
