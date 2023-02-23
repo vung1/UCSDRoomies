@@ -1,33 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import "react-native-gesture-handler";
+import React from "react";
+import { StyleSheet, SafeAreaView } from "react-native";
 
-// import InitScreen from './src/screens/InitScreen';
-import LoginScreen from './src/screens/LoginScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import ProfileSettingScreen from './src/screens/ProfileSettingScreen';
+import HomeScreen from "./src/screens/HomeScreen";
+import MatchesScreen from "./src/screens/MatchesScreen";
+import InitScreen from "./src/screens/InitScreen";
+import ChatScreen from "./src/screens/ChatScreen";
+import MainStackNavigator from "./src/navigation/MainStackNavigator";
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createNativeStackNavigator,
+  createAppContainer,
+  createSwitchNavigator,
+} from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {/* <Stack.Screen name="Init" component={InitScreen} /> */}
-        <Stack.Screen options={{headerShown: false}} name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="ProfileSetting" component={ProfileSettingScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={styles.pageContainer}>
+      <MainStackNavigator />
+    </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
+    justifyContent: "center",
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#FFFFFF",
   },
 });
+
+export default App;

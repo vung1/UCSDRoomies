@@ -1,20 +1,32 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React from "react";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-const InitScreen = () => {
+import LoginLogo from "../components/LoginLogo";
+
+function InitScreen() {
   return (
-    <View style={styles.pageContainer}>
-      <Text>Sprint1</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() => console.log("Tocuh Screen")}
+      activeOpacity={1}
+      style={styles.background}
+    >
+      <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
+        <View style={styles.logoContainer}>
+          <LoginLogo />
+        </View>
+      </LinearGradient>
+    </TouchableOpacity>
   );
-};
-
+}
 const styles = StyleSheet.create({
-  pageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  background: {
     flex: 1,
-    width: '100%',
+    width: "100%",
+    alignItems: "center",
+  },
+  logoContainer: {
+    marginTop: "42%",
   },
 });
 

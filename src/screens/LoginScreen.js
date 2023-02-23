@@ -1,126 +1,53 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../../firebase'
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+import LoginLogo from "../components/LoginLogo";
+import LoginButton from "../components/LoginButton";
 
-  const navigation = useNavigation()
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Home")
-      }
-    })
-    return unsubscribe // when leave this screen, will unsubscribe current listener
-  }, [])
-
-  const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Registered with:', user.email);
-      })
-      .catch(error => alert(error.message))
-  }
-
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-      })
-      .catch(error => alert(error.message))
-  }
-
+function LoginScreen() {
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Email"
-          value={email}
-          onChangeText={text => setEmail(text)}
-          style={styles.input}
-        />
-        <TextInput
-          placeholder="Password"
-          value={password}
-          onChangeText={text => setPassword(text)}
-          style={styles.input}
-          secureTextEntry
-        />
+    <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
+      <View style={styles.logoContainer}>
+        <LoginLogo />
       </View>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={handleLogin}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSignUp}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
+      <View style={styles.textContainer}>
+        <Text style={styles.agreementText}>
+          By clicking Log In, you agree with our Terms. {"\n"}
+          Learn how we process your data in our Privacy {"\n"}
+          Policy and Cookies Policy.
+        </Text>
       </View>
-    </KeyboardAvoidingView>
-  )
+      <View style={styles.loginButtonContainer}>
+        <LoginButton />
+      </View>
+    </LinearGradient>
+  );
 }
 
-export default LoginScreen
-
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
-  inputContainer: {
-    width: '80%'
+  textContainer: {
+    marginTop: "20%",
   },
-  input: {
-    backgroundColor: 'white',
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 5,
+  logoContainer: {
+    marginTop: "42%",
   },
-  buttonContainer: {
-    width: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 40,
+  loginButtonContainer: {
+    marginTop: "6%",
   },
-  button: {
-    backgroundColor: '#0782F9',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
+  agreementText: {
+    fontSize: 13,
+    fontFamily: "Arial",
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+    lineHeight: 16,
   },
-  buttonOutline: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutlineText: {
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-})
+});
+
+export default LoginScreen;
