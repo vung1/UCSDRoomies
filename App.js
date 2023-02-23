@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import MatchesScreen from "./src/screens/MatchesScreen";

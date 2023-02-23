@@ -1,30 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
-import LoginLogo from '../components/LoginLogo'
-import LoginButton from '../components/LoginButton';
+import LoginLogo from "../components/LoginLogo";
+import LoginButton from "../components/LoginButton";
 
-const LoginScreen = () => {
+function LoginScreen() {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      <View style={styles.logoContainer}><LoginLogo/></View>
+      <View style={styles.logoContainer}>
+        <LoginLogo />
+      </View>
       <View style={styles.textContainer}>
         <Text style={styles.agreementText}>
-          By clicking Log In, you agree with our Terms. {'\n'}
-          Learn how we process your data in our Privacy {'\n'}
-          Policy and Cookies Policy.  
+          By clicking Log In, you agree with our Terms. {"\n"}
+          Learn how we process your data in our Privacy {"\n"}
+          Policy and Cookies Policy.
         </Text>
       </View>
-      <View style={styles.loginButtonContainer}><LoginButton/></View>
+      <View style={styles.loginButtonContainer}>
+        <LoginButton />
+      </View>
     </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  background: { 
+  background: {
     flex: 1,
-    width: '100%',
+    width: "100%",
     alignItems: "center",
   },
   textContainer: {

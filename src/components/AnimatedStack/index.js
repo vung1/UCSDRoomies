@@ -9,15 +9,15 @@ import Animated, {
   interpolate,
   withSpring,
   runOnJS,
-} from 'react-native-reanimated';
-import {PanGestureHandler} from 'react-native-gesture-handler';
-import Like from '../../../assets/images/like.png';
-import Nope from '../../../assets/images/nope.png';
+} from "react-native-reanimated";
+import { PanGestureHandler } from "react-native-gesture-handler";
+import Like from "../../../assets/images/like.png";
+import Nope from "../../../assets/images/nope.png";
 
 const ROTATION = 60;
 const SWIPE_VELOCITY = 800;
 
-const AnimatedStack = (props) => {
+function AnimatedStack(props) {
   const { data, renderItem, onSwipeRight, onSwipeLeft } = props;
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -33,8 +33,11 @@ const AnimatedStack = (props) => {
   const translateX = useSharedValue(0);
   const rotate = useDerivedValue(
     () =>
-      interpolate(translateX.value, [0, hiddenTranslateX], [0, ROTATION]) +
-      "deg",
+      `${interpolate(
+        translateX.value,
+        [0, hiddenTranslateX],
+        [0, ROTATION],
+      )}deg`,
   );
 
   const cardStyle = useAnimatedStyle(() => ({
@@ -117,15 +120,15 @@ const AnimatedStack = (props) => {
           <Animated.View style={[styles.animatedCard, cardStyle]}>
             <Animated.Image
               source={Like}
-              style={[styles.like, {left: 10}, likeStyle]}
-              transform={[{rotate: '-12deg'}]}
-              resizeMode='contain'
+              style={[styles.like, { left: 10 }, likeStyle]}
+              transform={[{ rotate: "-12deg" }]}
+              resizeMode="contain"
             />
             <Animated.Image
               source={Nope}
-              style={[styles.nope, {right: 10}, nopeStyle]}
-              transform={[{rotate: '12deg'}]}
-              resizeMode='contain'
+              style={[styles.nope, { right: 10 }, nopeStyle]}
+              transform={[{ rotate: "12deg" }]}
+              resizeMode="contain"
             />
             {renderItem({ item: currentProfile })}
           </Animated.View>
@@ -133,7 +136,7 @@ const AnimatedStack = (props) => {
       )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   root: {
@@ -143,10 +146,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   animatedCard: {
-    width: '90%',
-    height: '95%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "90%",
+    height: "95%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -157,16 +160,16 @@ const styles = StyleSheet.create({
   like: {
     width: 80,
     height: 80,
-    position: 'absolute',
-    top: '2.5%',
+    position: "absolute",
+    top: "2.5%",
     zIndex: 1,
     elevation: 1,
   },
   nope: {
     width: 80,
     height: 80,
-    position: 'absolute',
-    top: '2.5%',
+    position: "absolute",
+    top: "2.5%",
     zIndex: 1,
     elevation: 1,
   },

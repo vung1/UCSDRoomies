@@ -1,15 +1,16 @@
-import React from 'react';
-import {Text, ImageBackground, View, StyleSheet} from 'react-native';
+import React from "react";
+import { Text, ImageBackground, View, StyleSheet } from "react-native";
 
-const Card = props => {
-  const {name, image, bio} = props.user;
+function Card(props) {
+  const { name, image, bio } = props.user;
   return (
     <View style={styles.card}>
       <ImageBackground
         source={{
           uri: image,
         }}
-        style={styles.image}>
+        style={styles.image}
+      >
         <View style={styles.cardInner}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.bio}>{bio}</Text>
@@ -17,16 +18,16 @@ const Card = props => {
       </ImageBackground>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   card: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
-    backgroundColor: '#fefefe',
+    backgroundColor: "#fefefe",
 
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 5,
@@ -37,24 +38,24 @@ const styles = StyleSheet.create({
     elevation: 11,
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
 
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   cardInner: {
     padding: 10,
   },
   name: {
     fontSize: 30,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   bio: {
     fontSize: 18,
-    color: 'white',
+    color: "white",
     lineHeight: 25,
   },
 });

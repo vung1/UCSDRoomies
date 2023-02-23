@@ -7,22 +7,20 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-import Svg, { Path } from "react-native-svg";
 
 import { ScrollView } from "react-native-gesture-handler";
 import users from "../../assets/data/users";
-import ChatScreen from "./ChatScreen";
 import BackArrow from "../components/BackArrow";
 
-const MatchesScreen = ({ navigation }) => {
+function MatchesScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
           <BackArrow
             navigation={navigation}
-            screen={"HomeScreen"}
-            screenName={"HomeScreen"}
+            screen="HomeScreen"
+            screenName="HomeScreen"
           />
           <Text
             style={{
@@ -35,7 +33,7 @@ const MatchesScreen = ({ navigation }) => {
             New Matches
           </Text>
         </View>
-        <ScrollView style={styles.scrollView} horizontal={true}>
+        <ScrollView style={styles.scrollView} horizontal>
           <View style={styles.users}>
             {users.map((user) => (
               <View style={styles.user} key={user.id}>
@@ -47,14 +45,14 @@ const MatchesScreen = ({ navigation }) => {
         </ScrollView>
       </View>
       <View style={styles.message_area}>
-        <ScrollView style={styles.scrollView} vertical={true}>
+        <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
             {users.map((user) =>
               user.messages ? (
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("Chat", {
-                      user: user,
+                      user,
                       screen: "Profile",
                     })
                   }
@@ -73,7 +71,7 @@ const MatchesScreen = ({ navigation }) => {
                       </Text>
                     </View>
                     <View>
-                      <Text style={styles.time}></Text>
+                      <Text style={styles.time} />
                       <Text style={styles.time}>
                         {user.messages[0].split("\n").pop()}
                       </Text>
@@ -87,7 +85,7 @@ const MatchesScreen = ({ navigation }) => {
       </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   root: {
