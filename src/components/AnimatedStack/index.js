@@ -9,10 +9,10 @@ import Animated, {
   interpolate,
   withSpring,
   runOnJS,
-} from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Like from "../../../assets/images/LIKE.png";
-import Nope from "../../../assets/images/nope.png";
+} from 'react-native-reanimated';
+import {PanGestureHandler} from 'react-native-gesture-handler';
+import Like from '../../../assets/images/like.png';
+import Nope from '../../../assets/images/nope.png';
 
 const ROTATION = 60;
 const SWIPE_VELOCITY = 800;
@@ -117,13 +117,15 @@ const AnimatedStack = (props) => {
           <Animated.View style={[styles.animatedCard, cardStyle]}>
             <Animated.Image
               source={Like}
-              style={[styles.like, { left: 10 }, likeStyle]}
-              resizeMode="contain"
+              style={[styles.like, {left: 10}, likeStyle]}
+              transform={[{rotate: '-12deg'}]}
+              resizeMode='contain'
             />
             <Animated.Image
               source={Nope}
-              style={[styles.like, { right: 10 }, nopeStyle]}
-              resizeMode="contain"
+              style={[styles.nope, {right: 10}, nopeStyle]}
+              transform={[{rotate: '12deg'}]}
+              resizeMode='contain'
             />
             {renderItem({ item: currentProfile })}
           </Animated.View>
@@ -141,10 +143,10 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   animatedCard: {
-    width: "90%",
-    height: "70%",
-    justifyContent: "center",
-    alignItems: "center",
+    width: '90%',
+    height: '95%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nextCardContainer: {
     ...StyleSheet.absoluteFillObject,
@@ -153,10 +155,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   like: {
-    width: 150,
-    height: 150,
-    position: "absolute",
-    top: 10,
+    width: 80,
+    height: 80,
+    position: 'absolute',
+    top: '2.5%',
+    zIndex: 1,
+    elevation: 1,
+  },
+  nope: {
+    width: 80,
+    height: 80,
+    position: 'absolute',
+    top: '2.5%',
     zIndex: 1,
     elevation: 1,
   },

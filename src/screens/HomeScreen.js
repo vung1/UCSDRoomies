@@ -1,16 +1,17 @@
 import React, {useLayoutEffect} from 'react';
-import {View, StyleSheet, Text, Button, SafeAreaView, TouchableOpacity} from 'react-native';
+import {View, Image, StyleSheet, Text, Button, SafeAreaView, TouchableOpacity} from 'react-native';
 import Card from '../components/TinderCard';
 import users from '../../assets/data/users';
 // import React, { useLayoutEffect } from "react";
 import AnimatedStack from '../components/AnimatedStack';
 import {useNavigation} from "@react-navigation/core";
 import {useTailwind} from 'tailwind-rn';
+import HomeLogo from '../components/HomeLogo';
+import IconMenu from '../components/IconMenu';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Swiper  from 'react-native-deck-swiper';
-import {Image} from 'react-native' ; 
 import Entypo from 'react-native-vector-icons/Entypo';
 import { flex } from 'react-native-wind/dist/styles/flex/flex';
 
@@ -35,7 +36,7 @@ const DUMMY_DATA = [
     id:456
    },
    
-   {name: 'Darlene',
+   {firstName: 'Darlene',
     lastName: 'Jiang',
     age: 30,
     classification: 'Graduate Student',
@@ -44,7 +45,7 @@ const DUMMY_DATA = [
     id:789
   },
 
-    {name: 'Josh',
+    {firstName: 'Josh',
     lastName: 'Yan',
     age: 30,
     classification: 'Graduate Student',
@@ -53,7 +54,7 @@ const DUMMY_DATA = [
     id:101112
 },
 
-   { name: 'Jack',
+   { firstName: 'Jack',
      lastName: 'Sun',
     age: 30,
     classification: 'Graduate Student',
@@ -61,7 +62,7 @@ const DUMMY_DATA = [
     photoURL: 'https://scontent-lax3-2.xx.fbcdn.net/v/t1.6435-9/192436271_1214099862361681_8439239647122206602_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9gVc74c9qLEAX8aqgQE&tn=fCUD-PsIbWKfLdzZ&_nc_ht=scontent-lax3-2.xx&oh=00_AfDdr1GFfQRImzwC25eaR91_Odz5aXOfqrcxT5034-M6hQ&oe=641B85CD',
 },
 
-   { name: 'Brian',
+   { firstName: 'Brian',
     lastName: 'Nguyen',
     age: 30,
     classification: 'Graduate Student',
@@ -71,6 +72,7 @@ const DUMMY_DATA = [
 }
 
   ];
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const swipeRef = React.useRef(null);
@@ -79,155 +81,151 @@ const HomeScreen = () => {
 
   // const{logout} = useAuth();
 
+  <View style={styles.pageContainer}>
 
-  <SafeAreaView style = {tailwind("flex-1")}>
-    
-    
-    
-    {/*Header*/}
+    {/* Header */}
     {/* flex row item-center justify-between px-5 */}
-      <View style = {("flex row items-center justify-between relative px-5")}>
+    {/* <View style = {("flex row items-center justify-between relative px-5")}> */}
+    <View style = {styles.logoContainer}>
+      
       {/*ROOMIES LOGO*/}
-        {/* <Image style = {tw("h-14 w - 14")}source = { require(" ROOMIES LOGO HERE")}  */}
-    
+      <View><HomeLogo /></View>
       {/* ROOMIES LOGO*/}
+
       {/*FILTER ICON*/}
-      <TouchableOpacity style ={ tailwind(" absolute right-5 top-3 ")} >
-          <AntIcon name = 'filter' size = {30}/>  
+      {/* <TouchableOpacity style ={ tailwind(" absolute right-5 top-3")} > */}
+      <TouchableOpacity style ={styles.filter} >
+        <AntIcon name = 'filter' size = {30}/>  
       </TouchableOpacity>
-        {/* <TouchableOpacity style = {tailwind("right-100 top-33")}>
-          <AntIcon name = 'filter' size = {30}/>  
+      {/* <TouchableOpacity style = {tailwind("right-100 top-33")}>
+        <AntIcon name = 'filter' size = {30}/>  
       </TouchableOpacity>
-        <TouchableOpacity style = {tailwind("right-100 top-33")}>
-          <AntIcon name = 'filter' size = {30}/>  
+      <TouchableOpacity style = {tailwind("right-100 top-33")}>
+        <AntIcon name = 'filter' size = {30}/>  
       </TouchableOpacity> */}
       {/*FILTER ICON*/}
-      </View>
-      {/* ENd of Header*/}
+
+    </View>
+    {/* ENd of Header*/}
 
 
+    {/* {Cards} */}
+    {/* style ={tailwind('flex-1 -mt-3')} */}
 
+    {/* <SafeAreaView style = {tailwind("flex-1")} > */}
+    <SafeAreaView style = {styles.cardContainer} >
+      
+      {/* <View style ={tailwind('flex-1')}> */}
+      <View style ={styles.animatedCard}>
 
-      {/* {Cards} */}
-      {/* style ={tailwind('flex-1 -mt-3')} */}
-      <View style ={tailwind('flex-1')}>
-
-      <Swiper 
-      ref={swipeRef}
-      containerStyle={{backgroundColor: "transparent"}}
-        cards = {DUMMY_DATA}
-        stackSize={6}
-        cardIndex={0}
-        animateCardOpacity={true}
-        verticalSwipe={false} 
-        onSwipedLeft = {() => {console.log("Swipe PASS");}}
-        onSwipedRight = {() => {console.log("Swipe MATCH");}}
-        overlayLabels ={{
-          left: {
-          title: 'No!',
-          style: {
-              label:{
-                textAlign: 'right',
-                color: 'red',
-              },
+        <Swiper 
+          ref={swipeRef}
+          // style= {styles.card}
+          containerStyle={{backgroundColor: "transparent"}}
+          cards = {DUMMY_DATA}
+          stackSize={6}
+          cardIndex={0}
+          animateCardOpacity={true}
+          verticalSwipe={false} 
+          onSwipedLeft = {() => {console.log("Swipe PASS");}}
+          onSwipedRight = {() => {console.log("Swipe MATCH");}}
+          overlayLabels ={{
+            left: {
+            title: 'No!',
+            style: {
+                label:{
+                  textAlign: 'right',
+                  color: 'red',
+                },
+            },
           },
-        },
-          right: {
-          title: 'Yes!',
-          style: {
-              label:{
-                color: '#4DE3D0',
-              },
-          },
-        },
-
-
-          
+            right: {
+            title: 'Yes!',
+            style: {
+                label:{
+                  color: '#4DE3D0',
+                },
+            },
+          },            
         }}
         renderCard={(card) => (
-            // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
-          <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
-            <Image style = {tailwind(" absolute top-0 h-full w-full rounded-xl ")}
-            source={{uri: card.photoURL}} />
+          // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
+          // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
+          <View key = {card.id} style= {styles.card}>
+            <Image style = {tailwind("absolute top-0 h-full w-full rounded-xl ")}
+              source={{uri: card.photoURL}} />
             {/* <Text>{card.name}</Text> */}
-                        {/* <View style={tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-between h-20 px-6 py-2 rounded-b-xl')}> */}
+            {/* <View style={tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-between h-20 px-6 py-2 rounded-b-xl')}> */}
             <View style={[tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-center h-20 px-6 py-2 rounded-b-xl'),
               styles.cardShadow
             ]}>
-      
               <View>
-                <Text style = {tailwind("text-xl font-bold")}>
-              {card.firstName}
-                </Text>
-
-                  {/* <Text>
-              {card.majors}
-                </Text> */}
+                <Text style = {tailwind("text-xl font-bold")}>{card.firstName}</Text>
+                {/* <Text style = {{fontSize:20, height:20}}>{card.firstName}</Text> */}
+                {/* <Text>{card.majors}</Text> */}
                 {/* style = {tailwind("text-xl text-white font-bold")} */}
-                   <Text>
-              {card.classification}
-                </Text>
-
+                <Text>{card.classification}</Text>
               </View>
               <Text style = {tailwind("text-xl font-bold")}>{card.age}</Text>
             </View>
-           
           </View>
-        )}
-      />
+        )}/>
       </View>
-              {/* Buttons for matching  */}
-              {/* Margin bottom pushes up and margin top pushes down */}
-      <View style = {tailwind('mb-8 flex-row justify-evenly ')}>
-          <TouchableOpacity 
-          onPress = {() => {swipeRef.current.swipeLeft()}}
-          style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-red-500')}>
-            <Entypo  name = "cross" size = {40} color = "white"/>
-          </TouchableOpacity>
+        
+      {/* Buttons for matching  */}
+      {/* Margin bottom pushes up and margin top pushes down */}
 
-          <TouchableOpacity 
-           onPress = {() => {swipeRef.current.swipeRight()}}
-           style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-blue-500')}>
-            <Entypo  name = "heart" size = {40} color = "white"/>
-          </TouchableOpacity>
+      {/* <View style = {tailwind('mb-8 flex-row justify-evenly ')}> */}
+      <View style = {styles.buttonContainer}>
+        <TouchableOpacity 
+          onPress = {() => {swipeRef.current.swipeLeft()}}
+          activeOpacity={0.8}
+          // style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-red-500')}>
+          style = {styles.button}>
+          <Image 
+            source = {require('../../assets/images/nope.png')} 
+            style = {styles.image}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          onPress = {() => {swipeRef.current.swipeRight()}}
+          activeOpacity={0.8}
+          // style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-blue-500')}>
+          style = {styles.button}>
+          <Image 
+            source = {require('../../assets/images/like.png')} 
+            style = {styles.image}></Image>
+        </TouchableOpacity>
+
       </View>
-     
+      
     </SafeAreaView>
-    );
+
+    <IconMenu />
+
+  </View>
+  );
 };
 
-//   const onSwipeLeft = user => {
-//     console.warn('swipe left', user.name);
-//   };
-
-//   const onSwipeRight = user => {
-//     console.warn('swipe right: ', user.name);
-//   };
-
-//   return (
-//     <View style={styles.pageContainer}>
-//       <AnimatedStack
-//         data={users}
-//         renderItem={({item}) => <Card user={item} />}
-//         onSwipeLeft={onSwipeLeft}
-//         onSwipeRight={onSwipeRight}
-//       />
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   pageContainer: {
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     flex: 1,
-//     width: '100%',
-//   },
-// });
-
-export default HomeScreen;
-
 const styles = StyleSheet.create({
+  pageContainer: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: 'white',
+  },
+  logoContainer: {
+    height: '10%',
+    width: '100%',
+    marginTop: '12%',
+    flexDirection:'row',
+    justifyContent: 'center',
+  },
+  filter: {
+    position: 'absolute',
+    right: '8%',
+    top: '15%',
+  },
   cardShadow: {
     shadowColor: '#000',
     shadowOffset: {
@@ -238,4 +236,41 @@ const styles = StyleSheet.create({
     shadowRadius: 1.84,
     elevation: 2,
   },
+  cardContainer: {
+    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+  animatedCard: {
+    flex: 1,
+    // backgroundColor: 'red',
+    height: '70%',
+    top: '-8%',
+  },
+  card: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "68%",
+  },
+  buttonContainer: {
+    flexDirection:'row',
+    height: '15%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '2%',
+  },
+  button: {
+    width: 65,
+    height: 65,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: '12%',
+  },
+  image: {
+    width: 65,
+    height: 65,
+  },
 });
+
+export default HomeScreen;

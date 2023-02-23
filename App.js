@@ -8,6 +8,7 @@ import InitScreen from './src/screens/InitScreen';
 import StackNavigator from './StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import utilities from './tailwind.json';
+import LoginScreen from './src/screens/LoginScreen'
 
 
 
