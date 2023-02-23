@@ -4,10 +4,12 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import LoginLogo from "../components/LoginLogo";
 
-function InitScreen() {
+function InitScreen({navigation}) {
   return (
     <TouchableOpacity
-      onPress={() => console.log("Tocuh Screen")}
+      onPress={() => navigation.navigate("LoginScreen",
+      "LoginScreen"
+     )}
       activeOpacity={1}
       style={styles.background}
     >
