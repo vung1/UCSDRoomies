@@ -1,6 +1,8 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, View } from "react-native";
+import {TailwindProvider} from 'tailwind-rn';
+import utilities from './tailwind.json';
 
 import HomeScreen from "./src/screens/HomeScreen";
 import MatchesScreen from "./src/screens/MatchesScreen";
@@ -18,9 +20,11 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <SafeAreaView style={styles.pageContainer}>
+     <TailwindProvider utilities={utilities}>
+    <View style={styles.pageContainer}>
       <MainStackNavigator />
-    </SafeAreaView>
+    </View>
+    </TailwindProvider>
   );
 };
 

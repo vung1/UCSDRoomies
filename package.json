@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "eslint --ext .js,.jsx ./src/",
+    "lint": "yarn run eslint --ext .js,.jsx ./src/",
     "fix:tailwind": "tailwind-rn",
     "build:tailwind": "tailwindcss --input input.css --output tailwind.css --no-autoprefixer && tailwind-rn",
     "dev:tailwind": "concurrently \"tailwindcss --input input.css --output tailwind.css --no-autoprefixer --watch\" \"tailwind-rn --watch\""
@@ -29,7 +29,6 @@
     "expo-linear-gradient": "^12.0.1",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
-    "firebase": "^9.17.1",
     "nativewind": "^2.0.11",
     "react": "18.1.0",
     "react-native": "0.70.5",
@@ -67,7 +66,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
-    "prettier": "^2.8.4",
+    "prettier": "2.8.4",
     "tailwindcss": "^3.2.7",
     "yarn": "^1.22.19"
   },

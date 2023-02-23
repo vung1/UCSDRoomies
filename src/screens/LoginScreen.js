@@ -5,7 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import LoginLogo from "../components/LoginLogo";
 import LoginButton from "../components/LoginButton";
 
-function LoginScreen() {
+function LoginScreen({navigation}) {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
       <View style={styles.logoContainer}>
@@ -19,7 +19,7 @@ function LoginScreen() {
         </Text>
       </View>
       <View style={styles.loginButtonContainer}>
-        <LoginButton />
+        <LoginButton navigation={navigation}/>
       </View>
     </LinearGradient>
   );
