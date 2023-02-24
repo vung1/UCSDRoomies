@@ -6,8 +6,8 @@ function LoginButton(props) {
   const { navigation } = props;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("HomeScreen",
-      "HomeScreen"
+      onPress={() => navigation.navigate("EmailPasswordScreen",
+      "EmailPasswordScreen"
      )}
       activeOpacity={0.8}
       style={styles.buttonContainer}
