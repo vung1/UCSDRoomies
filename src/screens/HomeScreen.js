@@ -231,7 +231,6 @@ function HomeScreen({ navigation }) {
       <IconMenu 
       navigation={navigation}
       screenCurr="HomeScreen"
-      screenCurrName="HomeScreen"
       />
     </View>
   );
