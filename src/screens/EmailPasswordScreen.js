@@ -2,8 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { doc, setDoc, serverTimestamp } from '@firebase/firestore'
-import { auth } from '../../firebase'
-import { db } from '../../firebase'
+import { db, auth } from '../../firebase'
 
 const EmailPasswordScreen = () => {
   const [email, setEmail] = useState('')
