@@ -3,14 +3,23 @@ import { View, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import LoginLogo from "../components/LoginLogo";
-import LoginButton from "../components/LoginButton";
+import SigninButton from "../components/SigninButton";
+import SignupButton from "../components/SignupButton";
 
 function LoginScreen({navigation}) {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
+      
       <View style={styles.logoContainer}>
         <LoginLogo />
       </View>
+      
+      <View style={styles.loginButtonContainer}>
+        <SigninButton navigation={navigation}/>
+        <View style={{marginTop: "5%"}}></View>
+        <SignupButton navigation={navigation}/>
+      </View>
+      
       <View style={styles.textContainer}>
         <Text style={styles.agreementText}>
           By clicking Log In, you agree with our Terms. {"\n"}
@@ -18,9 +27,7 @@ function LoginScreen({navigation}) {
           Policy and Cookies Policy.
         </Text>
       </View>
-      <View style={styles.loginButtonContainer}>
-        <LoginButton navigation={navigation}/>
-      </View>
+
     </LinearGradient>
   );
 }
@@ -31,13 +38,14 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
-  textContainer: {
-    marginTop: "20%",
-  },
   logoContainer: {
     marginTop: "42%",
   },
   loginButtonContainer: {
+    marginTop: "15%",
+    width: "80%",
+  },
+  textContainer: {
     marginTop: "6%",
   },
   agreementText: {
