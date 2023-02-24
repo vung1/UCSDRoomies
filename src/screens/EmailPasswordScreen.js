@@ -1,7 +1,9 @@
 import { useNavigation } from '@react-navigation/core'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { doc, setDoc, serverTimestamp } from '@firebase/firestore'
 import { auth } from '../../firebase'
+import { db } from '../../firebase'
 
 const EmailPasswordScreen = () => {
   const [email, setEmail] = useState('')
@@ -11,11 +13,20 @@ const EmailPasswordScreen = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigation.replace("HomeScreen")
+        navigation.navigate("HomeScreen");
       }
     })
     return unsubscribe // when leave this screen, will unsubscribe current listener
   }, [])
+
+  const setUserInfo = (user) => {
+    setDoc(doc(db, 'users', user.uid), {
+      id: user.uid,
+      email: user.email,
+      timestamp: serverTimestamp()
+    })
+    .catch(error => alert(error.message))
+  }
 
   const handleSignUp = () => {
     if (email.includes("@ucsd.edu")) { // verify ucsd email
@@ -24,6 +35,7 @@ const EmailPasswordScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+        setUserInfo(user);
       })
       .catch(error => alert(error.message))
     } else {
