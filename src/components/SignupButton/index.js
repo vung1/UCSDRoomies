@@ -1,15 +1,11 @@
 import React from "react";
 import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-
 function SignupButton(props) {
   const { navigation } = props;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate(
-        "SignupScreen",
-        "SignupScreen"
-      )}
+      onPress={() => navigation.navigate("SignupScreen", "SignupScreen")}
       activeOpacity={0.8}
       style={styles.buttonContainer}
     >
@@ -48,4 +44,3 @@ const styles = StyleSheet.create({
 });
 
 export default SignupButton;
-
