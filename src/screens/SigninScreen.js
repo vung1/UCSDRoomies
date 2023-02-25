@@ -1,14 +1,25 @@
-import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { auth } from "../../firebase";
 
 import LoginLogo from "../components/LoginLogo";
 import SigninButton from "../components/SigninButton";
 import BackArrow from "../components/BackArrow";
 
 function SigninScreen({navigation}) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [number, onChangeText] = React.useState("");
+  // navigate to home screen only if the auth state changed
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("HomeScreen");
+      }
+    });
+    return unsubscribe; // when leave this screen, will unsubscribe current listener
+  }, []);
 
   return (
 
@@ -32,7 +43,7 @@ function SigninScreen({navigation}) {
       <View style={styles.loginFieldContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={onChangeText}
+          onChangeText={(text) => setEmail(text)}
           placeholder="UCSD Email"
           keyboardType="default"
         />
@@ -42,15 +53,16 @@ function SigninScreen({navigation}) {
       <View style={styles.loginFieldContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={onChangeText}
+          onChangeText={(text) => setPassword(text)}
           placeholder="Password"
           keyboardType="default"
+          secureTextEntry
         />
       </View>
 
       {/* Signin button */}
       <View style={styles.loginButtonContainer}>
-        <SigninButton navigation={navigation}/>
+        <SigninButton navigation={navigation} email={email} password={password}/>
       </View>
 
     </LinearGradient>

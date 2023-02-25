@@ -15,7 +15,8 @@ function LoginScreen({navigation}) {
       </View>
       
       <View style={styles.loginButtonContainer}>
-        <SigninButton navigation={navigation}/>
+        {/* email and password will be handled in SigninScreen */}
+        <SigninButton navigation={navigation} email={""} password={""}/> 
         <View style={{marginTop: "5%"}}></View>
         <SignupButton navigation={navigation}/>
       </View>
