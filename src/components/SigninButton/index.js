@@ -1,15 +1,36 @@
 import React from "react";
 import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-
+import { auth } from "../../../firebase";
 
 function SigninButton(props) {
   const { navigation } = props;
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate(
+  const { email } = props;
+  const { password } = props;
+
+  const handleLogin = () => {
+    if (email == "" && password == "") { // if email and password are empty, stay in current screen
+      navigation.navigate(
         "SigninScreen",
         "SigninScreen"
-      )}
+      );
+    } else { // Try to login the user 
+      auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Logged in with:", user.email);
+      })
+      .catch((error) => alert(error.message));
+    }
+  };
+
+  return (
+    <TouchableOpacity
+      onPress={handleLogin} 
+      // {() => navigation.navigate(
+      //   "SigninScreen",
+      //   "SigninScreen"
+      // )}
       activeOpacity={0.8}
       style={styles.buttonContainer}
     >
