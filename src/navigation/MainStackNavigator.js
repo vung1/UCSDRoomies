@@ -9,6 +9,8 @@ import EmailPasswordScreen from "../screens/EmailPasswordScreen";
 import HomeScreen from "../screens/HomeScreen";
 import MatchesScreen from "../screens/MatchesScreen";
 import ChatScreen from "../screens/ChatScreen";
+import SigninScreen from "../screens/SigninScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 const Stack = createStackNavigator();
 
@@ -21,9 +23,10 @@ function MainStackNavigator() {
           backgroundColor: "#FFFFFF",
         }}
       >
-        <Stack.Screen name="InitScreen" component={InitScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="EmailPasswordScreen" component={EmailPasswordScreen} />
+        <Stack.Screen name="SignupScreen" component={SignupScreen} />
+        <Stack.Screen name="SigninScreen" component={SigninScreen} />
+        <Stack.Screen name="InitScreen" component={InitScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Matches" component={MatchesScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
