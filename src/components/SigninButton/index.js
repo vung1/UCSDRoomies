@@ -2,13 +2,14 @@ import React from "react";
 import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 
-function LoginButton(props) {
+function SigninButton(props) {
   const { navigation } = props;
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("HomeScreen",
-      "HomeScreen"
-     )}
+      onPress={() => navigation.navigate(
+        "SigninScreen",
+        "SigninScreen"
+      )}
       activeOpacity={0.8}
       style={styles.buttonContainer}
     >
@@ -16,16 +17,18 @@ function LoginButton(props) {
         source={require("../../../assets/images/tritonLogo.png")}
         style={styles.image}
       />
-      <Text style={styles.buttonText}> LOGIN WITH UCSD EMAIL </Text>
+      <Text style={styles.buttonText}> SIGN IN WITH UCSD EMAIL </Text>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    padding: 15,
+    height: 55,
+    width: "100%",
     borderRadius: 30,
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "white",
     flexDirection: "row",
   },
@@ -44,4 +47,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginButton;
+export default SigninButton;
+
