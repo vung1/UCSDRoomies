@@ -13,11 +13,11 @@ import { useTailwind } from "tailwind-rn";
 
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Swiper from "react-native-deck-swiper";
-import { useNavigation } from "@react-navigation/core";
+import { doc, setDoc } from "@firebase/firestore";
+
 import IconMenu from "../components/IconMenu";
 import HomeLogo from "../components/HomeLogo";
-import { db, auth } from '../../firebase'
-import { doc, setDoc } from '@firebase/firestore'
+import { db, auth } from "../../firebase";
 
 // import useAuth from...
 const DUMMY_DATA = [
@@ -102,7 +102,7 @@ function HomeScreen({ navigation }) {
     const userSwiped = profiles[cardIndex];
     console.log(`you swiped PASS on ${userSwiped.firstName}`);
 
-    setDoc(doc(db, 'users', user.uid, 'passes', userSwiped.id), userSwiped);
+    setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
   };
 
   const swipeRight = (cardIndex) => {
@@ -113,7 +113,7 @@ function HomeScreen({ navigation }) {
     const userSwiped = profiles[cardIndex];
     console.log(`you swiped on ${userSwiped.firstName}`);
 
-    setDoc(doc(db, 'users', user.uid, 'swipes', userSwiped.id), userSwiped);
+    setDoc(doc(db, "users", user.uid, "swipes", userSwiped.id), userSwiped);
   };
 
   return (
@@ -257,10 +257,10 @@ function HomeScreen({ navigation }) {
         </View>
       </SafeAreaView>
 
-      <IconMenu 
-      navigation={navigation}
-      screenCurr="HomeScreen"
-      screenCurrName="HomeScreen"
+      <IconMenu
+        navigation={navigation}
+        screenCurr="HomeScreen"
+        screenCurrName="HomeScreen"
       />
     </View>
   );

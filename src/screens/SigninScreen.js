@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { auth } from "../../firebase";
 
@@ -7,7 +13,7 @@ import LoginLogo from "../components/LoginLogo";
 import SigninButton from "../components/SigninButton";
 import BackArrow from "../components/BackArrow";
 
-function SigninScreen({navigation}) {
+function SigninScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,18 +28,16 @@ function SigninScreen({navigation}) {
   }, []);
 
   return (
-
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-
       {/* Back arrow to login screen */}
       <View style={styles.backArrow}>
         <BackArrow
           navigation={navigation}
           screen="LoginScreen"
           screenName="LoginScreen"
-        />  
+        />
       </View>
-      
+
       {/* Logo */}
       <View style={styles.logoContainer}>
         <LoginLogo />
@@ -62,9 +66,12 @@ function SigninScreen({navigation}) {
 
       {/* Signin button */}
       <View style={styles.loginButtonContainer}>
-        <SigninButton navigation={navigation} email={email} password={password}/>
+        <SigninButton
+          navigation={navigation}
+          email={email}
+          password={password}
+        />
       </View>
-
     </LinearGradient>
   );
 }

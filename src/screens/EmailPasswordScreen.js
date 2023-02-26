@@ -36,8 +36,7 @@ const EmailPasswordScreen = () => {
   const handleSignUp = () => {
     if (email.includes("@ucsd.edu")) {
       // verify ucsd email
-      auth
-        .createUserWithEmailAndPassword(email, password)
+      createUserWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
           const user = userCredentials.user;
           console.log("Registered with:", user.email);
