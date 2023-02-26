@@ -6,21 +6,20 @@ import LoginLogo from "../components/LoginLogo";
 import SigninButton from "../components/SigninButton";
 import SignupButton from "../components/SignupButton";
 
-function LoginScreen({navigation}) {
+function LoginScreen({ navigation }) {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      
       <View style={styles.logoContainer}>
         <LoginLogo />
       </View>
-      
+
       <View style={styles.loginButtonContainer}>
         {/* email and password will be handled in SigninScreen */}
-        <SigninButton navigation={navigation} email={""} password={""}/> 
-        <View style={{marginTop: "5%"}}></View>
-        <SignupButton navigation={navigation}/>
+        <SigninButton navigation={navigation} email={""} password={""} />
+        <View style={{ marginTop: "5%" }}></View>
+        <SignupButton navigation={navigation} />
       </View>
-      
+
       <View style={styles.textContainer}>
         <Text style={styles.agreementText}>
           By clicking Log In, you agree with our Terms. {"\n"}
@@ -28,7 +27,6 @@ function LoginScreen({navigation}) {
           Policy and Cookies Policy.
         </Text>
       </View>
-
     </LinearGradient>
   );
 }
