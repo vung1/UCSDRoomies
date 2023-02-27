@@ -51,6 +51,7 @@ function SigninScreen({ navigation }) {
       {/* Signin field */}
       <View style={styles.loginFieldContainer}>
         <TextInput
+          testID="Signin.Email"
           style={styles.textInput}
           placeholder="UCSD Email"
           keyboardType="default"
@@ -81,6 +82,7 @@ function SigninScreen({ navigation }) {
       {/* Signin button */}
       <View style={styles.loginButtonContainer}>
         <SigninButton 
+          testID="Signin.Button"
           navigation={navigation}
           screenCurr="SigninScreen"
           state={state}
