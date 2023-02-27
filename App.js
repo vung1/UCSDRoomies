@@ -8,6 +8,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import MatchesScreen from "./src/screens/MatchesScreen";
 import InitScreen from "./src/screens/InitScreen";
 import ChatScreen from "./src/screens/ChatScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
 import MainStackNavigator from "./src/navigation/MainStackNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import {
