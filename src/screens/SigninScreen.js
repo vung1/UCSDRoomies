@@ -8,7 +8,10 @@ import BackArrow from "../components/BackArrow";
 
 function SigninScreen({navigation}) {
 
-  const [number, onChangeText] = React.useState("");
+  const [state, setState] =  React.useState({
+    email: '',
+    password: '',
+  });
 
   return (
 
@@ -32,9 +35,14 @@ function SigninScreen({navigation}) {
       <View style={styles.loginFieldContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={onChangeText}
           placeholder="UCSD Email"
           keyboardType="default"
+          autoCapitalize='none'
+          autoCorrect={false}
+          onChangeText={(text) => {setState({ 
+            email: text, 
+            password: state.password, 
+          })}}
         />
       </View>
 
@@ -42,15 +50,24 @@ function SigninScreen({navigation}) {
       <View style={styles.loginFieldContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={onChangeText}
           placeholder="Password"
           keyboardType="default"
+          autoCapitalize='none'
+          autoCorrect={false}
+          onChangeText={(text) => {setState({ 
+            email: state.email, 
+            password: text, 
+          })}}
         />
       </View>
 
       {/* Signin button */}
       <View style={styles.loginButtonContainer}>
-        <SigninButton navigation={navigation}/>
+        <SigninButton 
+          navigation={navigation}
+          screenCurr="SigninScreen"
+          state={state}
+        />
       </View>
 
     </LinearGradient>
@@ -85,7 +102,7 @@ const styles = StyleSheet.create({
     width: "86%",
   },
   loginButtonContainer: {
-    marginTop: "15%",
+    marginTop: "10%",
     width: "75%",
   },
 });

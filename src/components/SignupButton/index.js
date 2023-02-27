@@ -1,28 +1,57 @@
 import React from "react";
-import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 function SignupButton(props) {
-  const { navigation } = props;
+
+  const { navigation, screenCurr, state} = props;
+  const [message, setState] =  React.useState('')
+  const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate(
-        "SignupScreen",
-        "SignupScreen"
-      )}
-      activeOpacity={0.8}
-      style={styles.buttonContainer}
-    >
-      <Image
-        source={require("../../../assets/images/tritonLogo.png")}
-        style={styles.image}
-      />
-      <Text style={styles.buttonText}> SIGN UP WITH UCSD EMAIL </Text>
-    </TouchableOpacity>
+    <View> 
+      <Text style={styles.errorMsg}>{message}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          setState("");
+          screenCurr == "LoginScreen" ? 
+          navigation.navigate("SignupScreen","SignupScreen") :
+          state.email == "" ?
+          setState("* Please enter your UCSD emial") :
+          reg.test(state.email) != true ?
+          setState("* Please enter your UCSD emial in right format") :
+          // TODO: Check if the email is exist in database
+          // if in database?
+          // setState("* Account already exists") :
+          state.password == "" ?
+          setState("* Please enter your password") :
+          state.repassword == "" ?
+          setState("* Please enter your confirm password") :
+          state.password != state.repassword ?
+          setState("* Please enter the same confirm password") :
+          // TODO: Save the acount and navigate to profile page
+          // navigation.navigate("HomeScreen","HomeScreen")
+          console.log(state)
+        }}
+        activeOpacity={0.8}
+        style={styles.buttonContainer}
+      >
+        <Image
+          source={require("../../../assets/images/tritonLogo.png")}
+          style={styles.image}
+        />
+        <Text style={styles.buttonText}> SIGN UP WITH UCSD EMAIL </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  errorMsg: {
+    fontSize: 12,
+    color: "red",
+    marginBottom: "5%",
+    marginLeft: "5%",
+  },
   buttonContainer: {
     height: 55,
     width: "100%",
