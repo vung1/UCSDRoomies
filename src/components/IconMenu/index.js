@@ -41,7 +41,10 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => console.log("user")}
+      onPress={() => {screenCurr != "ProfileScreen" ? navigation.navigate("ProfileScreen",
+          "ProfileScreen"
+        ) : console.log("user")}}
+        // onPress={() => console.log("user")}
         activeOpacity={0.8}
         style={styles.button}
       >
