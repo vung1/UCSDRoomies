@@ -1,11 +1,24 @@
 import React from "react";
 
-import { render, screen, act, waitFor } from "@testing-library/react-native";
+import {
+  render,
+  fireEvent,
+  screen,
+  act,
+  waitFor,
+  mount,
+} from "@testing-library/react-native";
 
 import SigninScreen from "../SigninScreen";
+import LoginLogo from "../../components/LoginLogo";
 
 it("renders default elements", async () => {
-  render(<SigninScreen />);
+  await render(<SigninScreen />);
 
-  expect(await screen.getAllByText("SIGN IN WITH UCSD EMAIL").length).toBe(1);
+  await waitFor(() => {
+    expect(screen.getAllByText("SIGN IN WITH UCSD EMAIL").length).toBe(1);
+    screen.getByPlaceholderText("UCSD Email");
+    screen.getByPlaceholderText("Password");
+  });
+
 });
