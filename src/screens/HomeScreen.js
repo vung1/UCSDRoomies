@@ -257,7 +257,7 @@ function HomeScreen({ navigation }) {
         </View>
       </SafeAreaView>
 
-      <IconMenu
+      <IconMenu 
         navigation={navigation}
         screenCurr="HomeScreen"
         screenCurrName="HomeScreen"
