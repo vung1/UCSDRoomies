@@ -1,8 +1,10 @@
 name: Feature branch checks
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  push:
+    branches: ["main"]
 
 jobs:
   #First job
@@ -24,3 +26,6 @@ jobs:
 
       - name: Linting
         run: yarn lint
+
+      - name: Unit & Integration tests
+        run: yarn test
