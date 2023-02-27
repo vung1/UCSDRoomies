@@ -1,0 +1,86 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { auth } from "../../../firebase";
+
+function SigninButton(props) {
+
+  const { navigation, screenCurr, state} = props;
+  const [message, setState] =  React.useState('')
+  const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+  
+  const handleLogin = () => {
+    // Try to login the user
+    signInWithEmailAndPassword(auth, state.email, state.password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        navigation.navigate("HomeScreen");
+        console.log("Logged in with:", user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  return (
+    <View> 
+      <Text style={styles.errorMsg}>{message}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          setState("");
+          screenCurr == "LoginScreen" ? 
+          navigation.navigate("SigninScreen","SigninScreen") : 
+          state.email == "" ?
+          setState("* Please enter your emial") :
+          reg.test(state.email) != true ?
+          setState("* Please enter your UCSD emial in right format") :
+          state.password == "" ?
+          setState("* Please enter your password") :
+          // TODO: Check validation, if profile is completed go to homepage, 
+          // else go to profile page
+          // navigation.navigate("HomeScreen","HomeScreen")
+          console.log(state)
+        }}
+        activeOpacity={0.8}
+        style={styles.buttonContainer}
+      >
+        <Image
+          source={require("../../../assets/images/tritonLogo.png")}
+          style={styles.image}
+        />
+        <Text style={styles.buttonText}> SIGN IN WITH UCSD EMAIL </Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  errorMsg: {
+    fontSize: 12,
+    color: "red",
+    marginBottom: "5%",
+    marginLeft: "5%",
+  },
+  buttonContainer: {
+    height: 55,
+    width: "100%",
+    borderRadius: 30,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    flexDirection: "row",
+  },
+  buttonText: {
+    fontWeight: "bold",
+    fontFamily: "Arial",
+    fontSize: 16,
+    color: "black",
+    marginRight: 10,
+  },
+  image: {
+    width: 25,
+    height: 25,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+});
+
+export default SigninButton;

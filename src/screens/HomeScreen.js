@@ -13,9 +13,11 @@ import { useTailwind } from "tailwind-rn";
 
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Swiper from "react-native-deck-swiper";
-import { useNavigation } from "@react-navigation/core";
+import { doc, setDoc } from "@firebase/firestore";
+
 import IconMenu from "../components/IconMenu";
 import HomeLogo from "../components/HomeLogo";
+import { db, auth } from "../../firebase";
 
 // import useAuth from...
 const DUMMY_DATA = [
@@ -27,7 +29,7 @@ const DUMMY_DATA = [
     majors: "Computer Science",
     photoURL:
       "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/287545022_1091736855020876_5602520662715136881_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=gXWtJZMOGMMAX-SmrwU&_nc_ht=scontent-lax3-2.xx&oh=00_AfB4cf7VOZisjFQ8aCaqBDpSuywyk4B8k8VRmWnRIvePGw&oe=63F8C614",
-    id: 123,
+    id: "123",
   },
 
   {
@@ -38,7 +40,7 @@ const DUMMY_DATA = [
     majors: "Computer Science",
     photoURL:
       "https://scontent-lax3-2.xx.fbcdn.net/v/t1.6435-9/34604303_2112995925596886_8035880099964256256_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Fqr1cJlYiJgAX8lfcTn&_nc_ht=scontent-lax3-2.xx&oh=00_AfA2u9CK2fhN1wfhUjkyohjV0UHuh2SPOImPkrYnmDm0_w&oe=641B71D5",
-    id: 456,
+    id: "456",
   },
 
   {
@@ -49,7 +51,7 @@ const DUMMY_DATA = [
     majors: "Computer Science ",
     photoURL:
       "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/326464979_1189459725017205_2497974280865416237_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7T3Dl4mGPA0AX_XHzIl&_nc_ht=scontent-lax3-2.xx&oh=00_AfDQDAAfZdv0PMfZ4E0UP-SuNu5qwcKJ3JxsO1IXi5fNQA&oe=63F95A33",
-    id: 789,
+    id: "789",
   },
 
   {
@@ -60,7 +62,7 @@ const DUMMY_DATA = [
     majors: "Computer Science ",
     photoURL:
       "https://scontent-lax3-1.xx.fbcdn.net/v/t1.6435-9/37081933_213393819314265_6367120236990169088_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=qppccfxWV9oAX-VWNls&_nc_ht=scontent-lax3-1.xx&oh=00_AfCUSGY3klKxDVKn8WUwq2rC3Yt8mzSzueW0_y6VLbmgog&oe=641B6496",
-    id: 101112,
+    id: "101112",
   },
 
   {
@@ -71,6 +73,7 @@ const DUMMY_DATA = [
     majors: "Computer Science ",
     photoURL:
       "https://scontent-lax3-2.xx.fbcdn.net/v/t1.6435-9/192436271_1214099862361681_8439239647122206602_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9gVc74c9qLEAX8aqgQE&tn=fCUD-PsIbWKfLdzZ&_nc_ht=scontent-lax3-2.xx&oh=00_AfDdr1GFfQRImzwC25eaR91_Odz5aXOfqrcxT5034-M6hQ&oe=641B85CD",
+    id: "1052700",
   },
 
   {
@@ -81,7 +84,7 @@ const DUMMY_DATA = [
     majors: "Computer Science",
     photoURL:
       "https://scontent-lax3-1.xx.fbcdn.net/v/t39.30808-6/289682412_3185058221746238_7439599793167202859_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=L4nOqtfLAtQAX-1iwJr&tn=fCUD-PsIbWKfLdzZ&_nc_ht=scontent-lax3-1.xx&oh=00_AfAcuNjrHlGasTU-RB8b2SaGs-OEUQ2zx96NGf_o1ntArA&oe=63F917C0",
-    id: 131415,
+    id: "131415",
   },
 ];
 
@@ -89,6 +92,30 @@ function HomeScreen({ navigation }) {
   // const navigation = useNavigation();
   const swipeRef = React.useRef(null);
   const tailwind = useTailwind();
+  const user = auth.currentUser;
+
+  const swipeLeft = (cardIndex) => {
+    const profiles = DUMMY_DATA;
+
+    if (!profiles[cardIndex]) return;
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`you swiped PASS on ${userSwiped.firstName}`);
+
+    setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
+  };
+
+  const swipeRight = (cardIndex) => {
+    const profiles = DUMMY_DATA;
+
+    if (!profiles[cardIndex]) return;
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`you swiped on ${userSwiped.firstName}`);
+
+    setDoc(doc(db, "users", user.uid, "swipes", userSwiped.id), userSwiped);
+  };
+
   return (
     // const{logout} = useAuth();
 
@@ -129,16 +156,18 @@ function HomeScreen({ navigation }) {
             ref={swipeRef}
             // style= {styles.card}
             containerStyle={{ backgroundColor: "transparent" }}
-            cards={DUMMY_DATA}
-            stackSize={6}
+            cards={DUMMY_DATA} // TODO: should be profiles from database
+            stackSize={10}
             cardIndex={0}
             animateCardOpacity
             verticalSwipe={false}
-            onSwipedLeft={() => {
+            onSwipedLeft={(cardIndex) => {
               console.log("Swipe PASS");
+              swipeLeft(cardIndex);
             }}
-            onSwipedRight={() => {
+            onSwipedRight={(cardIndex) => {
               console.log("Swipe MATCH");
+              swipeRight(cardIndex);
             }}
             overlayLabels={{
               left: {
@@ -229,9 +258,9 @@ function HomeScreen({ navigation }) {
       </SafeAreaView>
 
       <IconMenu 
-      navigation={navigation}
-      screenCurr="HomeScreen"
-      screenCurrName="HomeScreen"
+        navigation={navigation}
+        screenCurr="HomeScreen"
+        screenCurrName="HomeScreen"
       />
     </View>
   );
