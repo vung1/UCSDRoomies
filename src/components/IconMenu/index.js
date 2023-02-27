@@ -7,7 +7,7 @@ import { checkPluginState } from "react-native-reanimated/lib/reanimated2/core";
 
 
 function IconMenu(props) {
-  const { navigation, screenCurr, screenCurrName} = props;
+  const { navigation, screenCurr} = props;
   return (
     <View style={styles.menuContainer}>
       <TouchableOpacity
@@ -29,8 +29,8 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => {screenCurr != "MatchesScreen" ? navigation.navigate("Matches", "MatchesScreen"
-          
+        onPress={() => {screenCurr != "MatchesScreen" ? navigation.navigate("Matches",
+         "MatchesScreen"
         ) : console.log("stay")}}
         activeOpacity={0.8}
         style={styles.button}

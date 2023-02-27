@@ -22,6 +22,7 @@ function MainStackNavigator() {
         screenOptions={{
           headerShown: false,
           backgroundColor: "#FFFFFF",
+          animationEnabled: false,
         }}
       >
         <Stack.Screen name="InitScreen" component={InitScreen} />
