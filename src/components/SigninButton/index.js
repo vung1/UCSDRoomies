@@ -38,7 +38,10 @@ function SigninButton(props) {
         source={require("../../../assets/images/tritonLogo.png")}
         style={styles.image}
       />
-      <Text style={styles.buttonText}> SIGN IN WITH UCSD EMAIL </Text>
+      <Text testID="SignIn.Button" style={styles.buttonText}>
+        {" "}
+        SIGN IN WITH UCSD EMAIL{" "}
+      </Text>
     </TouchableOpacity>
   );
 }
