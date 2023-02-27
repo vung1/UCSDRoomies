@@ -21,7 +21,9 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => console.log("like")}
+        onPress={() => {screenCurr != "LikesScreen" ? navigation.navigate("Likes",
+        "LikesScreen"
+       ) : console.log("stay")}}
         activeOpacity={0.8}
         style={styles.button}
       >
