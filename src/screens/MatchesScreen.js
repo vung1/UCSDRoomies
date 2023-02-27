@@ -21,7 +21,6 @@ function MatchesScreen({ navigation }) {
         <View style={{ flexDirection: "row" }}>
           <Text
             style={{
-              fontWeight: "bold",
               fontSize: 24,
               color: "#247DCF",
               marginLeft: 20,
