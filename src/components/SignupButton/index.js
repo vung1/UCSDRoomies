@@ -3,34 +3,60 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 function SignupButton(props) {
 
-  const { navigation, screenCurr, state} = props;
-  const [message, setState] =  React.useState('')
+  const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+
+  var emailMsg = '';
+  var passwordMsg = '';
+  var repasswordMsg = '';
+
+  const handleSignup = () => {
+    showMessages('', '', '');
+    var error = false
+    if (state.email == "" ) {
+      emailMsg = "Please enter your UCSD email";
+      error = true;
+    } else if (reg.test(state.email) != true) {
+      emailMsg = "Please enter your UCSD email in correct format";
+      error = true;
+    } else if (false) {
+      //
+      // TODO: check if the email is already exists
+      //
+      emailMsg = "Account already exists";
+      error = true;
+    }
+    // Check input password
+    if (state.password == "") {
+      passwordMsg = "Please enter your password";
+      error = true;
+    } else {
+      // Check confirm password
+      if (state.repassword == "") {
+        repasswordMsg = "Please confirm your password";
+        error = true;
+      } else if (state.password != state.repassword) {
+        repasswordMsg = "Passwords did not match";
+        error = true;
+      }
+    }
+    if (error) {
+      showMessages(emailMsg, passwordMsg, repasswordMsg)
+    } else {
+      //
+      // TODO: Save the acount and navigate to profile page
+      //
+      // navigation.navigate("HomeScreen","HomeScreen")
+    }
+  } 
 
   return (
     <View> 
-      <Text style={styles.errorMsg}>{message}</Text>
       <TouchableOpacity
         onPress={() => {
-          setState("");
           screenCurr == "LoginScreen" ? 
           navigation.navigate("SignupScreen","SignupScreen") :
-          state.email == "" ?
-          setState("* Please enter your UCSD emial") :
-          reg.test(state.email) != true ?
-          setState("* Please enter your UCSD emial in right format") :
-          // TODO: Check if the email is exist in database
-          // if in database?
-          // setState("* Account already exists") :
-          state.password == "" ?
-          setState("* Please enter your password") :
-          state.repassword == "" ?
-          setState("* Please enter your confirm password") :
-          state.password != state.repassword ?
-          setState("* Please enter the same confirm password") :
-          // TODO: Save the acount and navigate to profile page
-          // navigation.navigate("HomeScreen","HomeScreen")
-          console.log(state)
+          handleSignup()
         }}
         activeOpacity={0.8}
         style={styles.buttonContainer}

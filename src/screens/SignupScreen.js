@@ -14,6 +14,16 @@ function SignupScreen({navigation}) {
     repassword: '',
   });
 
+  const [emailErrorMsg, setEmailMsg] =  React.useState('')
+  const [passwordErrorMsg, setPasswordMsg] =  React.useState('')
+  const [repasswordErrorMsg, setRePasswordMsg] =  React.useState('')
+
+  const showMessages = (emailMsg, passwordMsg, repasswordMsg) => {
+    setEmailMsg(emailMsg);
+    setPasswordMsg(passwordMsg);
+    setRePasswordMsg(repasswordMsg);
+  };
+
   return (
 
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
@@ -47,6 +57,7 @@ function SignupScreen({navigation}) {
           })}}
         />
       </View>
+      <Text style={styles.errorMsg}>{emailErrorMsg}</Text>
 
       {/* Sign up field for password */}
       <View style={styles.loginFieldContainer}>
@@ -56,6 +67,7 @@ function SignupScreen({navigation}) {
           keyboardType="default"
           autoCapitalize='none'
           autoCorrect={false}
+          secureTextEntry={true}
           onChangeText={(text) => {setState({ 
             email: state.email, 
             password: text, 
@@ -63,6 +75,7 @@ function SignupScreen({navigation}) {
           })}}
         />
       </View>
+      <Text style={styles.errorMsg}>{passwordErrorMsg}</Text>
 
       {/* Sign up field for confirm password */}
       <View style={styles.loginFieldContainer}>
@@ -72,6 +85,7 @@ function SignupScreen({navigation}) {
           keyboardType="default"
           autoCapitalize='none'
           autoCorrect={false}
+          secureTextEntry={true}
           onChangeText={(text) => {setState({ 
             email: state.email, 
             password: state.password, 
@@ -79,6 +93,7 @@ function SignupScreen({navigation}) {
           })}}
         />
       </View>
+      <Text style={styles.errorMsg}>{repasswordErrorMsg}</Text>
 
       {/* Signin button */}
       <View style={styles.loginButtonContainer}>
@@ -86,6 +101,7 @@ function SignupScreen({navigation}) {
           navigation={navigation}
           screenCurr="SignupScreen"
           state={state}
+          showMessages={showMessages}
         />
       </View>
 
@@ -109,7 +125,7 @@ const styles = StyleSheet.create({
     marginBottom: "10%",
   },
   loginFieldContainer: {
-    marginTop: "5%",
+    marginTop: "3%",
     width: "75%",
     height: 42,
     borderRadius: 21,
@@ -119,6 +135,14 @@ const styles = StyleSheet.create({
   textInput: {
     height: "100%",
     width: "86%",
+  },
+  errorMsg: {
+    fontSize: 12,
+    marginTop: "1.5%",
+    color: 'red',
+    marginLeft: 0,
+    left:0, 
+    width: "70%",
   },
   loginButtonContainer: {
     marginTop: "10%",
