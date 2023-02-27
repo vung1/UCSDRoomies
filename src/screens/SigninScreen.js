@@ -17,6 +17,11 @@ function SigninScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [state, setState] =  React.useState({
+    email: '',
+    password: '',
+  });
+
   // navigate to home screen only if the auth state changed
   // useEffect(() => {
   //   const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -47,9 +52,14 @@ function SigninScreen({ navigation }) {
       <View style={styles.loginFieldContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={(text) => setEmail(text)}
           placeholder="UCSD Email"
           keyboardType="default"
+          autoCapitalize='none'
+          autoCorrect={false}
+          onChangeText={(text) => {setState({ 
+            email: text, 
+            password: state.password, 
+          })}}
         />
       </View>
 
@@ -57,19 +67,23 @@ function SigninScreen({ navigation }) {
       <View style={styles.loginFieldContainer}>
         <TextInput
           style={styles.textInput}
-          onChangeText={(text) => setPassword(text)}
           placeholder="Password"
           keyboardType="default"
-          secureTextEntry
+          autoCapitalize='none'
+          autoCorrect={false}
+          onChangeText={(text) => {setState({ 
+            email: state.email, 
+            password: text, 
+          })}}
         />
       </View>
 
       {/* Signin button */}
       <View style={styles.loginButtonContainer}>
-        <SigninButton
+        <SigninButton 
           navigation={navigation}
-          email={email}
-          password={password}
+          screenCurr="SigninScreen"
+          state={state}
         />
       </View>
     </LinearGradient>
@@ -104,7 +118,7 @@ const styles = StyleSheet.create({
     width: "86%",
   },
   loginButtonContainer: {
-    marginTop: "15%",
+    marginTop: "10%",
     width: "75%",
   },
 });

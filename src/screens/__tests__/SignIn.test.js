@@ -20,4 +20,5 @@ it("renders default elements", async () => {
     screen.getByPlaceholderText("UCSD Email");
     screen.getByPlaceholderText("Password");
   });
+
 });
