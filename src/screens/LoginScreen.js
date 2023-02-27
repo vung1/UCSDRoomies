@@ -6,14 +6,13 @@ import LoginLogo from "../components/LoginLogo";
 import SigninButton from "../components/SigninButton";
 import SignupButton from "../components/SignupButton";
 
-function LoginScreen({navigation}) {
+function LoginScreen({ navigation }) {
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      
       <View style={styles.logoContainer}>
         <LoginLogo />
       </View>
-      
+
       <View style={styles.loginButtonContainer}>
         <SigninButton 
           navigation={navigation}
@@ -26,7 +25,7 @@ function LoginScreen({navigation}) {
           state={{}}
         />
       </View>
-      
+
       <View style={styles.textContainer}>
         <Text style={styles.agreementText}>
           By clicking Log In, you agree with our Terms. {"\n"}
@@ -34,7 +33,6 @@ function LoginScreen({navigation}) {
           Policy and Cookies Policy.
         </Text>
       </View>
-
     </LinearGradient>
   );
 }

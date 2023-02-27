@@ -1,31 +1,48 @@
-import React from "react";
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { auth } from "../../firebase";
 
 import LoginLogo from "../components/LoginLogo";
 import SigninButton from "../components/SigninButton";
 import BackArrow from "../components/BackArrow";
 
-function SigninScreen({navigation}) {
+function SigninScreen({ navigation }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [state, setState] =  React.useState({
     email: '',
     password: '',
   });
 
+  // navigate to home screen only if the auth state changed
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       navigation.navigate("HomeScreen");
+  //     }
+  //   });
+  //   return unsubscribe; // when leave this screen, will unsubscribe current listener
+  // }, []);
+
   return (
-
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-
       {/* Back arrow to login screen */}
       <View style={styles.backArrow}>
         <BackArrow
           navigation={navigation}
           screen="LoginScreen"
           screenName="LoginScreen"
-        />  
+        />
       </View>
-      
+
       {/* Logo */}
       <View style={styles.logoContainer}>
         <LoginLogo />
@@ -69,7 +86,6 @@ function SigninScreen({navigation}) {
           state={state}
         />
       </View>
-
     </LinearGradient>
   );
 }

@@ -1,8 +1,8 @@
 import "react-native-gesture-handler";
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import {TailwindProvider} from 'tailwind-rn';
-import utilities from './tailwind.json';
+import { TailwindProvider } from "tailwind-rn";
+import utilities from "./tailwind.json";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import MatchesScreen from "./src/screens/MatchesScreen";
@@ -20,10 +20,10 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-     <TailwindProvider utilities={utilities}>
-    <View style={styles.pageContainer}>
-      <MainStackNavigator />
-    </View>
+    <TailwindProvider utilities={utilities}>
+      <View style={styles.pageContainer}>
+        <MainStackNavigator />
+      </View>
     </TailwindProvider>
   );
 };
