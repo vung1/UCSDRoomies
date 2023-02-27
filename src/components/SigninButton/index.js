@@ -23,15 +23,15 @@ function SigninButton(props) {
   return (
     <View> 
       <Text style={styles.errorMsg}>{message}</Text>
-      <TouchableOpacity
+      <TouchableOpacity {...props}
         onPress={() => {
           setState("");
           screenCurr == "LoginScreen" ? 
           navigation.navigate("SigninScreen","SigninScreen") : 
           state.email == "" ?
-          setState("* Please enter your emial") :
+          setState("* Please enter your email") :
           reg.test(state.email) != true ?
-          setState("* Please enter your UCSD emial in right format") :
+          setState("* Please enter your UCSD email in right format") :
           state.password == "" ?
           setState("* Please enter your password") :
           // TODO: Check validation, if profile is completed go to homepage, 
