@@ -32,7 +32,7 @@ function SignupButton(props) {
           setState("* Please enter the same confirm password") :
           // TODO: Save the acount and navigate to profile page
           // navigation.navigate("HomeScreen","HomeScreen")
-          register(state)
+          register(state, navigation)
           // console.log(state)
         }}
         activeOpacity={0.8}

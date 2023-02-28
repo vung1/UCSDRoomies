@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useLayoutEffect, useEffect }from "react";
 import {
   View,
   Image,
@@ -8,13 +8,12 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-// import React, { useLayoutEffect } from "react";
 
 import { useTailwind } from "tailwind-rn";
 
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Swiper from "react-native-deck-swiper";
-import { doc, setDoc } from "@firebase/firestore";
+import { doc, setDoc, getDocs, onSnapshot, collection, query, where } from "@firebase/firestore";
 
 import IconMenu from "../components/IconMenu";
 import HomeLogo from "../components/HomeLogo";
@@ -30,7 +29,7 @@ const DUMMY_DATA = [
     classification: "Graduate Student",
     majors: "Computer Science",
     photoURL:
-      "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/287545022_1091736855020876_5602520662715136881_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=gXWtJZMOGMMAX-SmrwU&_nc_ht=scontent-lax3-2.xx&oh=00_AfB4cf7VOZisjFQ8aCaqBDpSuywyk4B8k8VRmWnRIvePGw&oe=63F8C614",
+      "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/287545022_1091736855020876_5602520662715136881_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=XpnHAeTSAHIAX-NZ7w7&_nc_ht=scontent-lax3-2.xx&oh=00_AfCZ98S4q_HGWA4StuZgQxAQGUKlmfYCj-zuBPpZiuMOnA&oe=6402A954",
     id: "123",
   },
 
@@ -50,9 +49,9 @@ const DUMMY_DATA = [
     lastName: "Jiang",
     age: 30,
     classification: "Graduate Student",
-    majors: "Computer Science ",
+    majors: "Computer Science",
     photoURL:
-      "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/326464979_1189459725017205_2497974280865416237_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=7T3Dl4mGPA0AX_XHzIl&_nc_ht=scontent-lax3-2.xx&oh=00_AfDQDAAfZdv0PMfZ4E0UP-SuNu5qwcKJ3JxsO1IXi5fNQA&oe=63F95A33",
+      "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/326464979_1189459725017205_2497974280865416237_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Sxn0I1LLMNoAX-_25HR&_nc_ht=scontent-lax3-2.xx&oh=00_AfAA06Fh-jIjtcR9p9rZ0gnJsXz28jNDA8uD-jxmBw6x1g&oe=64033D73",
     id: "789",
   },
 
@@ -61,7 +60,7 @@ const DUMMY_DATA = [
     lastName: "Yan",
     age: 30,
     classification: "Graduate Student",
-    majors: "Computer Science ",
+    majors: "Computer Science",
     photoURL:
       "https://scontent-lax3-1.xx.fbcdn.net/v/t1.6435-9/37081933_213393819314265_6367120236990169088_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=qppccfxWV9oAX-VWNls&_nc_ht=scontent-lax3-1.xx&oh=00_AfCUSGY3klKxDVKn8WUwq2rC3Yt8mzSzueW0_y6VLbmgog&oe=641B6496",
     id: "101112",
@@ -72,7 +71,7 @@ const DUMMY_DATA = [
     lastName: "Sun",
     age: 30,
     classification: "Graduate Student",
-    majors: "Computer Science ",
+    majors: "Computer Science",
     photoURL:
       "https://scontent-lax3-2.xx.fbcdn.net/v/t1.6435-9/192436271_1214099862361681_8439239647122206602_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9gVc74c9qLEAX8aqgQE&tn=fCUD-PsIbWKfLdzZ&_nc_ht=scontent-lax3-2.xx&oh=00_AfDdr1GFfQRImzwC25eaR91_Odz5aXOfqrcxT5034-M6hQ&oe=641B85CD",
     id: "1052700",
@@ -85,7 +84,7 @@ const DUMMY_DATA = [
     classification: "Graduate Student",
     majors: "Computer Science",
     photoURL:
-      "https://scontent-lax3-1.xx.fbcdn.net/v/t39.30808-6/289682412_3185058221746238_7439599793167202859_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=L4nOqtfLAtQAX-1iwJr&tn=fCUD-PsIbWKfLdzZ&_nc_ht=scontent-lax3-1.xx&oh=00_AfAcuNjrHlGasTU-RB8b2SaGs-OEUQ2zx96NGf_o1ntArA&oe=63F917C0",
+      "https://scontent-lax3-1.xx.fbcdn.net/v/t39.30808-6/289682412_3185058221746238_7439599793167202859_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=R8mv1hISX0wAX9no2wj&_nc_ht=scontent-lax3-1.xx&oh=00_AfDPwbVwyn5JVdVCfmE1TDtAIcXFcHTUbTKDk4-7nt0rfg&oe=6402FB00",
     id: "131415",
   },
 ];
@@ -94,11 +93,57 @@ function HomeScreen({ navigation }) {
   // const navigation = useNavigation();
   const swipeRef = React.useRef(null);
   const tailwind = useTailwind();
-  const user = auth.currentUser;
-  const { logOut } = useAuth();
+  const { user, logOut } = useAuth(); //auth.currentUser;
+  const [profiles, setProfiles] = useState([]);
 
-  const swipeLeft = (cardIndex) => {
-    const profiles = DUMMY_DATA;
+  // if the database is empty, redirect to ModelScreen
+  // useLayoutEffect(() => onSnapshot(doc(db, "users", user.uid), (snapshot) => {
+  //   if (!snapshot.exists()) {
+  //     navigation.navigate("ModelScreen");
+  //   }
+  // }), []);
+
+  useEffect(() => {
+    let unsub;
+
+    const fetchCards = async () => {
+
+      const passes = await getDocs(collection(db, "users", user.uid, "passes")).then(
+        snapshot => snapshot.docs.map(doc => doc.id)
+      );
+
+      const swipes = await getDocs(collection(db, "users", user.uid, "swipes")).then(
+        snapshot => snapshot.docs.map(doc => doc.id)
+      );
+
+      const passedUserIds = passes.length > 0 ? passes : ["test"];
+      const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
+
+      // console.log(passes, passedUserIds, swipes, swipedUserIds)
+
+      unsub = onSnapshot(
+        query(
+          collection(db, "users"), 
+          where("id", "not-in", [...passedUserIds, ...swipedUserIds])
+        ), 
+        snapshot => {
+        setProfiles(
+          snapshot.docs.filter(doc => doc.id !== user.uid).map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchCards();
+    return unsub;
+  }, [db]);
+
+  // console.log(profiles);
+
+  const swipeLeft = async (cardIndex) => {
+    // const profiles = DUMMY_DATA;
 
     if (!profiles[cardIndex]) return;
 
@@ -108,8 +153,8 @@ function HomeScreen({ navigation }) {
     setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
   };
 
-  const swipeRight = (cardIndex) => {
-    const profiles = DUMMY_DATA;
+  const swipeRight = async (cardIndex) => {
+    // const profiles = DUMMY_DATA;
 
     if (!profiles[cardIndex]) return;
 
@@ -160,7 +205,7 @@ function HomeScreen({ navigation }) {
             ref={swipeRef}
             // style= {styles.card}
             containerStyle={{ backgroundColor: "transparent" }}
-            cards={DUMMY_DATA} // TODO: should be profiles from database
+            cards={profiles} // {DUMMY_DATA} // TODO: should be profiles from database
             stackSize={10}
             cardIndex={0}
             animateCardOpacity
@@ -192,7 +237,7 @@ function HomeScreen({ navigation }) {
                 },
               },
             }}
-            renderCard={(card) => (
+            renderCard={(card) => card ? (
               // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
               // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
               <View key={card.id} style={styles.card}>
@@ -221,6 +266,14 @@ function HomeScreen({ navigation }) {
                   </View>
                   <Text style={tailwind("text-xl font-bold")}>{card.age}</Text>
                 </View>
+              </View>
+            ) : (
+              <View style={styles.card}>
+                {/* <Text style={tailwind("text-xl font-bold text-white")}>No more profiles</Text> */}
+                <Image
+                  style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
+                  source={{ uri: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.6435-9/29244092_1881987471874252_4979572236735217664_n.png?stp=dst-png&_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=byICIepiB3EAX-NV2z9&_nc_ht=scontent-lax3-1.xx&oh=00_AfA1Kuv69kBIk7cKjoAg3v_6rnvzE6kXEWmGMyKq-o4s2w&oe=64250DE8" }}
+                />
               </View>
             )}
           />

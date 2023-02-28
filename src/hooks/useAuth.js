@@ -50,13 +50,14 @@ export const AuthProvider = ({ children }) => {
         .finally(() => setLoading(false));
     }
 
-    const register = (state) => {
+    const register = (state, navigation) => {
         setLoading(true);
 
         createUserWithEmailAndPassword(auth, state.email, state.password)
         .then((userCredentials) => {
             const user = userCredentials.user;
             console.log("Registered with:", user.email);
+            navigation.navigate("ModelScreen","ModelScreen");
         })
         .catch((error) => setError(error))
         .finally(() => setLoading(false));
