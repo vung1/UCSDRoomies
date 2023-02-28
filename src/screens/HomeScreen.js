@@ -6,6 +6,7 @@ import {
   Text,
   SafeAreaView,
   TouchableOpacity,
+  Button,
 } from "react-native";
 // import React, { useLayoutEffect } from "react";
 
@@ -19,7 +20,8 @@ import IconMenu from "../components/IconMenu";
 import HomeLogo from "../components/HomeLogo";
 import { db, auth } from "../../firebase";
 
-// import useAuth from...
+import useAuth from "../hooks/useAuth";
+
 const DUMMY_DATA = [
   {
     firstName: "Mya",
@@ -93,6 +95,7 @@ function HomeScreen({ navigation }) {
   const swipeRef = React.useRef(null);
   const tailwind = useTailwind();
   const user = auth.currentUser;
+  const { logOut } = useAuth();
 
   const swipeLeft = (cardIndex) => {
     const profiles = DUMMY_DATA;
@@ -117,8 +120,6 @@ function HomeScreen({ navigation }) {
   };
 
   return (
-    // const{logout} = useAuth();
-
     <View style={styles.pageContainer}>
       {/* Header */}
       {/* flex row item-center justify-between px-5 */}
@@ -129,6 +130,9 @@ function HomeScreen({ navigation }) {
           <HomeLogo />
         </View>
         {/* ROOMIES LOGO */}
+
+        {/* a temp logout button */}
+        <Button title="Logout" onPress={logOut}/>
 
         {/* FILTER ICON */}
         {/* <TouchableOpacity style ={ tailwind(" absolute right-5 top-3")} > */}
