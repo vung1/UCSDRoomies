@@ -1,14 +1,26 @@
-import React from "react";
-import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, Button, TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import React, {useState, useEffect, useRef} from "react";
+import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, Button, TouchableOpacity, TouchableHighlight } from "react-native";
+import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
-// import TypeInBox from "../components/TypeInBox";
-
 
 function ChatScreen({ route, navigation }) {
   const { user } = route.params;
+  const [refreshing, setRefreshing] = useState(false);
+  const [contentHeight, setContentHeight] = React.useState({ height: 90 });
+  const [msg, setMsg] = React.useState({ message: "" });
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  const scrollViewRef = useRef();
+  const myInput = useRef();
+  var h = new Date().getHours();
+  var m = new Date().getMinutes();
+
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
@@ -27,8 +39,24 @@ function ChatScreen({ route, navigation }) {
       </View>
 
       <View style={styles.message_area}>
-        <ScrollView style={styles.scrollView} vertical>
-          {user.messages.map((msg) => (
+        <ScrollView 
+        style={styles.scrollView} 
+        vertical
+        refreshControl ={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        ref={scrollViewRef}
+        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}
+        >
+           {(user.messages.length == 0) ? 
+           <Text 
+           style={styles.bar}>
+            New message
+            </Text> 
+           : user.messages.map((msg) => (
+           <>
+           {((msg.split("\n").slice(-1)[0].split(":").join("") - (((h >= 10)? h : "0" + h) +""+((m >= 10)? m : "0" + m))) > 0) || ((msg.split("\n").slice(-1)[0].split(":").join("") - (((h >= 10)? h : "0" + h) +":"+((m >= 10)? m : "0" + m))) < -10) ? <Text 
+           style={styles.bar}>
+            {msg.split("\n").slice(-1)[0]}
+            </Text>:null }
             <View style={styles.message_box}>
               {/* other one  */}
               {msg.split(":")[0] !== "me" ? (
@@ -64,85 +92,75 @@ function ChatScreen({ route, navigation }) {
                     </View>
                   </View>
                 </>
-              )}
+              )} 
+              
             </View>
+           </> 
           ))}
         </ScrollView>
       </View>
 
       <View style={{flex:1, padding:10}}>
-        <TypeInBox currMsg={user.messages}/>
-      </View>
-    </SafeAreaView>
-  );
-}
-
-
-function sender(msg, setMsg, currMsg){
-  var hour = new Date().getHours();
-  var min = new Date().getMinutes();
-  return (
-    console.log("sent " + msg.message ),
-    currMsg.push("me:"+msg.message+"\n"+hour +":"+min),
-    setMsg({message: ""}),
-    console.log(currMsg)
-  )
-}
-
-function TypeInBox(props) {
-
-  const {currMsg} = props;
-  const [number, onChangeText] = React.useState("");
-  const [contentHeight, setContentHeight] = React.useState({ height: 90 });
-  // this.state = {msg :""};
-  const [msg, setMsg] = React.useState({ message: "" });
-  // this.onContentSizeChange = this.onContentSizeChange.bind(this);
-  // console.log("outside "+typeof(contentHeight));
-  return (
-    <View style={{flexDirection:"row", alignItems:"center", }}>
-      <View style={{flex:5}}>
+      <View style={{flexDirection:"row", alignItems:"center", }}>
+      <View style={{
+          flex: 5,
+          margin: 5,
+          height: contentHeight.height,
+          paddingLeft: 30,
+          paddingRight: 30,
+          paddingTop: 5,
+          paddingBotton: 20,
+          borderRadius: 30,
+          borderWidth:10,
+          borderColor: "#F1F1F1",
+          backgroundColor: "#F1F1F1",
+          selectionColor: "#F1F1F1",
+        }}>
       <TextInput
-        style={styles.input}
-        onChangeText={onChangeText}
+        style={{
+          height: contentHeight.height - 30,
+          borderColor: "#F1F1F1",
+          backgroundColor: "#F1F1F1",
+          selectionColor: "#F1F1F1",
+        }}
         placeholder="Type Something..."
         keyboardType="default"
-        returnKeyType="send"
+        blurOnSubmit={true}
+        returnKeyType="blur"
+        multiline
         value={msg.message}
-        onKeyPress={(e) => {
-            if(e.nativeEvent.key == 'Enter'){
-              sender(msg, setMsg, currMsg)
-            }
-          }
-        }
         onContentSizeChange={(e) => {
-          let inputH = Math.max(e.nativeEvent.contentSize, 60);
-          if (inputH > 100) inputH = 100;
-          // console.log("inside "+typeof(inputH));
-          setContentHeight(contentHeight + inputH);
+          let inputH = Math.max(e.nativeEvent.contentSize.height+43, 60);
+          if (inputH > 83) inputH = 83;
+          
+          setContentHeight({height: inputH});
         }}
         onChangeText={(text) => {
-          setMsg({message: text})
+          ((text.length > 0 && text[-1] != "\n") ? setMsg({message: text}): null)
           }
         }
         
       />
     </View>
+    <TouchableHighlight
+          activeOpacity={0.6}
+          color="#247DCF"
+          onPress={() => {
+            ((msg.message != "") ? sender(msg, setMsg, user.messages) : null)
+          }
+          }
+          style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
+          >
     <View style={{
-      flex:1, 
+      
       backgroundColor:"#F1F1F1",
       padding: 20,
       borderRadius: 30,
-      height: "80%",
+      height: "100%",
       alignItems: "center",
       flexDirection:"column",
       }}>
-          <TouchableOpacity
-          onPress={() => {
-            sender(msg, setMsg, currMsg)
-          }
-          }
-          style={{ width: "100%", height: "100%" }}
-          >
+          
           <Svg 
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="0 0 320 512"
@@ -155,28 +173,32 @@ function TypeInBox(props) {
             fillRule="evenodd"
             />
           </Svg>
-          </TouchableOpacity>
+          
     </View>
+    </TouchableHighlight>
     </View>
-    
+      </View>
+    </SafeAreaView>
   );
 }
 
 
+function sender(msg, setMsg, currMsg){
+  var hour = new Date().getHours();
+  var min = new Date().getMinutes();
+  
+  currMsg.push("me:"
+  +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
+  + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
+  console.log(currMsg),
+  setMsg({message: ""})
+}
+
 const styles = StyleSheet.create({
-  input: {
-    margin: 5,
-    height: 60,
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingTop: 0,
-    paddingBotton: 20,
-    borderRadius: 30,
-    borderWidth:10,
-    borderColor: "#F1F1F1",
-    backgroundColor: "#F1F1F1",
-    selectionColor: "#F1F1F1",
-  },
+  bar: {
+    color:"#B9B9B9",
+    textAlign:"center"
+ },
   root: {
     width: "100%",
     flex: 1,
@@ -260,7 +282,7 @@ const styles = StyleSheet.create({
   message_self: {
     fontWeight: "300",
     fontSize: 14,
-    textAlign: "right",
+    textAlign: "left",
     lineHeight: 20,
     margin: 10,
     borderRadius: 20,

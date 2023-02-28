@@ -26,15 +26,15 @@ function MainStackNavigator() {
           animationEnabled: false,
         }}
       >
-        <Stack.Screen name="Likes" component={LikesScreen} />
+        <Stack.Screen name="Matches" component={MatchesScreen} />
         <Stack.Screen name="InitScreen" component={InitScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="SigninScreen" component={SigninScreen} />
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="Matches" component={MatchesScreen} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
         
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Likes" component={LikesScreen} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
