@@ -32,6 +32,10 @@ const MainStackNavigator = () => {
       >
         {user ? (
           <>
+            <Stack.Screen
+              name="CreateProfileScreen"
+              component={CreateProfileScreen}
+            ></Stack.Screen>
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="Matches" component={MatchesScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
