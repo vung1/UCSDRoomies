@@ -17,13 +17,16 @@ const CreateProfileScreen = () => {
       <Text>Step 1: Upload a Profile Picture</Text>
       <TextInput placeholder="Enter a profile picture URL" />
 
-      <Text>Step 2: The Age</Text>
+      <Text>Step 2: The Bio</Text>
+      <TextInput placeholder="Write a short bio about yourself" />
+
+      <Text>Step 3: The Age</Text>
       <TextInput placeholder="Enter your age" />
 
-      <Text>Step 3: The Major</Text>
+      <Text>Step 4: The Major</Text>
       <TextInput placeholder="Enter your major" />
 
-      <Text>Step 4: The Hobbies</Text>
+      <Text>Step 5: The Hobbies</Text>
       <TextInput placeholder="Enter your interests" />
     </View>
   );
