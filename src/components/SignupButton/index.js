@@ -42,14 +42,14 @@ function SignupButton(props) {
         error = true;
       }
     }
+    // Show error messages if previous errors occur
     if (error) {
       showMessages(emailMsg, passwordMsg, repasswordMsg)
-    } else {
-      //
-      // TODO: Save the acount and navigate to profile page
-      //
-      register(state, navigation)
-      // navigation.navigate("HomeScreen","HomeScreen")
+    } 
+    // If no error occurs on user inputs,
+    // Check if account is already exists & register the user
+    else {
+      register(state, showMessages, navigation)
     }
   } 
 

@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         .finally(() => setLoading(false));
     }
 
-    const logIn = (state) => {
+    const logIn = (state, showMessages) => {
         setLoading(true);
 
         signInWithEmailAndPassword(auth, state.email, state.password)
@@ -46,11 +46,14 @@ export const AuthProvider = ({ children }) => {
                 return Promise.reject();
             }
         })
-        .catch((error) => setError(error))
+        .catch((error) => {
+            setError(error);
+            showMessages('', 'Your email and password do not match');
+        })
         .finally(() => setLoading(false));
     }
 
-    const register = (state, navigation) => {
+    const register = (state, showMessages, navigation) => {
         setLoading(true);
 
         createUserWithEmailAndPassword(auth, state.email, state.password)
@@ -59,7 +62,10 @@ export const AuthProvider = ({ children }) => {
             console.log("Registered with:", user.email);
             navigation.navigate("ModelScreen","ModelScreen");
         })
-        .catch((error) => setError(error))
+        .catch((error) => {
+            setError(error);
+            showMessages('Account already exists', '', '')
+        })
         .finally(() => setLoading(false));
     }
 
