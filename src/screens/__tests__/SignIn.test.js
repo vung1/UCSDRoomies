@@ -34,7 +34,7 @@ it("shows enter your email", async () => {
 
 it("email does not end in @ucsd.edu", async () => {
   const { getByTestId, getByText, queryByText,} = render(<SigninScreen />);
-
+  
   await waitFor(() => {
     fireEvent.changeText(getByTestId("Signin.Email"),"email@yahoo.com");
     fireEvent.press(getByTestId("Signin.Button"));

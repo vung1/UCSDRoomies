@@ -1,24 +1,13 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { auth } from "../../../firebase";
+import useAuth from "../../hooks/useAuth";
 
 function SigninButton(props) {
 
   const { navigation, screenCurr, state} = props;
   const [message, setState] =  React.useState('')
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
-  
-  const handleLogin = () => {
-    // Try to login the user
-    signInWithEmailAndPassword(auth, state.email, state.password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        navigation.navigate("HomeScreen");
-        console.log("Logged in with:", user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
+  const { logIn, loading } = useAuth();
 
   return (
     <View> 
@@ -36,8 +25,8 @@ function SigninButton(props) {
           setState("* Please enter your password") :
           // TODO: Check validation, if profile is completed go to homepage, 
           // else go to profile page
-          // navigation.navigate("HomeScreen","HomeScreen")
-          console.log(state)
+          logIn(state)
+          // console.log(state)
         }}
         activeOpacity={0.8}
         style={styles.buttonContainer}
