@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TextInput } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { useTailwind } from "tailwind-rn";
 
 const CreateProfileScreen = () => {
@@ -28,6 +28,10 @@ const CreateProfileScreen = () => {
 
       <Text>Step 5: The Hobbies</Text>
       <TextInput placeholder="Enter your interests" />
+
+      <TouchableOpacity style={tailwind("")}>
+        <Text syle={tailwind("black")}>Create Profile</Text>
+      </TouchableOpacity>
     </View>
   );
 };
