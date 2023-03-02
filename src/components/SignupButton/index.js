@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import useAuth from "../../hooks/useAuth";
 
 function SignupButton(props) {
 
   const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+  const { register, loading } = useAuth();
 
   var emailMsg = '';
   var passwordMsg = '';
@@ -46,13 +48,14 @@ function SignupButton(props) {
       //
       // TODO: Save the acount and navigate to profile page
       //
+      register(state, navigation)
       // navigation.navigate("HomeScreen","HomeScreen")
     }
   } 
 
   return (
     <View> 
-      <TouchableOpacity
+      <TouchableOpacity {...props}
         onPress={() => {
           screenCurr == "LoginScreen" ? 
           navigation.navigate("SignupScreen","SignupScreen") :

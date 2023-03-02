@@ -55,6 +55,7 @@ function SigninScreen({ navigation }) {
       {/* Signin field for email */}
       <View style={[styles.inputFieldContainer, {borderWidth: emialInputBorder}]}>
         <TextInput
+          testID="Signin.Email"
           style={styles.textInput}
           placeholder="UCSD Email"
           keyboardType="default"
@@ -89,6 +90,7 @@ function SigninScreen({ navigation }) {
       <View style={styles.buttonContainer}>
         {/* <Text style={styles.errorMsg}>{message}</Text> */}
         <SigninButton 
+          testID="Signin.Button"
           navigation={navigation}
           screenCurr="SigninScreen"
           state={state}

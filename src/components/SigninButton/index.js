@@ -1,12 +1,14 @@
 import React from "react";
 import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase";
+import useAuth from "../../hooks/useAuth";
 
 function SigninButton(props) {
 
   const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+  
+   const { logIn, loading } = useAuth();
 
   var emailMsg = '';
   var passwordMsg = '';
@@ -32,23 +34,12 @@ function SigninButton(props) {
       showMessages(emailMsg, passwordMsg);
     } else {
       // Try to login the user
-      signInWithEmailAndPassword(auth, state.email, state.password)
-      // Successfully login, navigate to HomeScreen
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        navigation.navigate("HomeScreen");
-        console.log("Logged in with:", user.email);
-      })
-      // Email and password do not match, send error message
-      .catch(() => {
-        passwordMsg = "Your email or password is incorrect";
-        showMessages(emailMsg, passwordMsg);
-      });
+      logIn(state)
     }
   };
 
   return (
-    <TouchableOpacity
+    <TouchableOpacity {...props}
       onPress={() => {
         screenCurr == "LoginScreen" ? 
         navigation.navigate("SigninScreen","SigninScreen") : 

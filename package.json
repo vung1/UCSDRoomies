@@ -31,6 +31,7 @@
     "expo-linear-gradient": "^12.0.1",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
+    "moment": "^2.29.4",
     "firebase": "^9.17.1",
     "jest": "^26.6.3",
     "nativewind": "^2.0.11",
@@ -47,6 +48,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-wind": "^1.2.0",
     "react-navigation-stack": "^2.10.4",
+    "react-test-renderer": "18.1.0",
     "tailwind": "^4.0.0",
     "tailwind-rn": "^4.2.0"
   },
@@ -82,7 +84,7 @@
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|@react-native|native-base|(?!@ngrx|(?!deck.gl)|ng-dynamic)|@expo-google-fonts/|@sentry/.*)"
     ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"

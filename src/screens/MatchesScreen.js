@@ -11,20 +11,16 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import users from "../../assets/data/users";
 import BackArrow from "../components/BackArrow";
+import IconMenu from "../components/IconMenu";
 
 function MatchesScreen({ navigation }) {
   return (
-    <SafeAreaView style={styles.ver_container}>
+    <View style={styles.ver_container}>
+      <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
-          <BackArrow
-            navigation={navigation}
-            screen="HomeScreen"
-            screenName="HomeScreen"
-          />
           <Text
             style={{
-              fontWeight: "bold",
               fontSize: 24,
               color: "#247DCF",
               marginLeft: 20,
@@ -50,10 +46,9 @@ function MatchesScreen({ navigation }) {
             {users.map((user) =>
               user.messages ? (
                 <TouchableOpacity
-                  onPress={() =>
+                onPress={() =>
                     navigation.navigate("Chat", {
-                      user,
-                      screen: "Profile",
+                      user
                     })
                   }
                 >
@@ -83,7 +78,13 @@ function MatchesScreen({ navigation }) {
           </View>
         </ScrollView>
       </View>
-    </SafeAreaView>
+      </SafeAreaView>
+      
+      <IconMenu 
+        navigation={navigation}
+        screenCurr="MatchesScreen"
+        />
+    </View>
   );
 }
 
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   ver_container: {
-    padding: 10,
+    // padding: 10,
     flexDirection: "column",
     flex: 1,
     backgroundColor: "#FFFFFF",
