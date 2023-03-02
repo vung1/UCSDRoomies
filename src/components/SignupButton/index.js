@@ -12,15 +12,15 @@ function SignupButton(props) {
   return (
     <View> 
       <Text style={styles.errorMsg}>{message}</Text>
-      <TouchableOpacity
+      <TouchableOpacity {...props}
         onPress={() => {
           setState("");
           screenCurr == "LoginScreen" ? 
           navigation.navigate("SignupScreen","SignupScreen") :
           state.email == "" ?
-          setState("* Please enter your UCSD emial") :
+          setState("* Please enter your UCSD email") :
           reg.test(state.email) != true ?
-          setState("* Please enter your UCSD emial in right format") :
+          setState("* Please enter your UCSD email in right format") :
           // TODO: Check if the email is exist in database
           // if in database?
           // setState("* Account already exists") :

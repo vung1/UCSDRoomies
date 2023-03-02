@@ -25,40 +25,39 @@ it("renders default elements", async () => {
 
 it("shows enter your email", async () => {
   const { getByTestId, getByText } = render(<SigninScreen />);
-
-  fireEvent.press(getByTestId("Signin.Button"));
-
-  getByText("* Please enter your email");
+  
+  await waitFor(() => {
+    fireEvent.press(getByTestId("Signin.Button"));
+    getByText("* Please enter your email");
+  });
 });
 
 it("email does not end in @ucsd.edu", async () => {
   const { getByTestId, getByText, queryByText,} = render(<SigninScreen />);
-
-  await waitFor(() => {fireEvent.changeText(getByTestId("Signin.Email"),"email@yahoo.com")});
-
-  fireEvent.press(getByTestId("Signin.Button"));
-
-  getByText("* Please enter your UCSD email in right format");
-
+  
+  await waitFor(() => {
+    fireEvent.changeText(getByTestId("Signin.Email"),"email@yahoo.com");
+    fireEvent.press(getByTestId("Signin.Button"));
+    getByText("* Please enter your UCSD email in right format");
+  });
 });
 
 it("email does not have stuff before @ucsd.edu", async () => {
   const { getByTestId, getByText, queryByText,} = render(<SigninScreen />);
 
-  await waitFor(() => {fireEvent.changeText(getByTestId("Signin.Email"),"@ucsd.edu")});
-
+  await waitFor(() => {
+  fireEvent.changeText(getByTestId("Signin.Email"),"@ucsd.edu");
   fireEvent.press(getByTestId("Signin.Button"));
-
   getByText("* Please enter your UCSD email in right format");
-
+  });
 });
 
 it("email is filled, but password is not", async () => {
   const { getByTestId, getByText, queryByText,} = render(<SigninScreen />);
 
-  await waitFor(() => {fireEvent.changeText(getByTestId("Signin.Email"),"test@ucsd.edu")});
-  fireEvent.press(getByTestId("Signin.Button"));
-
-  getByText("* Please enter your password");
-
+  await waitFor(() => {
+    fireEvent.changeText(getByTestId("Signin.Email"),"test@ucsd.edu");
+    fireEvent.press(getByTestId("Signin.Button"));
+    getByText("* Please enter your password");
+  });
 });
