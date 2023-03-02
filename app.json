@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "UCSDRoomies",
-    "slug": "UCSDRoomies",
+    "name": "UCSD Roomies",
+    "slug": "ucsd-roomies",
+    "description": "An app to find housing for UCSD students.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/appLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
