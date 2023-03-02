@@ -3,6 +3,7 @@ import React from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CreateProfileScreen from "../screens/CreateProfileScreen";
 import InitScreen from "../screens/InitScreen";
 import LoginScreen from "../screens/LoginScreen";
 import HomeScreen from "../screens/HomeScreen";
@@ -40,6 +41,10 @@ const MainStackNavigator = () => {
           </>
         ) : (
           <>
+            <Stack.Screen
+              name="CreateProfileScreen"
+              component={CreateProfileScreen}
+            ></Stack.Screen>
             <Stack.Screen name="InitScreen" component={InitScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
             <Stack.Screen name="SigninScreen" component={SigninScreen} />
@@ -49,6 +54,6 @@ const MainStackNavigator = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default MainStackNavigator;
