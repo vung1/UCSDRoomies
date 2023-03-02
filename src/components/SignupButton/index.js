@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white",
     flexDirection: "row",
+    borderColor: "red",
   },
   buttonText: {
     fontWeight: "bold",

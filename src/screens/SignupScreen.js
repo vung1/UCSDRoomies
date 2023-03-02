@@ -14,6 +14,10 @@ function SignupScreen({navigation}) {
     repassword: '',
   });
 
+  const [emialInputBorder, setEmailInputBorder] =  React.useState(0)
+  const [passwordInputBorder, setPasswordInputBorder] =  React.useState(0)
+  const [repasswordInputBorder, setRepasswordInputBorder] =  React.useState(0)
+
   const [emailErrorMsg, setEmailMsg] =  React.useState('')
   const [passwordErrorMsg, setPasswordMsg] =  React.useState('')
   const [repasswordErrorMsg, setRePasswordMsg] =  React.useState('')
@@ -22,6 +26,9 @@ function SignupScreen({navigation}) {
     setEmailMsg(emailMsg);
     setPasswordMsg(passwordMsg);
     setRePasswordMsg(repasswordMsg);
+    emailMsg == '' ? setEmailInputBorder(0) : setEmailInputBorder(2);
+    passwordMsg == '' ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
+    repasswordMsg == '' ? setRepasswordInputBorder(0) : setRepasswordInputBorder(2);
   };
 
   return (
@@ -43,7 +50,7 @@ function SignupScreen({navigation}) {
       </View>
 
       {/* Sign up field for email */}
-      <View style={styles.loginFieldContainer}>
+      <View style={[styles.inputFieldContainer, {borderWidth: emialInputBorder}]}>
         <TextInput
           style={styles.textInput}
           placeholder="UCSD Email"
@@ -60,7 +67,7 @@ function SignupScreen({navigation}) {
       <Text style={styles.errorMsg}>{emailErrorMsg}</Text>
 
       {/* Sign up field for password */}
-      <View style={styles.loginFieldContainer}>
+      <View style={[styles.inputFieldContainer, {borderWidth: passwordInputBorder}]}>
         <TextInput
           style={styles.textInput}
           placeholder="Password"
@@ -78,7 +85,7 @@ function SignupScreen({navigation}) {
       <Text style={styles.errorMsg}>{passwordErrorMsg}</Text>
 
       {/* Sign up field for confirm password */}
-      <View style={styles.loginFieldContainer}>
+      <View style={[styles.inputFieldContainer, {borderWidth: repasswordInputBorder}]}>
         <TextInput
           style={styles.textInput}
           placeholder="Confirm Password"
@@ -96,7 +103,7 @@ function SignupScreen({navigation}) {
       <Text style={styles.errorMsg}>{repasswordErrorMsg}</Text>
 
       {/* Signin button */}
-      <View style={styles.loginButtonContainer}>
+      <View style={styles.buttonContainer}>
         <SignupButton 
           navigation={navigation}
           screenCurr="SignupScreen"
@@ -124,11 +131,12 @@ const styles = StyleSheet.create({
     marginTop: "30%",
     marginBottom: "10%",
   },
-  loginFieldContainer: {
+  inputFieldContainer: {
     marginTop: "3%",
     width: "75%",
     height: 42,
     borderRadius: 21,
+    borderColor: 'red',
     backgroundColor: "white",
     alignItems: "center",
   },
@@ -144,7 +152,7 @@ const styles = StyleSheet.create({
     left:0, 
     width: "70%",
   },
-  loginButtonContainer: {
+  buttonContainer: {
     marginTop: "10%",
     width: "75%",
   },

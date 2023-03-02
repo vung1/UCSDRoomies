@@ -1,13 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, Text, TextInput, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { auth } from "../../firebase";
 
 import LoginLogo from "../components/LoginLogo";
 import SigninButton from "../components/SigninButton";
@@ -15,13 +8,13 @@ import BackArrow from "../components/BackArrow";
 
 function SigninScreen({ navigation }) {
   
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
   const [state, setState] =  React.useState({
     email: '',
     password: '',
   });
+
+  const [emialInputBorder, setEmailInputBorder] =  React.useState(0)
+  const [passwordInputBorder, setPasswordInputBorder] =  React.useState(0)
 
   const [emailErrorMsg, setEmailMsg] =  React.useState('')
   const [passwordErrorMsg, setPasswordMsg] =  React.useState('')
@@ -29,6 +22,8 @@ function SigninScreen({ navigation }) {
   const showMessages = (emailMsg, passwordMsg) => {
     setEmailMsg(emailMsg);
     setPasswordMsg(passwordMsg);
+    emailMsg == '' ? setEmailInputBorder(0) : setEmailInputBorder(2);
+    passwordMsg == '' ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
   };
 
   // navigate to home screen only if the auth state changed
@@ -57,8 +52,8 @@ function SigninScreen({ navigation }) {
         <LoginLogo />
       </View>
 
-      {/* Signin field */}
-      <View style={styles.loginFieldContainer}>
+      {/* Signin field for email */}
+      <View style={[styles.inputFieldContainer, {borderWidth: emialInputBorder}]}>
         <TextInput
           style={styles.textInput}
           placeholder="UCSD Email"
@@ -73,8 +68,8 @@ function SigninScreen({ navigation }) {
       </View>
       <Text style={styles.errorMsg}>{emailErrorMsg}</Text>
 
-      {/* Login field for email */}
-      <View style={styles.loginFieldContainer}>
+      {/* Signin field for password */}
+      <View style={[styles.inputFieldContainer, {borderWidth: passwordInputBorder}]}>
         <TextInput
           style={styles.textInput}
           placeholder="Password"
@@ -91,7 +86,7 @@ function SigninScreen({ navigation }) {
       <Text style={styles.errorMsg}>{passwordErrorMsg}</Text>
 
       {/* Signin button */}
-      <View style={styles.loginButtonContainer}>
+      <View style={styles.buttonContainer}>
         {/* <Text style={styles.errorMsg}>{message}</Text> */}
         <SigninButton 
           navigation={navigation}
@@ -119,14 +114,14 @@ const styles = StyleSheet.create({
     marginTop: "30%",
     marginBottom: "10%",
   },
-  loginFieldContainer: {
+  inputFieldContainer: {
     marginTop: "3%",
     width: "75%",
     height: 42,
     borderRadius: 21,
+    borderColor: "red",
     backgroundColor: "white",
     alignItems: "center",
-    borderColor: "red",
   },
   textInput: {
     height: "100%",
@@ -140,7 +135,7 @@ const styles = StyleSheet.create({
     left:0, 
     width: "70%",
   },
-  loginButtonContainer: {
+  buttonContainer: {
     marginTop: "10%",
     width: "75%",
   },

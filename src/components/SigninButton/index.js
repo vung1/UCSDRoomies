@@ -29,7 +29,6 @@ function SigninButton(props) {
     }
     // Show error messages if previous errors occur
     if (error) {
-      console.log(emailMsg)
       showMessages(emailMsg, passwordMsg);
     } else {
       // Try to login the user
