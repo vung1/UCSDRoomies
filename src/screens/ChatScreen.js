@@ -17,9 +17,15 @@ function ChatScreen({ route, navigation }) {
     }, 2000);
   }, []);
   const scrollViewRef = useRef();
-  const myInput = useRef();
-  var h = new Date().getHours();
-  var m = new Date().getMinutes();
+  var prevTime = 0;
+
+  function currentTimeLag(msg){
+    var time = msg.split("\n").slice(-1)[0].split(":").join("");
+    var lag = prevTime - time;
+    console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
+    prevTime = time;
+    return lag > 0 || lag < -10;
+  }
 
   return (
     <SafeAreaView style={styles.ver_container}>
@@ -53,10 +59,10 @@ function ChatScreen({ route, navigation }) {
             </Text> 
            : user.messages.map((msg) => (
            <>
-           {((msg.split("\n").slice(-1)[0].split(":").join("") - (((h >= 10)? h : "0" + h) +""+((m >= 10)? m : "0" + m))) > 0) || ((msg.split("\n").slice(-1)[0].split(":").join("") - (((h >= 10)? h : "0" + h) +":"+((m >= 10)? m : "0" + m))) < -10) ? <Text 
-           style={styles.bar}>
+           { (currentTimeLag(msg)) ? 
+           <Text style={styles.bar}>
             {msg.split("\n").slice(-1)[0]}
-            </Text>:null }
+            </Text>:<Text style={styles.bar}></Text> }
             <View style={styles.message_box}>
               {/* other one  */}
               {msg.split(":")[0] !== "me" ? (
@@ -181,7 +187,6 @@ function ChatScreen({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
 
 function sender(msg, setMsg, currMsg){
   var hour = new Date().getHours();
