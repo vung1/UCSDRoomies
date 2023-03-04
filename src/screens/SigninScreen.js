@@ -26,16 +26,6 @@ function SigninScreen({ navigation }) {
     passwordMsg == '' ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
   };
 
-  // navigate to home screen only if the auth state changed
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((user) => {
-  //     if (user) {
-  //       navigation.navigate("HomeScreen");
-  //     }
-  //   });
-  //   return unsubscribe; // when leave this screen, will unsubscribe current listener
-  // }, []);
-
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
       {/* Back arrow to login screen */}

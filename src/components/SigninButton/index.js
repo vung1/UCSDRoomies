@@ -32,9 +32,11 @@ function SigninButton(props) {
     // Show error messages if previous errors occur
     if (error) {
       showMessages(emailMsg, passwordMsg);
-    } else {
-      // Try to login the user
-      logIn(state)
+    } 
+    // If no error occurs on user inputs,
+    // validate user email and password & log in the user
+    else {
+      logIn(state, showMessages)
     }
   };
 
