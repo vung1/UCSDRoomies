@@ -7,6 +7,7 @@ function BackArrow(props) {
   const { navigation, screen, screenName } = props;
   return (
     <TouchableOpacity
+      testID="BackButton"
       onPress={() =>
         navigation.navigate(screenName, {
           screen,

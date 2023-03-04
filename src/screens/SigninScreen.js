@@ -31,6 +31,7 @@ function SigninScreen({ navigation }) {
       {/* Back arrow to login screen */}
       <View style={styles.backArrow}>
         <BackArrow
+          testID="Signin.Back"
           navigation={navigation}
           screen="LoginScreen"
           screenName="LoginScreen"

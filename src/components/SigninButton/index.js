@@ -42,6 +42,7 @@ function SigninButton(props) {
 
   return (
     <TouchableOpacity {...props}
+      testID="Signin.Button"
       onPress={() => {
         screenCurr == "LoginScreen" ? 
         navigation.navigate("SigninScreen","SigninScreen") : 
