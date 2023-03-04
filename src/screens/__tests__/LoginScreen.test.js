@@ -44,3 +44,15 @@ it('should go to SignIn screen when tapped', async () => {
     expect(navigation.navigate).toHaveBeenCalledWith("SigninScreen","SigninScreen");
 });
 
+it('should go to SignUp screen when tapped', async () => {
+    const navigation = {navigate: () => {}};
+    spyOn(navigation, 'navigate');
+    // render your component
+    const page = render(<LoginScreen navigation = {navigation}/>);
+    // access your button
+    const button = page.getByTestId('Signup.Button');
+    // simulate button click
+    fireEvent.press(button); 
+    // expect result
+    expect(navigation.navigate).toHaveBeenCalledWith("SignupScreen","SignupScreen");
+});

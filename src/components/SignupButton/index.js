@@ -13,6 +13,7 @@ function SignupButton(props) {
     <View> 
       <Text style={styles.errorMsg}>{message}</Text>
       <TouchableOpacity {...props}
+        testID="Signup.Button"
         onPress={() => {
           setState("");
           screenCurr == "LoginScreen" ? 

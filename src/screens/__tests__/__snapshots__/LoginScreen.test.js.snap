@@ -132,6 +132,7 @@ exports[`renders correctly 1`] = `
             "width": "100%",
           }
         }
+        testID="Signup.Button"
       >
         <Image
           source={1}

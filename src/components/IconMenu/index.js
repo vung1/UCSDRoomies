@@ -11,6 +11,7 @@ function IconMenu(props) {
   return (
     <View style={styles.menuContainer}>
       <TouchableOpacity
+        testID="homeIcon"
         onPress={() => {screenCurr != "HomeScreen" ? navigation.navigate("HomeScreen",
           "HomeScreen"
         ) : console.log("stay")}}
@@ -21,6 +22,7 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="likesIcon"
         onPress={() => {screenCurr != "LikesScreen" ? navigation.navigate("Likes",
         "LikesScreen"
        ) : console.log("stay")}}
@@ -31,6 +33,7 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
+        testID="matchesIcon"
         onPress={() => {screenCurr != "MatchesScreen" ? navigation.navigate("Matches",
          "MatchesScreen"
         ) : console.log("stay")}}
@@ -41,6 +44,7 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
+      testID="profileIcon"
       onPress={() => {screenCurr != "ProfileScreen" ? navigation.navigate("ProfileScreen",
           "ProfileScreen"
         ) : console.log("user")}}
