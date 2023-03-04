@@ -1,24 +1,23 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 import LoginLogo from "../components/LoginLogo";
 
 function InitScreen({navigation}) {
+
+  setTimeout(()=>{
+    navigation.navigate("LoginScreen", "LoginScreen")
+  }, 1000);
+
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate("LoginScreen",
-      "LoginScreen"
-     )}
-      activeOpacity={1}
-      style={styles.background}
-    >
+    <View style={styles.background}>
       <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
         <View style={styles.logoContainer}>
           <LoginLogo />
         </View>
       </LinearGradient>
-    </TouchableOpacity>
+    </View>
   );
 }
 const styles = StyleSheet.create({

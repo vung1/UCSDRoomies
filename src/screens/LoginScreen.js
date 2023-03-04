@@ -18,11 +18,14 @@ function LoginScreen({ navigation }) {
           navigation={navigation}
           screenCurr="LoginScreen"
           state={{}}
+          showMessages={{}}
         />
+        <View style={{marginTop: "7%"}}></View>
         <SignupButton 
           navigation={navigation}
           screenCurr="LoginScreen"
           state={{}}
+          showMessages={{}}
         />
       </View>
 
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   textContainer: {
-    marginTop: "10%",
+    marginTop: "8%",
   },
   agreementText: {
     fontSize: 13,

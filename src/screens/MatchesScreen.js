@@ -32,10 +32,18 @@ function MatchesScreen({ navigation }) {
         <ScrollView style={styles.scrollView} horizontal>
           <View style={styles.users}>
             {users.map((user) => (
-              <View style={styles.user} key={user.id}>
+              <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Chat", {
+                  user
+                })
+              }
+              >
+                <View style={styles.user} key={user.id}>
                 <Image source={{ uri: user.image }} style={styles.simp_image} />
                 <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
               </View>
+                </TouchableOpacity>
             ))}
           </View>
         </ScrollView>
@@ -44,7 +52,7 @@ function MatchesScreen({ navigation }) {
         <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
             {users.map((user) =>
-              user.messages ? (
+              (user.messages.length!=0) ? (
                 <TouchableOpacity
                 onPress={() =>
                     navigation.navigate("Chat", {
