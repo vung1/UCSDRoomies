@@ -65,7 +65,7 @@ const ProfileScreen = ({navigation}) => {
     )
   }
 // Lease
-  const Video = () => {
+  const Apartment = () => {
     return(
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -149,7 +149,7 @@ const ProfileScreen = ({navigation}) => {
 
         </Tab.Screen>
         {/* <MaterialIcons name="more-vert" size={23} color={colors.secondary} /> */}
-        <Tab.Screen name = "Video " component={Video}
+        <Tab.Screen name = "Apartment " component={Apartment}
         
         options={{
           tabBarIcon: ({color, size}) => {
