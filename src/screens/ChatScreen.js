@@ -4,9 +4,15 @@ import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
+import { db, auth } from "../../firebase";
+import { doc, getDoc, onSnapshot, setDoc, serverTimestamp } from "@firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import useAuth from "../hooks/useAuth";
+import firebase from "firebase/compat/app";
 
 function ChatScreen({ route, navigation }) {
   const { user } = route.params;
+  // const { firebase_user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [contentHeight, setContentHeight] = React.useState({ height: 90 });
   const [msg, setMsg] = React.useState({ message: "" });
@@ -19,18 +25,74 @@ function ChatScreen({ route, navigation }) {
   const scrollViewRef = useRef();
   var prevTime = 0;
 
+  // useEffect(() => {
+  //   let unsub;
+
+  //   const fetchCards = async () => {
+
+  //   };
+
+  //   fetchCards();
+  //   return unsub;
+  // }, [db]);
+
+  async function sender(msg, setMsg, currMsg){
+    var hour = new Date().getHours();
+    var min = new Date().getMinutes();
+    
+    currMsg.push("me:"
+    +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
+    + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
+    console.log(currMsg),
+    setMsg({message: ""})
+
+    // intergrate with firebase
+    const docRef = doc(db, "message_for_all", "all_messages");
+    const docSnap = await getDoc(docRef);
+    const timestamp = ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min);
+
+    if (docSnap.exists()) {
+      const firebase_messages_list = docSnap.data();
+      console.log("Document data:", firebase_messages_list);
+
+      const key = auth.currentUser.uid + "_" + user.id;
+      const value = auth.currentUser.uid + ":" + msg.message + "\n" + timestamp; // TODO: should change to server time serverTimestamp();
+
+      // get messages from firebase
+      let curr_user_messages = firebase_messages_list[key];
+      console.log(key);
+      // console.log("current user messages history:", curr_user_messages);
+
+      // set messages to firebase
+      curr_user_messages.push(value);
+      // console.log("updated user messages history:", curr_user_messages);
+
+      const docData = {
+        [key]: curr_user_messages, 
+      };
+      await setDoc(doc(db, "message_for_all", "all_messages"), docData);
+
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
   function currentTimeLag(msg){
     var time = msg.split("\n").slice(-1)[0].split(":").join("");
     var lag = prevTime - time;
     console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
     prevTime = time;
     return lag > 0 || lag < -10;
-  }
+  };
 
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
+
+          <Button title="submit" onPress={SetUserProfile}/>
+
           <BackArrow
             navigation={navigation}
             screen="MatchesScreen"
@@ -186,17 +248,6 @@ function ChatScreen({ route, navigation }) {
       </View>
     </SafeAreaView>
   );
-}
-
-function sender(msg, setMsg, currMsg){
-  var hour = new Date().getHours();
-  var min = new Date().getMinutes();
-  
-  currMsg.push("me:"
-  +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
-  + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
-  console.log(currMsg),
-  setMsg({message: ""})
 }
 
 const styles = StyleSheet.create({
