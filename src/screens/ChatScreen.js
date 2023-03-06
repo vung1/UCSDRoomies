@@ -5,7 +5,7 @@ import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
 import { db, auth } from "../../firebase";
-import { doc, getDoc, onSnapshot, setDoc, serverTimestamp } from "@firebase/firestore";
+import { doc, getDoc, getDocs, onSnapshot, setDoc, serverTimestamp, collection } from "@firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import useAuth from "../hooks/useAuth";
 import firebase from "firebase/compat/app";
@@ -25,17 +25,6 @@ function ChatScreen({ route, navigation }) {
   const scrollViewRef = useRef();
   var prevTime = 0;
 
-  // useEffect(() => {
-  //   let unsub;
-
-  //   const fetchCards = async () => {
-
-  //   };
-
-  //   fetchCards();
-  //   return unsub;
-  // }, [db]);
-
   async function sender(msg, setMsg, currMsg){
     var hour = new Date().getHours();
     var min = new Date().getMinutes();
@@ -47,23 +36,22 @@ function ChatScreen({ route, navigation }) {
     setMsg({message: ""})
 
     // intergrate with firebase
-    const docRef = doc(db, "message_for_all", "all_messages");
-    const docSnap = await getDoc(docRef);
+    const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
     const timestamp = ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min);
+    const value = auth.currentUser.uid + ":" + msg.message + "\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
     if (docSnap.exists()) {
       const firebase_messages_list = docSnap.data();
-      console.log("Document data:", firebase_messages_list);
+      // console.log("Document data:", firebase_messages_list);
 
       const key = auth.currentUser.uid + "_" + user.id;
-      const value = auth.currentUser.uid + ":" + msg.message + "\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
       // get messages from firebase
       let curr_user_messages = firebase_messages_list[key];
       console.log(key);
       // console.log("current user messages history:", curr_user_messages);
 
-      // set messages to firebase
+      // set messages to firebase message_for_all
       curr_user_messages.push(value);
       // console.log("updated user messages history:", curr_user_messages);
 
@@ -72,26 +60,41 @@ function ChatScreen({ route, navigation }) {
       };
       await setDoc(doc(db, "message_for_all", "all_messages"), docData);
 
+      // store messages to each user in firebase
+      db.collection("users").doc(auth.currentUser.uid).collection("messages").doc(user.id).set({ //auth.currentUser.uid, "messages").doc(user.id).set({
+        [auth.currentUser.uid]: curr_user_messages
+      }).then(function() {
+        // console.log("Frank food updated");
+      });
+
     } else {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
+
+    // await getDocs(collection(db, "users", auth.currentUser.uid, "messages")).then(
+    //   snapshot => snapshot.forEach(doc => { doc.data()
+        
+    //     const user_messages_list = doc.data();
+    //     console.log( user_messages_list );    
+
+    //     const key = user.id;
+    //   })
+    // );
   };
 
   function currentTimeLag(msg){
-    var time = msg.split("\n").slice(-1)[0].split(":").join("");
-    var lag = prevTime - time;
-    console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
-    prevTime = time;
-    return lag > 0 || lag < -10;
+    // var time = msg.split("\n").slice(-1)[0].split(":").join("");
+    // var lag = prevTime - time;
+    // console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
+    // prevTime = time;
+    // return lag > 0 || lag < -10;
   };
 
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
-
-          <Button title="submit" onPress={SetUserProfile}/>
 
           <BackArrow
             navigation={navigation}
