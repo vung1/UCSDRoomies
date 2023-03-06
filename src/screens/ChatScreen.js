@@ -4,6 +4,7 @@ import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
+import messages_for_all from "../../assets/data/messages_for_all";
 
 function ChatScreen({ route, navigation }) {
   const { user } = route.params;
@@ -18,11 +19,14 @@ function ChatScreen({ route, navigation }) {
   }, []);
   const scrollViewRef = useRef();
   var prevTime = 0;
+  const msg_id = (user.id < user_prof[0].id) ? user.id + ''+ user_prof[0].id : user_prof[0].id +""+user.id; 
+  var user_messages = messages_for_all[0][msg_id];
+  console.log(user_prof[0].id+" "+msg_id+' '+user_messages);
 
   function currentTimeLag(msg){
     var time = msg.split("\n").slice(-1)[0].split(":").join("");
     var lag = prevTime - time;
-    console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
+    // console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
     prevTime = time;
     return lag > 0 || lag < -10;
   }
@@ -52,12 +56,12 @@ function ChatScreen({ route, navigation }) {
         ref={scrollViewRef}
         onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}
         >
-           {(user.messages.length == 0) ? 
+           {(user_messages.length == 0) ? 
            <Text 
            style={styles.bar}>
             New message
             </Text> 
-           : user.messages.map((msg) => (
+           : user_messages.map((msg) => (
            <>
            { (currentTimeLag(msg)) ? 
            <Text style={styles.bar}>
@@ -65,7 +69,7 @@ function ChatScreen({ route, navigation }) {
             </Text>:<Text style={styles.bar}></Text> }
             <View style={styles.message_box}>
               {/* other one  */}
-              {msg.split(":")[0] !== "me" ? (
+              {msg.split(":")[0] != user_prof[0].id ? (
                 <>
                   <View style={styles.message_side}>
                     <View style={styles.user} key={user.id}>
@@ -76,7 +80,7 @@ function ChatScreen({ route, navigation }) {
                     </View>
                   </View>
                   <View style={styles.message_mid}>
-                    <Text style={styles.message}>{msg.split("\n")[0]}</Text>
+                    <Text style={styles.message}>{msg.split(":").slice(1).join(":").split("\n")[0]}</Text>
                   </View>
                   <View style={styles.message_side} />
                 </>
@@ -152,7 +156,7 @@ function ChatScreen({ route, navigation }) {
           activeOpacity={0.6}
           color="#247DCF"
           onPress={() => {
-            ((msg.message != "") ? sender(msg, setMsg, user.messages) : null)
+            ((msg.message != "") ? sender(msg, setMsg, user_messages) : null)
           }
           }
           style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
@@ -192,7 +196,7 @@ function sender(msg, setMsg, currMsg){
   var hour = new Date().getHours();
   var min = new Date().getMinutes();
   
-  currMsg.push("me:"
+  currMsg.push((user_prof[0].id + ":")
   +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
   + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
   console.log(currMsg),
