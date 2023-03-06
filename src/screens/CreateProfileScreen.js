@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useTailwind } from "tailwind-rn";
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { LinearGradient } from "expo-linear-gradient";
 
 import { db } from "../../firebase";
 import LoginLogo from "../components/LoginLogo";
@@ -38,7 +39,7 @@ function CreateProfileScreen({ navigation }) {
   };
 
   return (
-    <View style={tailwind("flex-1 items-center")}>
+    <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
       <LoginLogo />
       <Text style={tailwind("text-xl font-bold")}>Create Profile</Text>
       <Text>Step 1: Upload a Profile Picture</Text>
@@ -84,18 +85,35 @@ function CreateProfileScreen({ navigation }) {
         placeholder="Enter your major"
       />
 
-      <Text>Step 7: The Hobbies</Text>
+      <Text style={styles.ttext}>Step 7: The Hobbies</Text>
       <TextInput
         value={hobbies}
         onChangeText={(hobbiesText) => setHobbies(hobbiesText)}
         placeholder="Enter your interests"
       />
 
-      <TouchableOpacity disabled={incompleteForm} style={tailwind("")}>
-        <Text syle={tailwind("black")}>Create Profile</Text>
+      <TouchableOpacity disabled={incompleteForm} style={styles.button}>
+        <Text syle={tailwind("text-xl font-bold")}>Create Profile</Text>
       </TouchableOpacity>
-    </View>
+    </LinearGradient>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+  },
+  button: {
+    height: 40,
+    width: '60%',
+    borderRadius: 20,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '5%',
+  }
+});
 
 export default CreateProfileScreen;
