@@ -45,41 +45,41 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
-    const logIn = (state, showMessages, navigation) => {
-        setLoading(true);
+  const logIn = (state, showMessages, navigation) => {
+      setLoading(true);
 
-        signInWithEmailAndPassword(auth, state.email, state.password)
-        .then((userCredential) => {
-            if (userCredential) {
-                const user = userCredential.user;
-                console.log("Logged in with:", user.email);
-                navigation.navigate("HomeScreen","HomeScreen");
-            } else {
-                return Promise.reject();
-            }
-        })
-        .catch((error) => {
-            setError(error);
-            showMessages('', 'Your email and password do not match');
-        })
-        .finally(() => setLoading(false));
-    }
+      signInWithEmailAndPassword(auth, state.email, state.password)
+      .then((userCredential) => {
+          if (userCredential) {
+              const user = userCredential.user;
+              console.log("Logged in with:", user.email);
+              navigation.navigate("HomeScreen","HomeScreen");
+          } else {
+              return Promise.reject();
+          }
+      })
+      .catch((error) => {
+          setError(error);
+          showMessages('', 'Your email and password do not match');
+      })
+      .finally(() => setLoading(false));
+  };
 
-    const register = (state, showMessages, navigation) => {
-        setLoading(true);
+  const register = (state, showMessages, navigation) => {
+      setLoading(true);
 
-        createUserWithEmailAndPassword(auth, state.email, state.password)
-        .then((userCredentials) => {
-            const user = userCredentials.user;
-            console.log("Registered with:", user.email);
-            navigation.navigate("ModelScreen","ModelScreen");
-        })
-        .catch((error) => {
-            setError(error);
-            showMessages('Account already exists', '', '')
-        })
-        .finally(() => setLoading(false));
-    }
+      createUserWithEmailAndPassword(auth, state.email, state.password)
+      .then((userCredentials) => {
+          const user = userCredentials.user;
+          console.log("Registered with:", user.email);
+          navigation.navigate("CreateProfileScreen","CreateProfileScreen");
+      })
+      .catch((error) => {
+          setError(error);
+          showMessages('Account already exists', '', '')
+      })
+      .finally(() => setLoading(false));
+  };
 
   const memoedValue = useMemo(
     () => ({
