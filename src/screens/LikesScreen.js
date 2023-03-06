@@ -22,7 +22,7 @@ function LikesScreen({ navigation }) {
   const currentUser = useAuth();
   const [passes, setPasses] = useState([]);
 
-  console.log(currentUser, "this is the user id");
+  console.log(currentUser.id, "this is the user id");
 
   // const passes = await getDocs(
   //   collection(db, "users", currentUser.uid, "passes"),
