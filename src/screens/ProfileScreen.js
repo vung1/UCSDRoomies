@@ -1,8 +1,17 @@
 import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import { ProfileBody } from '../components/ProfileBody';
+import {BottomTabView} from '../components/BottomTabView';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+// import Icon from 'react-native-vector-icons/F';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconMenu from "../components/IconMenu";
+
+
 // function ProfileScreen({navigation}) {
 //   return (
 //     <View >
@@ -12,10 +21,87 @@ import { ProfileBody } from '../components/ProfileBody';
 // };
 
 const ProfileScreen = ({navigation}) => {
+  
+ const Tab = createMaterialTopTabNavigator();
+ let squares = [];
+  let numberOfSquare = 4;
+
+  for (let index = 0; index < numberOfSquare; index++) {
+    squares.push(
+      <View key={index}>
+        <View
+          style={{
+            width: 130,
+            height: 150,
+            marginVertical: 0.5,
+            backgroundColor: 'black',
+            opacity: 0.1,
+          }}></View>
+      </View>,
+    );
+  }
+
+  const Posts = () => {
+    return(
+         <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'white',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            paddingVertical: 5,
+            justifyContent: 'space-between',
+          }}>
+          {squares}
+        </View>
+      </ScrollView>
+    )
+  }
+// Lease
+  const Video = () => {
+    return(
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{
+          width: '100%',
+          height: '100%',
+        }}>
+        <View
+          style={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'white',
+            flexWrap: 'wrap',
+            flexDirection: 'row',
+            paddingVertical: 5,
+            justifyContent: 'space-between',
+          }}>
+          {squares}
+        </View>
+      </ScrollView>
+    )
+  }
+// Personal pics
+  // const Tags = () => {
+  //   return(
+  //     <View>
+  //       <Text>
+  //       Tags
+  //       </Text>
+  //     </View>
+  //   )
+  // }
 
   return (
     <View style={{width: '100%', height: '100%', backgroundColor: 'white'}}>
-     <View style={{width: '100%', padding: 10}}>
+     <View style={{width: '100%', padding: 0}}>
      <ProfileBody 
       name="User"
           accountName="User"
@@ -27,6 +113,60 @@ const ProfileScreen = ({navigation}) => {
 
 
      </View>
+    
+     
+
+
+      {/* <BottomTabView /> */}
+      
+      {/* <View>
+        <Text>BottomTabView</Text>
+      </View> */}
+      <Tab.Navigator>
+       
+       
+        <Tab.Screen name = "Posts" component={Posts} 
+        options={({route}) => ({
+          tabBarShowLabel: false,
+        tabBarIndicatorStyle: {
+          backgroundColor: 'black',
+          height: 1.5,
+        },
+          tabBarIcon: ({focused, colour}) => {
+            let icon;
+           if (route.name === 'Posts') {
+            icon = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
+            colour = focused ? 'black' : 'gray';
+          } else if (route.name === 'Video') {
+            icon = focused ? 'ios-play-circle' : 'ios-play-circle-outline';
+            colour = focused ? 'black' : 'gray';
+          }
+           return <MaterialIcons name="perm-identity" size={23}  />
+          },
+          //  tabBarLabel:() => {return null},
+         })}> 
+
+
+        </Tab.Screen>
+        {/* <MaterialIcons name="more-vert" size={23} color={colors.secondary} /> */}
+        <Tab.Screen name = "Video " component={Video}
+        
+        options={{
+          tabBarIcon: ({color, size}) => {
+           return <MaterialIcons name="apartment" size={23}  />
+          },
+          tabBarLabel:() => {return null},
+        }}>
+
+
+        </Tab.Screen>
+      
+      </Tab.Navigator>
+      <IconMenu 
+        navigation={navigation}
+        screenCurr="HomeScreen"
+        screenCurrName="HomeScreen"
+      />
     </View>
   );
 }

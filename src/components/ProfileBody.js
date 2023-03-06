@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity, SafeAreaView, StyleSheet} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import LinearGradient from 'react-native-linear-gradient'
+// import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
 export const ProfileBody = ({
   name,
@@ -12,11 +13,13 @@ export const ProfileBody = ({
 //   following,
 }) => {
   return (
+    
     <View
     style ={{flexDirection:'column',}}>
-   {/* <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}> */}
 
+     {/* <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>  */}
       <View
+      
         style={{
           flexDirection: 'column',
           alignItems: 'center',
@@ -25,8 +28,10 @@ export const ProfileBody = ({
           backgroundColor:'#247DCF',
           borderBottomRightRadius: 15,
           borderBottomLeftRadius: 10,
+
        
         }}>
+        
         <View
           style={{
             alignItems: 'center',
@@ -71,9 +76,9 @@ export const ProfileBody = ({
           <Text style={{fontWeight: 'bold', fontSize: 18}}>{following}</Text>
           <Text>Following</Text>
         </View> */}
-        
+        {/* </LinearGradient> */}
       </View>
-      
+      {/* </LinearGradient> */}
      
       <View>
       <View style={{alignItems: 'left'}}>
@@ -115,8 +120,9 @@ export const ProfileBody = ({
                 }}
 />
       </View>
-      {/* </LinearGradient> */}
+      
     </View>
+
   );
 };
 
