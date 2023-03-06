@@ -26,6 +26,7 @@
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
     "@react-navigation/stack": "^6.3.14",
+    "@testing-library/user-event": "^14.4.3",
     "entypo": "^2.2.1",
     "expo": "~47.0.12",
     "expo-font": "~11.0.1",

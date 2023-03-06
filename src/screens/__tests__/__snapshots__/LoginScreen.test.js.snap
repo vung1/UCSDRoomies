@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<ViewManagerAdapter_ExpoLinearGradient
+  proxiedProperties={
+    Object {
+      "colors": Array [
+        4285837014,
+        4280581583,
+      ],
+      "endPoint": undefined,
+      "locations": undefined,
+      "startPoint": undefined,
+    }
+  }
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "marginTop": "42%",
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "marginTop": "10%",
+        "width": "80%",
+      }
+    }
+  >
+    <View>
+      <Text
+        style={
+          Object {
+            "color": "red",
+            "fontSize": 12,
+            "marginBottom": "5%",
+            "marginLeft": "5%",
+          }
+        }
+      />
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "white",
+            "borderRadius": 30,
+            "flexDirection": "row",
+            "height": 55,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": "100%",
+          }
+        }
+        testID="Signin.Button"
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 25,
+              "marginLeft": 10,
+              "marginRight": 10,
+              "width": 25,
+            }
+          }
+        />
+        <Text
+          style={
+            Object {
+              "color": "black",
+              "fontFamily": "Arial",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "marginRight": 10,
+            }
+          }
+        >
+           SIGN IN WITH UCSD EMAIL 
+        </Text>
+      </View>
+    </View>
+    <View>
+      <Text
+        style={
+          Object {
+            "color": "red",
+            "fontSize": 12,
+            "marginBottom": "5%",
+            "marginLeft": "5%",
+          }
+        }
+      />
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "white",
+            "borderRadius": 30,
+            "flexDirection": "row",
+            "height": 55,
+            "justifyContent": "center",
+            "opacity": 1,
+            "width": "100%",
+          }
+        }
+        testID="Signup.Button"
+      >
+        <Image
+          source={1}
+          style={
+            Object {
+              "height": 25,
+              "marginLeft": 10,
+              "marginRight": 10,
+              "width": 25,
+            }
+          }
+        />
+        <Text
+          style={
+            Object {
+              "color": "black",
+              "fontFamily": "Arial",
+              "fontSize": 16,
+              "fontWeight": "bold",
+              "marginRight": 10,
+            }
+          }
+        >
+           SIGN UP WITH UCSD EMAIL 
+        </Text>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": "10%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontFamily": "Arial",
+          "fontSize": 13,
+          "fontWeight": "bold",
+          "lineHeight": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      By clicking Log In, you agree with our Terms. 
+      
+
+      Learn how we process your data in our Privacy 
+      
+
+      Policy and Cookies Policy.
+    </Text>
+  </View>
+</ViewManagerAdapter_ExpoLinearGradient>
+`;
