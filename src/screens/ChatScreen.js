@@ -72,16 +72,14 @@ function ChatScreen({ route, navigation }) {
     // const docSnap = await getDoc(doc(db, "users", user.uid));
     // const all_users = docSnap.data();
     // if ("messages" in all_users) {
-    //   const messages = all_users.messages;
-    //   messages.push({[other_user.id]: key})
+    //   const curr_messages = all_users.messages;
+    //   curr_messages.push({[key]: messages});
     //   await updateDoc(doc(db, "users", user.uid), {
-    //     messages
+    //     messages: curr_messages
     //   });
     // } else {
     //   await updateDoc(doc(db, "users", user.uid), {
-    //     messages : {
-    //       [other_user.id]: key
-    //     }
+    //     messages: {[key]: messages}
     //   });
     // }
 
