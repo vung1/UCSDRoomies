@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, Button, TouchableOpacity, TouchableHighlight } from "react-native";
 import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import user_prof from "../../assets/data/user_prof";
@@ -8,15 +8,14 @@ import { db, auth } from "../../firebase";
 import { doc, getDoc, getDocs, onSnapshot, setDoc, serverTimestamp, collection } from "@firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import useAuth from "../hooks/useAuth";
-import firebase from "firebase/compat/app";
 
 function ChatScreen({ route, navigation }) {
   const { user } = route.params;
   // const { firebase_user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
-  const [contentHeight, setContentHeight] = React.useState({ height: 90 });
-  const [msg, setMsg] = React.useState({ message: "" });
-  const onRefresh = React.useCallback(() => {
+  const [contentHeight, setContentHeight] = useState({ height: 90 });
+  const [curr_msg, setMsg] = useState({ message: "" });
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
@@ -45,27 +44,19 @@ function ChatScreen({ route, navigation }) {
 
   // console.log(messages);
 
-  async function sender(msg, setMsg){
+  async function sender(curr_msg, setMsg){
     var hour = new Date().getHours();
     var min = new Date().getMinutes();
-    
-    // messages.push("me:"
-    // +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
-    // + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
-    // console.log(messages),
-    // setMsg({message: ""})
 
     // intergrate with firebase
-    const timestamp = ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min);
-    const value = auth.currentUser.uid + ":" + msg.message + "\n" + timestamp; // TODO: should change to server time serverTimestamp();
+    const timestamp = ((hour >= 10)? hour : "0" + hour) + ((min >= 10)? min : "0" + min);
+    const value = auth.currentUser.uid + ":" + curr_msg.message + "\\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
     // set messages to firebase message_for_all
-    const curr_messages = message;
-    curr_messages.push(value);
-    // console.log("updated user messages history:", curr_user_messages);
+    messages.push(value);
 
     const docData = {
-      [key]: curr_messages, 
+      [key]: messages, 
     };
     await setDoc(doc(db, "message_for_all", "all_messages"), docData);
 
@@ -73,15 +64,16 @@ function ChatScreen({ route, navigation }) {
     db.collection("users").doc(auth.currentUser.uid).collection("messages").doc(user.id).set({ //auth.currentUser.uid, "messages").doc(user.id).set({
       [auth.currentUser.uid]: key
     });
+
+    setMsg({message : ""});
   };
 
   function currentTimeLag(msg){
-    {/* TODO */}
-    // var time = msg.split("\n").slice(-1)[0].split(":").join("");
-    // var lag = prevTime - time;
+    var time = msg.split("\\n").slice(-1);
+    var lag = prevTime - time;
     // console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
-    // prevTime = time;
-    // return lag > 0 || lag < -10;
+    prevTime = time;
+    return lag > 0 || lag < -10;
   };
 
   return (
@@ -120,11 +112,11 @@ function ChatScreen({ route, navigation }) {
            { (currentTimeLag(msg)) ? 
            <Text style={styles.bar}>
             {/* TODO */}
-            {msg.split("\n").slice(-1)[0]}
+            {msg.split("\\n").slice(-1)[0].substring(0, 2) + ":" + msg.split("\\n").slice(-1)[0].substring(2, 4)}
             </Text>:<Text style={styles.bar}></Text> }
             <View style={styles.message_box}>
               {/* TODO */}
-              {msg.split(":")[0] !== "me" ? (
+              {msg.split(":")[0] !== auth.currentUser.uid ? (
                 <>
                   <View style={styles.message_side}>
                     <View style={styles.user} key={user.id}>
@@ -136,7 +128,7 @@ function ChatScreen({ route, navigation }) {
                   </View>
                   <View style={styles.message_mid}>
                     {/* TODO */}
-                    <Text style={styles.message}>{msg.split("\n")[0]}</Text> 
+                    <Text style={styles.message}>{msg.split("\\n")[0].split(":")[1]}</Text> 
                   </View>
                   <View style={styles.message_side} />
                 </>
@@ -147,7 +139,7 @@ function ChatScreen({ route, navigation }) {
                   <View style={styles.message_self_mid}>
                     <Text style={styles.message_self}>
                       {/* TODO */}
-                      {msg.split(":").slice(1).join(":").split("\n")[0]}
+                      {msg.split("\\n")[0].split(":")[1]}
                     </Text>
                   </View>
                   <View style={styles.message_self_side}>
@@ -195,7 +187,7 @@ function ChatScreen({ route, navigation }) {
         blurOnSubmit={true}
         returnKeyType="blur"
         multiline
-        value={msg.message}
+        value={curr_msg.message}
         onContentSizeChange={(e) => {
           let inputH = Math.max(e.nativeEvent.contentSize.height+43, 60);
           if (inputH > 83) inputH = 83;
@@ -203,7 +195,7 @@ function ChatScreen({ route, navigation }) {
           setContentHeight({height: inputH});
         }}
         onChangeText={(text) => {
-          ((text.length > 0 && text[-1] != "\n") ? setMsg({message: text}): null)
+          ((text.length > 0 && text[-1] != "\n") ? setMsg({message : text}): null)
           }
         }
         
@@ -213,7 +205,7 @@ function ChatScreen({ route, navigation }) {
           activeOpacity={0.6}
           color="#247DCF"
           onPress={() => {
-            ((msg.message != "") ? sender(msg, setMsg) : null)
+            ((curr_msg.message != "") ? sender(curr_msg, setMsg) : null)
           }
           }
           style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
