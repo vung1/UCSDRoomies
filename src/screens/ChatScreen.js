@@ -16,6 +16,7 @@ function ChatScreen({ route, navigation }) {
   const [contentHeight, setContentHeight] = useState({ height: 90 });
   const [curr_msg, setMsg] = useState({ message: "" });
   const [messages, setAllMessages] = useState([]);
+  const [key, setKey] = useState("");
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -26,16 +27,11 @@ function ChatScreen({ route, navigation }) {
   const scrollViewRef = useRef();
   var prevTime = 0;
 
-  // const key = auth.currentUser.uid + "_" + user.id;
-  // console.log(key);
-
-  const key = (auth.currentUser.uid > user.id) ? (user.id + "_" + auth.currentUser.uid) : (auth.currentUser.uid + "_" + user.id);
-  // console.log(key2);
-
   useEffect(
     () => {
-      // const key2 = (auth.currentUser.uid > user.id) ? (user.id + "_" + auth.currentUser.uid) : (auth.currentUser.uid + "_" + user.id);
-      // console.log(key2);
+      // get messages map key. (id_id ascending order)
+      const key = (auth.currentUser.uid > user.id) ? (user.id + "_" + auth.currentUser.uid) : (auth.currentUser.uid + "_" + user.id);
+      setKey(key);
 
       // Get message history from firebase
       const getMessages = async() => { 
