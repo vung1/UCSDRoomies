@@ -24,66 +24,58 @@ function ChatScreen({ route, navigation }) {
   }, []);
   const scrollViewRef = useRef();
   var prevTime = 0;
+  const [messages, setAllMessages] = useState([]);
+  const key = auth.currentUser.uid + "_" + user.id;
+  // console.log(key);
 
-  async function sender(msg, setMsg, currMsg){
+  useEffect(() => {
+    // Get message history from firebase
+    const getMessages = async() => { 
+      const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
+      if (docSnap.exists()) {
+        const firebase_messages_list = docSnap.data();
+        setAllMessages(firebase_messages_list[key]);
+      } else {
+        console.log("No such document!");
+      }
+    }
+    getMessages();
+
+  }, [db]);
+
+  console.log(messages);
+
+  async function sender(msg, setMsg){
     var hour = new Date().getHours();
     var min = new Date().getMinutes();
     
-    currMsg.push("me:"
+    messages.push("me:"
     +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
     + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
-    console.log(currMsg),
+    console.log(messages),
     setMsg({message: ""})
 
     // intergrate with firebase
-    const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
     const timestamp = ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min);
     const value = auth.currentUser.uid + ":" + msg.message + "\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
-    if (docSnap.exists()) {
-      const firebase_messages_list = docSnap.data();
-      // console.log("Document data:", firebase_messages_list);
+    // set messages to firebase message_for_all
+    messages.push(value);
+    // console.log("updated user messages history:", curr_user_messages);
 
-      const key = auth.currentUser.uid + "_" + user.id;
+    const docData = {
+      [key]: messages, 
+    };
+    await setDoc(doc(db, "message_for_all", "all_messages"), docData);
 
-      // get messages from firebase
-      let curr_user_messages = firebase_messages_list[key];
-      console.log(key);
-      // console.log("current user messages history:", curr_user_messages);
-
-      // set messages to firebase message_for_all
-      curr_user_messages.push(value);
-      // console.log("updated user messages history:", curr_user_messages);
-
-      const docData = {
-        [key]: curr_user_messages, 
-      };
-      await setDoc(doc(db, "message_for_all", "all_messages"), docData);
-
-      // store messages to each user in firebase
-      db.collection("users").doc(auth.currentUser.uid).collection("messages").doc(user.id).set({ //auth.currentUser.uid, "messages").doc(user.id).set({
-        [auth.currentUser.uid]: curr_user_messages
-      }).then(function() {
-        // console.log("Frank food updated");
-      });
-
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-
-    // await getDocs(collection(db, "users", auth.currentUser.uid, "messages")).then(
-    //   snapshot => snapshot.forEach(doc => { doc.data()
-        
-    //     const user_messages_list = doc.data();
-    //     console.log( user_messages_list );    
-
-    //     const key = user.id;
-    //   })
-    // );
+    // store messages to each user in firebase
+    db.collection("users").doc(auth.currentUser.uid).collection("messages").doc(user.id).set({ //auth.currentUser.uid, "messages").doc(user.id).set({
+      [auth.currentUser.uid]: key
+    });
   };
 
   function currentTimeLag(msg){
+    {/* TODO */}
     // var time = msg.split("\n").slice(-1)[0].split(":").join("");
     // var lag = prevTime - time;
     // console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
@@ -103,9 +95,9 @@ function ChatScreen({ route, navigation }) {
           />
   
           <View style={styles.user} key={user.id}>
-            <Image source={{ uri: user.image }} style={styles.simp_image} />
+            <Image source={{ uri: user.photoURL }} style={styles.simp_image} />
           </View>
-          <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
+          <Text style={styles.name}>{user.firstName}</Text>
         </View>
       </View>
 
@@ -117,31 +109,33 @@ function ChatScreen({ route, navigation }) {
         ref={scrollViewRef}
         onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}
         >
-           {(user.messages.length == 0) ? 
+           {(messages.length == 0) ? 
            <Text 
            style={styles.bar}>
             New message
             </Text> 
-           : user.messages.map((msg) => (
+           : messages.map((msg) => (
            <>
            { (currentTimeLag(msg)) ? 
            <Text style={styles.bar}>
+            {/* TODO */}
             {msg.split("\n").slice(-1)[0]}
             </Text>:<Text style={styles.bar}></Text> }
             <View style={styles.message_box}>
-              {/* other one  */}
+              {/* TODO */}
               {msg.split(":")[0] !== "me" ? (
                 <>
                   <View style={styles.message_side}>
                     <View style={styles.user} key={user.id}>
                       <Image
-                        source={{ uri: user.image }}
+                        source={{ uri: user.photoURL }}
                         style={styles.simp_image}
                       />
                     </View>
                   </View>
                   <View style={styles.message_mid}>
-                    <Text style={styles.message}>{msg.split("\n")[0]}</Text>
+                    {/* TODO */}
+                    <Text style={styles.message}>{msg.split("\n")[0]}</Text> 
                   </View>
                   <View style={styles.message_side} />
                 </>
@@ -151,6 +145,7 @@ function ChatScreen({ route, navigation }) {
                   <View style={styles.message_self_side} />
                   <View style={styles.message_self_mid}>
                     <Text style={styles.message_self}>
+                      {/* TODO */}
                       {msg.split(":").slice(1).join(":").split("\n")[0]}
                     </Text>
                   </View>
@@ -217,7 +212,7 @@ function ChatScreen({ route, navigation }) {
           activeOpacity={0.6}
           color="#247DCF"
           onPress={() => {
-            ((msg.message != "") ? sender(msg, setMsg, user.messages) : null)
+            ((msg.message != "") ? sender(msg, setMsg) : null)
           }
           }
           style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
