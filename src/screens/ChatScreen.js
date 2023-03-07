@@ -15,6 +15,8 @@ function ChatScreen({ route, navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const [contentHeight, setContentHeight] = useState({ height: 90 });
   const [curr_msg, setMsg] = useState({ message: "" });
+  const [messages, setAllMessages] = useState([]);
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
@@ -23,12 +25,18 @@ function ChatScreen({ route, navigation }) {
   }, []);
   const scrollViewRef = useRef();
   var prevTime = 0;
-  const [messages, setAllMessages] = useState([]);
-  const key = auth.currentUser.uid + "_" + user.id;
+
+  // const key = auth.currentUser.uid + "_" + user.id;
   // console.log(key);
+
+  const key = (auth.currentUser.uid > user.id) ? (user.id + "_" + auth.currentUser.uid) : (auth.currentUser.uid + "_" + user.id);
+  // console.log(key2);
 
   useEffect(
     () => {
+      // const key2 = (auth.currentUser.uid > user.id) ? (user.id + "_" + auth.currentUser.uid) : (auth.currentUser.uid + "_" + user.id);
+      // console.log(key2);
+
       // Get message history from firebase
       const getMessages = async() => { 
         const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
@@ -49,7 +57,7 @@ function ChatScreen({ route, navigation }) {
     var min = new Date().getMinutes();
 
     // intergrate with firebase
-    const timestamp = ((hour >= 10)? hour : "0" + hour) + ((min >= 10)? min : "0" + min);
+    const timestamp = ((hour >= 10)? hour.toString() : "0" + hour) + ((min >= 10)? min.toString() : "0" + min);
     const value = auth.currentUser.uid + ":" + curr_msg.message + "\\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
     // set messages to firebase message_for_all
