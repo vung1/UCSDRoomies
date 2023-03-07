@@ -1,10 +1,21 @@
-import React, {useState, useEffect, useRef} from "react";
-import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, Button, TouchableOpacity, TouchableHighlight } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  Button,
+  TouchableOpacity,
+  TouchableHighlight,
+} from "react-native";
 import { ScrollView, RefreshControl } from "react-native-gesture-handler";
+import Svg, { Path } from "react-native-svg";
 import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
-import Svg, { Path } from "react-native-svg";
 import messages_for_all from "../../assets/data/messages_for_all";
+
 
 function ChatScreen({ route, navigation }) {
   const { user } = route.params;
@@ -40,7 +51,7 @@ function ChatScreen({ route, navigation }) {
             screen="MatchesScreen"
             screenName="Matches"
           />
-  
+
           <View style={styles.user} key={user.id}>
             <Image source={{ uri: user.image }} style={styles.simp_image} />
           </View>
@@ -49,12 +60,16 @@ function ChatScreen({ route, navigation }) {
       </View>
 
       <View style={styles.message_area}>
-        <ScrollView 
-        style={styles.scrollView} 
-        vertical
-        refreshControl ={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
-        ref={scrollViewRef}
-        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}
+        <ScrollView
+          style={styles.scrollView}
+          vertical
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ref={scrollViewRef}
+          onContentSizeChange={() =>
+            scrollViewRef.current.scrollToEnd({ animated: true })
+          }
         >
            {(user_messages.length == 0) ? 
            <Text 
@@ -161,36 +176,73 @@ function ChatScreen({ route, navigation }) {
           }
           style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
           >
-    <View style={{
-      
-      backgroundColor:"#F1F1F1",
-      padding: 20,
-      borderRadius: 30,
-      height: "100%",
-      alignItems: "center",
-      flexDirection:"column",
-      }}>
-          
-          <Svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 320 512"
-            height="100%"
-            width="100%"
-          >
-            <Path 
-            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-            fill="#B9B9B9"
-            fillRule="evenodd"
+            <TextInput
+              style={{
+                height: contentHeight.height - 30,
+                borderColor: "#F1F1F1",
+                backgroundColor: "#F1F1F1",
+                selectionColor: "#F1F1F1",
+              }}
+              placeholder="Type Something..."
+              keyboardType="default"
+              blurOnSubmit
+              returnKeyType="blur"
+              multiline
+              value={msg.message}
+              onContentSizeChange={(e) => {
+                let inputH = Math.max(
+                  e.nativeEvent.contentSize.height + 43,
+                  60,
+                );
+                if (inputH > 83) inputH = 83;
+
+                setContentHeight({ height: inputH });
+              }}
+              onChangeText={(text) => {
+                text.length > 0 && text[-1] != "\n"
+                  ? setMsg({ message: text })
+                  : null;
+              }}
             />
-          </Svg>
-          
-    </View>
-    </TouchableHighlight>
-    </View>
+          </View>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            color="#247DCF"
+            onPress={() => {
+              msg.message != "" ? sender(msg, setMsg, user.messages) : null;
+            }}
+            style={{ width: "100%", height: 60, flex: 1, borderRadius: 30 }}
+          >
+            <View
+              style={{
+                backgroundColor: "#F1F1F1",
+                padding: 20,
+                borderRadius: 30,
+                height: "100%",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+                height="100%"
+                width="100%"
+              >
+                <Path
+                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                  fill="#B9B9B9"
+                  fillRule="evenodd"
+                />
+              </Svg>
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     </SafeAreaView>
   );
 }
+
 
 function sender(msg, setMsg, currMsg){
   var hour = new Date().getHours();
@@ -205,9 +257,9 @@ function sender(msg, setMsg, currMsg){
 
 const styles = StyleSheet.create({
   bar: {
-    color:"#B9B9B9",
-    textAlign:"center"
- },
+    color: "#B9B9B9",
+    textAlign: "center",
+  },
   root: {
     width: "100%",
     flex: 1,
@@ -221,7 +273,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
-    flex: 1
+    flex: 1,
   },
   users: {
     flexDirection: "row",

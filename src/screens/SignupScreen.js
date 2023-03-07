@@ -6,35 +6,34 @@ import LoginLogo from "../components/LoginLogo";
 import SignupButton from "../components/SignupButton";
 import BackArrow from "../components/BackArrow";
 
-function SignupScreen({navigation}) {
-
-  const [state, setState] =  React.useState({
-    email: '',
-    password: '',
-    repassword: '',
+function SignupScreen({ navigation }) {
+  const [state, setState] = React.useState({
+    email: "",
+    password: "",
+    repassword: "",
   });
 
-  const [emialInputBorder, setEmailInputBorder] =  React.useState(0)
-  const [passwordInputBorder, setPasswordInputBorder] =  React.useState(0)
-  const [repasswordInputBorder, setRepasswordInputBorder] =  React.useState(0)
+  const [emialInputBorder, setEmailInputBorder] = React.useState(0);
+  const [passwordInputBorder, setPasswordInputBorder] = React.useState(0);
+  const [repasswordInputBorder, setRepasswordInputBorder] = React.useState(0);
 
-  const [emailErrorMsg, setEmailMsg] =  React.useState('')
-  const [passwordErrorMsg, setPasswordMsg] =  React.useState('')
-  const [repasswordErrorMsg, setRePasswordMsg] =  React.useState('')
+  const [emailErrorMsg, setEmailMsg] = React.useState("");
+  const [passwordErrorMsg, setPasswordMsg] = React.useState("");
+  const [repasswordErrorMsg, setRePasswordMsg] = React.useState("");
 
   const showMessages = (emailMsg, passwordMsg, repasswordMsg) => {
     setEmailMsg(emailMsg);
     setPasswordMsg(passwordMsg);
     setRePasswordMsg(repasswordMsg);
-    emailMsg == '' ? setEmailInputBorder(0) : setEmailInputBorder(2);
-    passwordMsg == '' ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
-    repasswordMsg == '' ? setRepasswordInputBorder(0) : setRepasswordInputBorder(2);
+    emailMsg == "" ? setEmailInputBorder(0) : setEmailInputBorder(2);
+    passwordMsg == "" ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
+    repasswordMsg == ""
+      ? setRepasswordInputBorder(0)
+      : setRepasswordInputBorder(2);
   };
 
   return (
-
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-
       {/* Back arrow to login screen */}
       <View style={styles.backArrow}>
         <BackArrow
@@ -42,77 +41,94 @@ function SignupScreen({navigation}) {
           navigation={navigation}
           screen="LoginScreen"
           screenName="LoginScreen"
-        />  
+        />
       </View>
-      
+
       {/* Logo */}
       <View style={styles.logoContainer}>
         <LoginLogo />
       </View>
 
       {/* Sign up field for email */}
-      <View style={[styles.inputFieldContainer, {borderWidth: emialInputBorder}]}>
+      <View
+        style={[styles.inputFieldContainer, { borderWidth: emialInputBorder }]}
+      >
         <TextInput
           style={styles.textInput}
           placeholder="UCSD Email"
           keyboardType="default"
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
-          onChangeText={(text) => {setState({ 
-            email: text,
-            password: state.password, 
-            repassword: state.repassword,
-          })}}
+          onChangeText={(text) => {
+            setState({
+              email: text,
+              password: state.password,
+              repassword: state.repassword,
+            });
+          }}
         />
       </View>
       <Text style={styles.errorMsg}>{emailErrorMsg}</Text>
 
       {/* Sign up field for password */}
-      <View style={[styles.inputFieldContainer, {borderWidth: passwordInputBorder}]}>
+      <View
+        style={[
+          styles.inputFieldContainer,
+          { borderWidth: passwordInputBorder },
+        ]}
+      >
         <TextInput
           style={styles.textInput}
           placeholder="Password"
           keyboardType="default"
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
-          secureTextEntry={true}
-          onChangeText={(text) => {setState({ 
-            email: state.email, 
-            password: text, 
-            repassword: state.repassword,
-          })}}
+          secureTextEntry
+          onChangeText={(text) => {
+            setState({
+              email: state.email,
+              password: text,
+              repassword: state.repassword,
+            });
+          }}
         />
       </View>
       <Text style={styles.errorMsg}>{passwordErrorMsg}</Text>
 
       {/* Sign up field for confirm password */}
-      <View style={[styles.inputFieldContainer, {borderWidth: repasswordInputBorder}]}>
+      <View
+        style={[
+          styles.inputFieldContainer,
+          { borderWidth: repasswordInputBorder },
+        ]}
+      >
         <TextInput
           style={styles.textInput}
           placeholder="Confirm Password"
           keyboardType="default"
-          autoCapitalize='none'
+          autoCapitalize="none"
           autoCorrect={false}
-          secureTextEntry={true}
-          onChangeText={(text) => {setState({ 
-            email: state.email, 
-            password: state.password, 
-            repassword: text,
-          })}}
+          secureTextEntry
+          onChangeText={(text) => {
+            setState({
+              email: state.email,
+              password: state.password,
+              repassword: text,
+            });
+          }}
         />
       </View>
       <Text style={styles.errorMsg}>{repasswordErrorMsg}</Text>
 
       {/* Signin button */}
       <View style={styles.buttonContainer}>
-        <SignupButton 
+        <SignupButton
           navigation={navigation}
           screenCurr="SignupScreen"
           state={state}
           showMessages={showMessages}
         />
       </View>
-
     </LinearGradient>
   );
 }
@@ -137,7 +153,7 @@ const styles = StyleSheet.create({
     width: "75%",
     height: 42,
     borderRadius: 21,
-    borderColor: 'red',
+    borderColor: "red",
     backgroundColor: "white",
     alignItems: "center",
   },
@@ -148,9 +164,9 @@ const styles = StyleSheet.create({
   errorMsg: {
     fontSize: 12,
     marginTop: "1.5%",
-    color: 'red',
+    color: "red",
     marginLeft: 0,
-    left:0, 
+    left: 0,
     width: "70%",
   },
   buttonContainer: {
