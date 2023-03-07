@@ -70,17 +70,16 @@ function LikesScreen({ navigation }) {
 
         <View style={styles.message_area}>
           <ScrollView style={styles.scrollView} vertical>
+          <View style={styles.users} >
             {swipes.map((currentUser, index) => (
-              <View style={styles.users} key={currentUser.id}>
+              
+                <View style={styles.user} key={currentUser.id}>
                 <TouchableOpacity
                   onPress={() =>
-                    // navrgation.navigate("Chat", {
-                    //   user
-                    // })
                     console.log(`profile ${currentUser.id}`)
                   }
                 >
-                  <View style={styles.user} key={currentUser.id}>
+                  
                     <ImageBackground
                       source={{ uri: currentUser.photoURL }}
                       style={styles.simp_image}
@@ -90,10 +89,12 @@ function LikesScreen({ navigation }) {
                         {currentUser.firstName} {currentUser.lastName}
                       </Text>
                     </ImageBackground>
-                  </View>
+                  
                 </TouchableOpacity>
-              </View>
+                </View>
+              
             ))}
+            </View>
           </ScrollView>
         </View>
       </SafeAreaView>
@@ -118,26 +119,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   users: {
-    // height:"100%",
-    // width:600,
     flexDirection: "row",
-    flex: 1,
+    flex:1,
     justifyContent: "left",
     flexWrap: "wrap",
     padding: 10,
   },
   user: {
-    width: "100%",
+    width: "50%",
     height: 260,
-    borderRadius: 40,
     padding: 10,
-    // overflow: "hidden",
     justifyContent: "center",
-    // backgroundColor: 'skyblue',
+    // backgroundColor:"orange"
   },
-
   simp_image: {
-    width: 184,
+    width: "100%",
     height: "100%",
     backgroundColor: "grey",
     flexDirection: "column-reverse",
