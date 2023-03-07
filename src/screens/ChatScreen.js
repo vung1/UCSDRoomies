@@ -28,43 +28,44 @@ function ChatScreen({ route, navigation }) {
   const key = auth.currentUser.uid + "_" + user.id;
   // console.log(key);
 
-  useEffect(() => {
-    // Get message history from firebase
-    const getMessages = async() => { 
-      const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
-      if (docSnap.exists()) {
-        const firebase_messages_list = docSnap.data();
-        setAllMessages(firebase_messages_list[key]);
-      } else {
-        console.log("No such document!");
-      }
-    }
-    getMessages();
+  useEffect(
+    () => {
+      // Get message history from firebase
+      const getMessages = async() => { 
+        const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
+        if (docSnap.exists()) {
+          const firebase_messages_list = docSnap.data();
+          setAllMessages(firebase_messages_list[key]);
+        } else {
+          console.log("No such document!");
+        }
+      };
+      getMessages();
+  }, []);
 
-  }, [db]);
-
-  console.log(messages);
+  // console.log(messages);
 
   async function sender(msg, setMsg){
     var hour = new Date().getHours();
     var min = new Date().getMinutes();
     
-    messages.push("me:"
-    +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
-    + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
-    console.log(messages),
-    setMsg({message: ""})
+    // messages.push("me:"
+    // +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
+    // + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
+    // console.log(messages),
+    // setMsg({message: ""})
 
     // intergrate with firebase
     const timestamp = ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min);
     const value = auth.currentUser.uid + ":" + msg.message + "\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
     // set messages to firebase message_for_all
-    messages.push(value);
+    const curr_messages = message;
+    curr_messages.push(value);
     // console.log("updated user messages history:", curr_user_messages);
 
     const docData = {
-      [key]: messages, 
+      [key]: curr_messages, 
     };
     await setDoc(doc(db, "message_for_all", "all_messages"), docData);
 
