@@ -17,81 +17,81 @@ function MatchesScreen({ navigation }) {
   return (
     <View style={styles.ver_container}>
       <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row" }}>
-          <Text
-            style={{
-              fontSize: 24,
-              color: "#247DCF",
-              marginLeft: 20,
-            }}
-          >
-            New Matches
-          </Text>
-        </View>
-        <ScrollView style={styles.scrollView} horizontal>
-          <View style={styles.users}>
-            {users.map((user) => (
-              <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Chat", {
-                  user
-                })
-              }
-              >
-                <View style={styles.user} key={user.id}>
-                <Image source={{ uri: user.image }} style={styles.simp_image} />
-                <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
-              </View>
-                </TouchableOpacity>
-            ))}
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: "#247DCF",
+                marginLeft: 20,
+              }}
+            >
+              New Matches
+            </Text>
           </View>
-        </ScrollView>
-      </View>
-      <View style={styles.message_area}>
-        <ScrollView style={styles.scrollView} vertical>
-          <View style={styles.container}>
-            {users.map((user) =>
-              (user.messages.length!=0) ? (
+          <ScrollView style={styles.scrollView} horizontal>
+            <View style={styles.users}>
+              {users.map((user) => (
                 <TouchableOpacity
-                onPress={() =>
+                  onPress={() =>
                     navigation.navigate("Chat", {
-                      user
+                      user,
                     })
                   }
                 >
-                  <View style={styles.message_box} key={user.id}>
-                    <View style={styles.user} key={user.id}>
-                      <Image
-                        source={{ uri: user.image }}
-                        style={styles.simp_image}
-                      />
-                    </View>
-                    <View style={styles.message_mid}>
-                      <Text style={styles.msg_name}>{user.name}</Text>
-                      <Text style={styles.message}>
-                        {user.messages.slice(-1)[0].split("\n")[0]}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={styles.time} />
-                      <Text style={styles.time}>
-                        {user.messages[0].split("\n").pop()}
-                      </Text>
-                    </View>
+                  <View style={styles.user} key={user.id}>
+                    <Image
+                      source={{ uri: user.image }}
+                      style={styles.simp_image}
+                    />
+                    <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
                   </View>
                 </TouchableOpacity>
-              ) : null,
-            )}
-          </View>
-        </ScrollView>
-      </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+        <View style={styles.message_area}>
+          <ScrollView style={styles.scrollView} vertical>
+            <View style={styles.container}>
+              {users.map((user) =>
+                user.messages.length != 0 ? (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Chat", {
+                        user,
+                      })
+                    }
+                  >
+                    <View style={styles.message_box} key={user.id}>
+                      <View style={styles.user} key={user.id}>
+                        <Image
+                          source={{ uri: user.image }}
+                          style={styles.simp_image}
+                        />
+                      </View>
+                      <View style={styles.message_mid}>
+                        <Text style={styles.msg_name}>{user.name}</Text>
+                        <Text style={styles.message}>
+                          {user.messages.slice(-1)[0].split("\n")[0]}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={styles.time} />
+                        <Text style={styles.time}>
+                          {user.messages[0].split("\n").pop()}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                ) : null,
+              )}
+            </View>
+          </ScrollView>
+        </View>
       </SafeAreaView>
-      
-      <IconMenu 
-        navigation={navigation}
-        screenCurr="MatchesScreen"
-        />
+
+      <IconMenu navigation={navigation} screenCurr="MatchesScreen" />
     </View>
   );
 }

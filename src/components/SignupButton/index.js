@@ -3,19 +3,18 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import useAuth from "../../hooks/useAuth";
 
 function SignupButton(props) {
-
   const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
   const { register, loading } = useAuth();
 
-  var emailMsg = '';
-  var passwordMsg = '';
-  var repasswordMsg = '';
+  let emailMsg = "";
+  let passwordMsg = "";
+  let repasswordMsg = "";
 
   const handleSignup = () => {
-    showMessages('', '', '');
-    var error = false
-    if (state.email == "" ) {
+    showMessages("", "", "");
+    let error = false;
+    if (state.email == "") {
       emailMsg = "Please enter your UCSD email";
       error = true;
     } else if (reg.test(state.email) != true) {
@@ -44,23 +43,24 @@ function SignupButton(props) {
     }
     // Show error messages if previous errors occur
     if (error) {
-      showMessages(emailMsg, passwordMsg, repasswordMsg)
-    } 
+      showMessages(emailMsg, passwordMsg, repasswordMsg);
+    }
     // If no error occurs on user inputs,
     // Check if account is already exists & register the user
     else {
-      register(state, showMessages, navigation)
+      register(state, showMessages, navigation);
     }
-  } 
+  };
 
   return (
-    <View> 
-      <TouchableOpacity {...props}
+    <View>
+      <TouchableOpacity
+        {...props}
         testID="Signup.Button"
         onPress={() => {
-          screenCurr == "LoginScreen" ? 
-          navigation.navigate("SignupScreen","SignupScreen") :
-          handleSignup()
+          screenCurr == "LoginScreen"
+            ? navigation.navigate("SignupScreen", "SignupScreen")
+            : handleSignup();
         }}
         activeOpacity={0.8}
         style={styles.buttonContainer}

@@ -10,17 +10,17 @@ import {
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
+import { getDocs, collection } from "@firebase/firestore";
 import users from "../../assets/data/users";
 import BackArrow from "../components/BackArrow";
 import useAuth from "../hooks/useAuth";
 import IconMenu from "../components/IconMenu";
 
-import { getDocs, collection } from "@firebase/firestore";
 import { db } from "../../firebase";
 
 function LikesScreen({ navigation }) {
   const { user } = useAuth();
-  const [passes, setPasses] = useState([]);
+  const [swipes, setSwipes] = useState([]);
 
   console.log(user.uid, "this is the user id");
 
@@ -30,14 +30,14 @@ function LikesScreen({ navigation }) {
 
   useEffect(() => {
     async function getDocuments() {
-      await getDocs(collection(db, "users", user.uid, "passes")).then(
+      await getDocs(collection(db, "users", user.uid, "swipes")).then(
         (querySnapshot) => {
           const passArr = [];
           querySnapshot.forEach((doc) => {
             const { firstName, lastName, photoURL } = doc.data();
             passArr.push({ id: doc.id, firstName, lastName, photoURL });
           });
-          setPasses(passArr);
+          setSwipes(passArr);
         },
       );
     }
@@ -64,20 +64,20 @@ function LikesScreen({ navigation }) {
               (styles.head, { fontSize: 18, marginLeft: 30, marginBottom: 15 })
             }
           >
-            {passes.length} Likes
+            {swipes.length} Likes
           </Text>
         </View>
 
         <View style={styles.message_area}>
           <ScrollView style={styles.scrollView} vertical>
-            {passes.map((currentUser) => (
-              <View style={styles.users}>
+            {swipes.map((currentUser, index) => (
+              <View style={styles.users} key={currentUser.id}>
                 <TouchableOpacity
                   onPress={() =>
-                    // navigation.navigate("Chat", {
+                    // navrgation.navigate("Chat", {
                     //   user
                     // })
-                    console.log("profile " + currentUser.id)
+                    console.log(`profile ${currentUser.id}`)
                   }
                 >
                   <View style={styles.user} key={currentUser.id}>

@@ -30,7 +30,7 @@ module.exports = {
     "no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
     "react-native/split-platform-components": 2,
     "react-native/no-inline-styles": 2,
-    "react-native/no-color-literals": 2,
+    // "react-native/no-color-literals": 2,
     "react-native/no-raw-text": 2,
     "react-native/no-single-element-style-arrays": 2,
     quotes: ["error", "double", { avoidEscape: true }],

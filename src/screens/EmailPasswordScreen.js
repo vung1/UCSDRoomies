@@ -11,7 +11,7 @@ import {
 import { doc, setDoc, serverTimestamp } from "@firebase/firestore";
 import { db, auth } from "../../firebase";
 
-const EmailPasswordScreen = () => {
+function EmailPasswordScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -38,7 +38,7 @@ const EmailPasswordScreen = () => {
       // verify ucsd email
       createUserWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
-          const user = userCredentials.user;
+          const { user } = userCredentials;
           console.log("Registered with:", user.email);
           setUserInfo(user);
         })
@@ -55,7 +55,7 @@ const EmailPasswordScreen = () => {
     auth
       .signInWithEmailAndPassword(email, password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
+        const { user } = userCredentials;
         console.log("Logged in with:", user.email);
       })
       .catch((error) => alert(error.message));
@@ -92,7 +92,7 @@ const EmailPasswordScreen = () => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+}
 
 export default EmailPasswordScreen;
 

@@ -9,7 +9,7 @@ import MatchesScreen from "./src/screens/MatchesScreen";
 import MainStackNavigator from "./src/navigation/MainStackNavigator";
 import { AuthProvider } from "./src/hooks/useAuth";
 
-const App = () => {
+function App() {
   return (
     <TailwindProvider utilities={utilities}>
       <View style={styles.pageContainer}>
@@ -19,7 +19,7 @@ const App = () => {
       </View>
     </TailwindProvider>
   );
-};
+}
 
 const styles = StyleSheet.create({
   pageContainer: {

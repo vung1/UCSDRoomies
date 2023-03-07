@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect }from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import {
   View,
   Image,
@@ -13,7 +13,15 @@ import { useTailwind } from "tailwind-rn";
 
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Swiper from "react-native-deck-swiper";
-import { doc, setDoc, getDocs, onSnapshot, collection, query, where } from "@firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDocs,
+  onSnapshot,
+  collection,
+  query,
+  where,
+} from "@firebase/firestore";
 
 import IconMenu from "../components/IconMenu";
 import HomeLogo from "../components/HomeLogo";
@@ -93,7 +101,7 @@ function HomeScreen({ navigation }) {
   // const navigation = useNavigation();
   const swipeRef = React.useRef(null);
   const tailwind = useTailwind();
-  const { user, logOut } = useAuth(); //auth.currentUser;
+  const { user, logOut } = useAuth(); // auth.currentUser;
   const [profiles, setProfiles] = useState([]);
 
   // if the database is empty, redirect to ModelScreen
@@ -107,14 +115,13 @@ function HomeScreen({ navigation }) {
     let unsub;
 
     const fetchCards = async () => {
+      const passes = await getDocs(
+        collection(db, "users", user.uid, "passes"),
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-      const passes = await getDocs(collection(db, "users", user.uid, "passes")).then(
-        snapshot => snapshot.docs.map(doc => doc.id)
-      );
-
-      const swipes = await getDocs(collection(db, "users", user.uid, "swipes")).then(
-        snapshot => snapshot.docs.map(doc => doc.id)
-      );
+      const swipes = await getDocs(
+        collection(db, "users", user.uid, "swipes"),
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
       const passedUserIds = passes.length > 0 ? passes : ["test"];
       const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
@@ -123,17 +130,20 @@ function HomeScreen({ navigation }) {
 
       unsub = onSnapshot(
         query(
-          collection(db, "users"), 
-          where("id", "not-in", [...passedUserIds, ...swipedUserIds])
-        ), 
-        snapshot => {
-        setProfiles(
-          snapshot.docs.filter(doc => doc.id !== user.uid).map(doc => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-        );
-      });
+          collection(db, "users"),
+          where("id", "not-in", [...passedUserIds, ...swipedUserIds]),
+        ),
+        (snapshot) => {
+          setProfiles(
+            snapshot.docs
+              .filter((doc) => doc.id !== user.uid)
+              .map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              })),
+          );
+        },
+      );
     };
 
     fetchCards();
@@ -177,7 +187,7 @@ function HomeScreen({ navigation }) {
         {/* ROOMIES LOGO */}
 
         {/* a temp logout button */}
-        <Button title="Logout" onPress={logOut}/>
+        <Button title="Logout" onPress={logOut} />
 
         {/* FILTER ICON */}
         {/* <TouchableOpacity style ={ tailwind(" absolute right-5 top-3")} > */}
@@ -237,45 +247,51 @@ function HomeScreen({ navigation }) {
                 },
               },
             }}
-            renderCard={(card) => card ? (
-              // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
-              // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
-              <View key={card.id} style={styles.card}>
-                <Image
-                  style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
-                  source={{ uri: card.photoURL }}
-                />
-                {/* <Text>{card.name}</Text> */}
-                {/* <View style={tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-between h-20 px-6 py-2 rounded-b-xl')}> */}
-                <View
-                  style={[
-                    tailwind(
-                      "absolute bottom-0 bg-white w-full flex-row justify-between items-center h-20 px-6 py-2 rounded-b-xl",
-                    ),
-                    styles.cardShadow,
-                  ]}
-                >
-                  <View>
+            renderCard={(card) =>
+              card ? (
+                // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
+                // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
+                <View key={card.id} style={styles.card}>
+                  <Image
+                    style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
+                    source={{ uri: card.photoURL }}
+                  />
+                  {/* <Text>{card.name}</Text> */}
+                  {/* <View style={tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-between h-20 px-6 py-2 rounded-b-xl')}> */}
+                  <View
+                    style={[
+                      tailwind(
+                        "absolute bottom-0 bg-white w-full flex-row justify-between items-center h-20 px-6 py-2 rounded-b-xl",
+                      ),
+                      styles.cardShadow,
+                    ]}
+                  >
+                    <View>
+                      <Text style={tailwind("text-xl font-bold")}>
+                        {card.firstName}
+                      </Text>
+                      {/* <Text style = {{fontSize:20, height:20}}>{card.firstName}</Text> */}
+                      {/* <Text>{card.majors}</Text> */}
+                      {/* style = {tailwind("text-xl text-white font-bold")} */}
+                      <Text>{card.classification}</Text>
+                    </View>
                     <Text style={tailwind("text-xl font-bold")}>
-                      {card.firstName}
+                      {card.age}
                     </Text>
-                    {/* <Text style = {{fontSize:20, height:20}}>{card.firstName}</Text> */}
-                    {/* <Text>{card.majors}</Text> */}
-                    {/* style = {tailwind("text-xl text-white font-bold")} */}
-                    <Text>{card.classification}</Text>
                   </View>
-                  <Text style={tailwind("text-xl font-bold")}>{card.age}</Text>
                 </View>
-              </View>
-            ) : (
-              <View style={styles.card}>
-                {/* <Text style={tailwind("text-xl font-bold text-white")}>No more profiles</Text> */}
-                <Image
-                  style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
-                  source={{ uri: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.6435-9/29244092_1881987471874252_4979572236735217664_n.png?stp=dst-png&_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=byICIepiB3EAX-NV2z9&_nc_ht=scontent-lax3-1.xx&oh=00_AfA1Kuv69kBIk7cKjoAg3v_6rnvzE6kXEWmGMyKq-o4s2w&oe=64250DE8" }}
-                />
-              </View>
-            )}
+              ) : (
+                <View style={styles.card}>
+                  {/* <Text style={tailwind("text-xl font-bold text-white")}>No more profiles</Text> */}
+                  <Image
+                    style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
+                    source={{
+                      uri: "https://scontent-lax3-1.xx.fbcdn.net/v/t1.6435-9/29244092_1881987471874252_4979572236735217664_n.png?stp=dst-png&_nc_cat=110&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=byICIepiB3EAX-NV2z9&_nc_ht=scontent-lax3-1.xx&oh=00_AfA1Kuv69kBIk7cKjoAg3v_6rnvzE6kXEWmGMyKq-o4s2w&oe=64250DE8",
+                    }}
+                  />
+                </View>
+              )
+            }
           />
         </View>
 
@@ -314,10 +330,7 @@ function HomeScreen({ navigation }) {
         </View>
       </SafeAreaView>
 
-      <IconMenu 
-      navigation={navigation}
-      screenCurr="HomeScreen"
-      />
+      <IconMenu navigation={navigation} screenCurr="HomeScreen" />
     </View>
   );
 }

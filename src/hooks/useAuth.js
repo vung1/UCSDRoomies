@@ -15,7 +15,7 @@ import { auth } from "../../firebase";
 
 const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     signInWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredential) => {
         if (userCredential) {
-          const user = userCredential.user;
+          const { user } = userCredential;
           console.log("Logged in with:", user.email);
         } else {
           return Promise.reject();
@@ -69,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
     createUserWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredentials) => {
-        const user = userCredentials.user;
+        const { user } = userCredentials;
         console.log("Registered with:", user.email);
         navigation.navigate("ModelScreen", "ModelScreen");
       })
@@ -97,7 +97,7 @@ export const AuthProvider = ({ children }) => {
       {!loadingInitial && children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default function useAuth() {
   return useContext(AuthContext);

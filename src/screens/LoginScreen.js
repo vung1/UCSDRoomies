@@ -14,14 +14,14 @@ function LoginScreen({ navigation }) {
       </View>
 
       <View style={styles.loginButtonContainer}>
-        <SigninButton 
+        <SigninButton
           navigation={navigation}
           screenCurr="LoginScreen"
           state={{}}
           showMessages={{}}
         />
-        <View style={{marginTop: "7%"}}></View>
-        <SignupButton 
+        <View style={{ marginTop: "7%" }} />
+        <SignupButton
           navigation={navigation}
           screenCurr="LoginScreen"
           state={{}}

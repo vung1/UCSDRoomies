@@ -17,7 +17,7 @@ import useAuth from "../hooks/useAuth";
 
 const Stack = createNativeStackNavigator();
 
-const MainStackNavigator = () => {
+function MainStackNavigator() {
   const { user } = useAuth();
 
   return (
