@@ -19,18 +19,18 @@ import { getDocs, collection } from "@firebase/firestore";
 import { db } from "../../firebase";
 
 function LikesScreen({ navigation }) {
-  const currentUser = useAuth();
+  const { user } = useAuth();
   const [passes, setPasses] = useState([]);
 
-  console.log(currentUser.id, "this is the user id");
+  console.log(user.uid, "this is the user id");
 
   // const passes = await getDocs(
-  //   collection(db, "users", currentUser.uid, "passes"),
+  //   collection(db, "users", user.uid, "passes"),
   // );
 
   useEffect(() => {
     async function getDocuments() {
-      await getDocs(collection(db, "users", currentUser.uid, "passes")).then(
+      await getDocs(collection(db, "users", user.uid, "passes")).then(
         (querySnapshot) => {
           const passArr = [];
           querySnapshot.forEach((doc) => {
