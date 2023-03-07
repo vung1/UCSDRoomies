@@ -5,13 +5,12 @@ import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
 import { db, auth } from "../../firebase";
-import { doc, getDoc, getDocs, onSnapshot, setDoc, serverTimestamp, collection } from "@firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, updateDoc } from "@firebase/firestore";
 import useAuth from "../hooks/useAuth";
 
 function ChatScreen({ route, navigation }) {
-  const { user } = route.params;
-  // const { firebase_user } = useAuth();
+  const { other_user } = route.params;
+  const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [contentHeight, setContentHeight] = useState({ height: 90 });
   const [curr_msg, setMsg] = useState({ message: "" });
@@ -30,7 +29,7 @@ function ChatScreen({ route, navigation }) {
   useEffect(
     () => {
       // get messages map key. (id_id ascending order)
-      const key = (auth.currentUser.uid > user.id) ? (user.id + "_" + auth.currentUser.uid) : (auth.currentUser.uid + "_" + user.id);
+      const key = (user.uid > other_user.id) ? (other_user.id + "_" + user.uid) : (user.uid + "_" + other_user.id);
       setKey(key);
 
       // Get message history from firebase
@@ -38,7 +37,11 @@ function ChatScreen({ route, navigation }) {
         const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
         if (docSnap.exists()) {
           const firebase_messages_list = docSnap.data();
-          setAllMessages(firebase_messages_list[key]);
+          if (key in firebase_messages_list) {
+            setAllMessages(firebase_messages_list[key]);
+          } else {
+            setAllMessages([]);
+          }
         } else {
           console.log("No such document!");
         }
@@ -54,20 +57,33 @@ function ChatScreen({ route, navigation }) {
 
     // intergrate with firebase
     const timestamp = ((hour >= 10)? hour.toString() : "0" + hour) + ((min >= 10)? min.toString() : "0" + min);
-    const value = auth.currentUser.uid + ":" + curr_msg.message + "\\n" + timestamp; // TODO: should change to server time serverTimestamp();
+    const value = user.uid + ":" + curr_msg.message + "\\n" + timestamp; // TODO: should change to server time serverTimestamp();
 
-    // set messages to firebase message_for_all
     messages.push(value);
-
     const docData = {
       [key]: messages, 
     };
-    await setDoc(doc(db, "message_for_all", "all_messages"), docData);
+    await updateDoc(doc(db, "message_for_all", "all_messages"), docData);
 
     // store messages to each user in firebase
-    db.collection("users").doc(auth.currentUser.uid).collection("messages").doc(user.id).set({ //auth.currentUser.uid, "messages").doc(user.id).set({
-      [auth.currentUser.uid]: key
-    });
+    // db.collection("users").doc(user.uid).collection("messages").doc(other_user.id).set({ 
+    //   [user.uid]: key
+    // });
+    // const docSnap = await getDoc(doc(db, "users", user.uid));
+    // const all_users = docSnap.data();
+    // if ("messages" in all_users) {
+    //   const messages = all_users.messages;
+    //   messages.push({[other_user.id]: key})
+    //   await updateDoc(doc(db, "users", user.uid), {
+    //     messages
+    //   });
+    // } else {
+    //   await updateDoc(doc(db, "users", user.uid), {
+    //     messages : {
+    //       [other_user.id]: key
+    //     }
+    //   });
+    // }
 
     setMsg({message : ""});
   };
@@ -91,10 +107,10 @@ function ChatScreen({ route, navigation }) {
             screenName="Matches"
           />
   
-          <View style={styles.user} key={user.id}>
-            <Image source={{ uri: user.photoURL }} style={styles.simp_image} />
+          <View style={styles.user} key={other_user.id}>
+            <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
           </View>
-          <Text style={styles.name}>{user.firstName}</Text>
+          <Text style={styles.name}>{other_user.firstName}</Text>
         </View>
       </View>
 
@@ -120,12 +136,12 @@ function ChatScreen({ route, navigation }) {
             </Text>:<Text style={styles.bar}></Text> }
             <View style={styles.message_box}>
               {/* TODO */}
-              {msg.split(":")[0] !== auth.currentUser.uid ? (
+              {msg.split(":")[0] !== user.uid ? (
                 <>
                   <View style={styles.message_side}>
-                    <View style={styles.user} key={user.id}>
+                    <View style={styles.user} key={other_user.id}>
                       <Image
-                        source={{ uri: user.photoURL }}
+                        source={{ uri: other_user.photoURL }}
                         style={styles.simp_image}
                       />
                     </View>
@@ -147,7 +163,7 @@ function ChatScreen({ route, navigation }) {
                     </Text>
                   </View>
                   <View style={styles.message_self_side}>
-                    <View style={styles.user_self} key={user.id}>
+                    <View style={styles.user_self} key={other_user.id}>
                       <Image
                         source={{ uri: user_prof[0].image }}
                         style={styles.simp_image}
@@ -199,7 +215,7 @@ function ChatScreen({ route, navigation }) {
           setContentHeight({height: inputH});
         }}
         onChangeText={(text) => {
-          ((text.length > 0 && text[-1] != "\n") ? setMsg({message : text}): null)
+          ((text.length > 0 && text[-1] != "\n") ? setMsg({message : text}) : setMsg({message : ""}))
           }
         }
         

@@ -20,7 +20,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 function MatchesScreen({ navigation }) {
 
   const { user } = useAuth();
-  const [users, setAllUsers] = useState([]);
+  const [other_users, setAllUsers] = useState([]);
   const [messages, setAllMessages] = useState([]);
 
   useEffect(() => {
@@ -37,13 +37,19 @@ function MatchesScreen({ navigation }) {
       if (docSnap.exists()) {
         const firebase_messages_list = docSnap.data();
         setAllMessages(firebase_messages_list);
+        // const key = (user.uid > user.id) ? (user.id + "_" + user.uid) : (user.uid + "_" + user.id);
+        // if (key in firebase_messages_list) {
+        //   setAllMessages(firebase_messages_list[key]);
+        // } else {
+        //   setAllMessages([]);
+        // }
       }
     }
     getMessages();
 
   }, [db]);
 
-  // console.log(users);
+  // console.log(other_users);
   // console.log(messages);
 
   return (
@@ -63,22 +69,19 @@ function MatchesScreen({ navigation }) {
         </View>
         <ScrollView style={styles.scrollView} horizontal>
           <View style={styles.users}>
-            {users.map((user) => (
+            {other_users.map((other_user) => (
               <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Chat", {
-                  user
+                  other_user
                 })
               }
               >
-                {/* <View style={styles.user} key={user.id}>
-                <Image source={{ uri: user.image }} style={styles.simp_image} />
-                <Text style={styles.name}>{user.name.split(" ")[0]}</Text> */}
-                <View style={styles.user} key={user.id}>
-                <Image source={{ uri: user.photoURL }} style={styles.simp_image} />
-                <Text style={styles.name}>{user.firstName}</Text>
-              </View>
-                </TouchableOpacity>
+                <View style={styles.user} key={other_user.id}>
+                  <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
+                  <Text style={styles.name}>{other_user.firstName}</Text>
+                </View>
+              </TouchableOpacity>
             ))}
           </View>
         </ScrollView>
@@ -86,32 +89,32 @@ function MatchesScreen({ navigation }) {
       <View style={styles.message_area}>
         <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
-            {users.map((user) =>
-              (true) ? ( //(user.messages.length!=0) ? (
+            {other_users.map((other_user) =>
+              (true) ? (//(messages.length!=0) ? (
                 <TouchableOpacity
                 onPress={() =>
                     navigation.navigate("Chat", {
-                      user
+                      other_user
                     })
                   }
                 >
-                  <View style={styles.message_box} key={user.id}>
-                    <View style={styles.user} key={user.id}>
+                  <View style={styles.message_box} key={other_user.id}>
+                    <View style={styles.user} key={other_user.id}>
                       <Image
-                        source={{ uri: user.photoURL }}
+                        source={{ uri: other_user.photoURL }}
                         style={styles.simp_image}
                       />
                     </View>
                     <View style={styles.message_mid}>
-                      <Text style={styles.msg_name}>{user.firstName}</Text>
+                      <Text style={styles.msg_name}>{other_user.firstName}</Text>
                       <Text style={styles.message}>
-                        {/* {user.messages.slice(-1)[0].split("\n")[0]} */}
+                        {/* {messages.slice(-1)[0].split("\\n")[0].split(":")[1]} */}
                       </Text>
                     </View>
                     <View>
                       <Text style={styles.time} />
                       <Text style={styles.time}>
-                        {/* {user.messages[0].split("\n").pop()} */}
+                        {/* {messages[0].split("\\n")[0].split(":")[1]} */}
                       </Text>
                     </View>
                   </View>
