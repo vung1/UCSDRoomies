@@ -29,13 +29,6 @@ function MainStackNavigator() {
           animationEnabled: false,
         }}
       >
-        <Stack.Screen name="Matches" component={MatchesScreen} />
-            <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            
-            <Stack.Screen name="Chat" component={ChatScreen} />
-            <Stack.Screen name="Likes" component={LikesScreen} />
-            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-            <Stack.Screen name="ModelScreen" component={ModelScreen} />
         {user ? (
           <>
           <Stack.Screen name="Matches" component={MatchesScreen} />
