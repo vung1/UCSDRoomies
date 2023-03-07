@@ -22,8 +22,6 @@ function LikesScreen({ navigation }) {
   const { user } = useAuth();
   const [swipes, setSwipes] = useState([]);
 
-  console.log(user.uid, "this is the user id");
-
   // const passes = await getDocs(
   //   collection(db, "users", user.uid, "passes"),
   // );
@@ -42,7 +40,7 @@ function LikesScreen({ navigation }) {
       );
     }
     getDocuments();
-  }, []);
+  }, [swipes]);
 
   return (
     <View style={styles.ver_container}>
@@ -70,16 +68,12 @@ function LikesScreen({ navigation }) {
 
         <View style={styles.message_area}>
           <ScrollView style={styles.scrollView} vertical>
-          <View style={styles.users} >
-            {swipes.map((currentUser, index) => (
-              
+            <View style={styles.users}>
+              {swipes.map((currentUser, index) => (
                 <View style={styles.user} key={currentUser.id}>
-                <TouchableOpacity
-                  onPress={() =>
-                    console.log(`profile ${currentUser.id}`)
-                  }
-                >
-                  
+                  <TouchableOpacity
+                    onPress={() => console.log(`profile ${currentUser.id}`)}
+                  >
                     <ImageBackground
                       source={{ uri: currentUser.photoURL }}
                       style={styles.simp_image}
@@ -89,11 +83,9 @@ function LikesScreen({ navigation }) {
                         {currentUser.firstName} {currentUser.lastName}
                       </Text>
                     </ImageBackground>
-                  
-                </TouchableOpacity>
+                  </TouchableOpacity>
                 </View>
-              
-            ))}
+              ))}
             </View>
           </ScrollView>
         </View>
@@ -120,7 +112,7 @@ const styles = StyleSheet.create({
   },
   users: {
     flexDirection: "row",
-    flex:1,
+    flex: 1,
     justifyContent: "left",
     flexWrap: "wrap",
     padding: 10,
