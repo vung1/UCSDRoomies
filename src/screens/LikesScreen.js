@@ -34,15 +34,14 @@ function LikesScreen({ navigation }) {
         (querySnapshot) => {
           const passArr = [];
           querySnapshot.forEach((doc) => {
-            const { firstName, photoURL } = doc.data();
-            passArr.push({ id: doc.id, firstName, photoURL });
+            const { firstName, lastName, photoURL } = doc.data();
+            passArr.push({ id: doc.id, firstName, lastName, photoURL });
           });
           setPasses(passArr);
         },
       );
-
-      getDocs();
     }
+    getDocuments();
   }, []);
 
   return (
@@ -65,29 +64,31 @@ function LikesScreen({ navigation }) {
               (styles.head, { fontSize: 18, marginLeft: 30, marginBottom: 15 })
             }
           >
-            {users.length} Likes
+            {passes.length} Likes
           </Text>
         </View>
 
         <View style={styles.message_area}>
           <ScrollView style={styles.scrollView} vertical>
-            {passes.map((user) => (
+            {passes.map((currentUser) => (
               <View style={styles.users}>
                 <TouchableOpacity
                   onPress={() =>
                     // navigation.navigate("Chat", {
                     //   user
                     // })
-                    console.log("profile " + user.id)
+                    console.log("profile " + currentUser.id)
                   }
                 >
-                  <View style={styles.user} key={user.id}>
+                  <View style={styles.user} key={currentUser.id}>
                     <ImageBackground
-                      source={{ uri: user.photoURL }}
+                      source={{ uri: currentUser.photoURL }}
                       style={styles.simp_image}
                       imageStyle={{ borderRadius: 10, overflow: "hidden" }}
                     >
-                      <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
+                      <Text style={styles.name}>
+                        {currentUser.firstName} {currentUser.lastName}
+                      </Text>
                     </ImageBackground>
                   </View>
                 </TouchableOpacity>
