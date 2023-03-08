@@ -21,6 +21,7 @@ import {
   collection,
   query,
   where,
+  serverTimestamp,
 } from "@firebase/firestore";
 
 import IconMenu from "../components/IconMenu";
@@ -139,6 +140,7 @@ function HomeScreen({ navigation }) {
               .filter((doc) => doc.id !== user.uid)
               .map((doc) => ({
                 id: doc.id,
+                swipe_pass_timestamp: serverTimestamp(),
                 ...doc.data(),
               })),
           );
