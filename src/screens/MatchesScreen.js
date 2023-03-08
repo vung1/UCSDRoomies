@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {
   TouchableOpacity,
   View,
@@ -9,86 +9,158 @@ import {
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
-import users from "../../assets/data/users";
+// import users from "../../assets/data/users";
+import useAuth from "../hooks/useAuth";
 import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
+import { db, auth } from "../../firebase";
+import { collection, query, where, orderBy, limit, getDocs, getDoc, doc } from "firebase/firestore";
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 function MatchesScreen({ navigation }) {
+
+  const { user } = useAuth();
+  const [other_users, setAllUsers] = useState([]); // all the users except the current login user info
+  const [messages, setAllMessages] = useState([]);
+  const [chat_map, setChatMap] = useState({});
+
+  useEffect(() => {
+    db.collection('users').get().then(snapshot => {
+      // Get all other users info from firebase
+      const arr_users = snapshot.docs.map(doc => doc.data());
+      setAllUsers(arr_users);
+      
+      // Get all users info from firebase include current login user
+      var users_map = {};
+      snapshot.docs.map(function(doc) {
+        users_map[doc.data().id] = doc.data();
+      })
+      // Find current user and get messages historys KEYS
+      if ("messages" in users_map[user.uid]) {
+        setChatMap(users_map[user.uid].messages);
+      } else {
+        setChatMap({});
+      }
+    });
+
+    // Get message history from firebase
+    const getMessages = async() => { 
+      const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
+      if (docSnap.exists()) {
+        const firebase_messages_list = docSnap.data();
+        setAllMessages(firebase_messages_list);
+      }
+    }
+    getMessages();
+
+  }, [db]);
+
+  // console.log(chat_map);
+  // console.log(messages);
+
   return (
     <View style={styles.ver_container}>
       <SafeAreaView style={styles.container}>
-        <View style={styles.container}>
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontSize: 24,
-                color: "#247DCF",
-                marginLeft: 20,
-              }}
-            >
-              New Matches
-            </Text>
-          </View>
-          <ScrollView style={styles.scrollView} horizontal>
-            <View style={styles.users}>
-              {users.map((user) => (
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("Chat", {
-                      user,
-                    })
-                  }
-                >
-                  <View style={styles.user} key={user.id}>
-                    <Image
-                      source={{ uri: user.image }}
-                      style={styles.simp_image}
-                    />
-                    <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </ScrollView>
+      <View style={styles.container}>
+        <View style={{ flexDirection: "row" }}>
+          <Text
+            style={{
+              fontSize: 24,
+              color: "#247DCF",
+              marginLeft: 20,
+            }}
+          >
+            New Matches
+          </Text>
         </View>
-        <View style={styles.message_area}>
-          <ScrollView style={styles.scrollView} vertical>
-            <View style={styles.container}>
-              {users.map((user) =>
-                user.messages.length != 0 ? (
+        <ScrollView style={styles.scrollView} horizontal>
+          <View style={styles.users}>
+            {other_users.map((other_user) => (
+              <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("Chat", {
+                  other_user
+                })
+              }
+              >
+                <View style={styles.user} key={other_user.id}>
+                  <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
+                  <Text style={styles.name}>{other_user.firstName}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+      <View style={styles.message_area}>
+        <ScrollView style={styles.scrollView} vertical>
+          <View style={styles.container}>
+            {other_users.map((other_user) => 
+                // chat_map[other_user.id] is the key, id_id, to get the actual chat data
+                (messages[chat_map[other_user.id]]!=null && messages[chat_map[other_user.id]].length!=0) ? ( //(true) ? (
                   <TouchableOpacity
-                    onPress={() =>
+                  onPress={() =>
                       navigation.navigate("Chat", {
-                        user,
+                        other_user
                       })
                     }
                   >
-                    <View style={styles.message_box} key={user.id}>
-                      <View style={styles.user} key={user.id}>
+                    <View style={styles.message_box} key={other_user.id}>
+                      <View style={styles.user} key={other_user.id}>
                         <Image
-                          source={{ uri: user.image }}
+                          source={{ uri: other_user.photoURL }}
                           style={styles.simp_image}
                         />
                       </View>
                       <View style={styles.message_mid}>
-                        <Text style={styles.msg_name}>{user.name}</Text>
+                        <Text style={styles.msg_name}>{other_user.firstName}</Text>
                         <Text style={styles.message}>
-                          {user.messages.slice(-1)[0].split("\n")[0]}
+                          {messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[0].split(":")[1]}
                         </Text>
                       </View>
                       <View>
                         <Text style={styles.time} />
                         <Text style={styles.time}>
-                          {user.messages[0].split("\n").pop()}
+                          {messages[chat_map[other_user.id]][0].split("\\n")[1]}
                         </Text>
                       </View>
                     </View>
                   </TouchableOpacity>
-                ) : null,
-              )}
-            </View>
-          </ScrollView>
-        </View>
+                ) : null, // ( 
+                //   // in this case, the other_user haven't start a conversation with current logged in user
+                //   <TouchableOpacity
+                //   onPress={() =>
+                //       navigation.navigate("Chat", {
+                //         other_user
+                //       })
+                //     }
+                //   >
+                //     <View style={styles.message_box} key={other_user.id}>
+                //       <View style={styles.user} key={other_user.id}>
+                //         <Image
+                //           source={{ uri: other_user.photoURL }}
+                //           style={styles.simp_image}
+                //         />
+                //       </View>
+                //       <View style={styles.message_mid}>
+                //         <Text style={styles.msg_name}>{other_user.firstName}</Text>
+                //         <Text style={styles.message}>
+                //           {/* {messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[0].split(":")[1]} */}
+                //         </Text>
+                //       </View>
+                //       <View>
+                //         <Text style={styles.time} />
+                //         <Text style={styles.time}>
+                //           {/* {messages[chat_map[other_user.id]][0].split("\\n")[0].split(":")[1]} */}
+                //         </Text>
+                //       </View>
+                //     </View>
+                //   </TouchableOpacity>
+                // )
+            )}
+          </View>
+        </ScrollView>
+      </View>
       </SafeAreaView>
 
       <IconMenu navigation={navigation} screenCurr="MatchesScreen" />
@@ -139,7 +211,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
   message_area: {
-    flex: 4,
+    flex: 3,
   },
   message_box: {
     height: 85,

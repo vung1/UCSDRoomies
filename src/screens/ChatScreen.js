@@ -1,17 +1,23 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useCallback} from "react";
 import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, Button, TouchableOpacity, TouchableHighlight } from "react-native";
 import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
-import messages_for_all from "../../assets/data/messages_for_all";
+import { db, auth } from "../../firebase";
+import { doc, getDoc, updateDoc } from "@firebase/firestore";
+import useAuth from "../hooks/useAuth";
 
 function ChatScreen({ route, navigation }) {
-  const { user } = route.params;
+  const { other_user } = route.params;
+  const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
-  const [contentHeight, setContentHeight] = React.useState({ height: 90 });
-  const [msg, setMsg] = React.useState({ message: "" });
-  const onRefresh = React.useCallback(() => {
+  const [contentHeight, setContentHeight] = useState({ height: 90 });
+  const [curr_msg, setMsg] = useState({ message: "" });
+  const [messages, setAllMessages] = useState([]);
+  const [key, setKey] = useState("");
+
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
@@ -19,32 +25,91 @@ function ChatScreen({ route, navigation }) {
   }, []);
   const scrollViewRef = useRef();
   var prevTime = 0;
-  const msg_id = (user.id < user_prof[0].id) ? user.id + ''+ user_prof[0].id : user_prof[0].id +""+user.id; 
-  var user_messages = messages_for_all[0][msg_id];
-  console.log(user_prof[0].id+" "+msg_id+' '+user_messages);
+
+  useEffect(
+    () => {
+      console.log("current user photoURL: ", user.photoURL);
+
+      // get messages map key. (id_id ascending order)
+      const key = (user.uid > other_user.id) ? (other_user.id + "_" + user.uid) : (user.uid + "_" + other_user.id);
+      setKey(key);
+
+      // Get message history from firebase
+      const getMessages = async() => { 
+        const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
+        if (docSnap.exists()) {
+          const firebase_messages_list = docSnap.data();
+          if (key in firebase_messages_list) {
+            setAllMessages(firebase_messages_list[key]);
+          } else {
+            setAllMessages([]);
+          }
+        } else {
+          console.log("No such document!");
+        }
+      };
+      getMessages();
+  }, [messages]);
+
+  // console.log(messages);
+
+  async function sender(curr_msg, setMsg){
+    var hour = new Date().getHours();
+    var min = new Date().getMinutes();
+
+    // intergrate with firebase
+    const timestamp = ((hour >= 10)? hour.toString() : "0" + hour) + ((min >= 10)? min.toString() : "0" + min);
+    const value = user.uid + ":" + curr_msg.message + "\\n" + timestamp; // TODO: should change to server time serverTimestamp();
+
+    messages.push(value);
+    const docData = {
+      [key]: messages, 
+    };
+    await updateDoc(doc(db, "message_for_all", "all_messages"), docData);
+
+    // store messages to each user in firebase
+    const docSnap = await getDoc(doc(db, "users", user.uid));
+    const curr_user_data = docSnap.data();
+
+    if ("messages" in curr_user_data) {
+      curr_user_data.messages[other_user.id] = key
+      // console.log(curr_user_data.messages);
+      await updateDoc(doc(db, "users", user.uid), {
+        messages: curr_user_data.messages
+      });
+    } else {
+      const return_message = {[other_user.id]: key};
+      await updateDoc(doc(db, "users", user.uid), {
+        messages: return_message
+      });
+    }
+
+    setMsg({message : ""});
+  };
 
   function currentTimeLag(msg){
-    var time = msg.split("\n").slice(-1)[0].split(":").join("");
+    var time = msg.split("\\n").slice(-1);
     var lag = prevTime - time;
     // console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
     prevTime = time;
     return lag > 0 || lag < -10;
-  }
+  };
 
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
+
           <BackArrow
             navigation={navigation}
             screen="MatchesScreen"
             screenName="Matches"
           />
   
-          <View style={styles.user} key={user.id}>
-            <Image source={{ uri: user.image }} style={styles.simp_image} />
+          <View style={styles.user} key={other_user.id}>
+            <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
           </View>
-          <Text style={styles.name}>{user.name.split(" ")[0]}</Text>
+          <Text style={styles.name}>{other_user.firstName}</Text>
         </View>
       </View>
 
@@ -56,31 +121,33 @@ function ChatScreen({ route, navigation }) {
         ref={scrollViewRef}
         onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}
         >
-           {(user_messages.length == 0) ? 
+           {(messages.length == 0) ? 
            <Text 
            style={styles.bar}>
             New message
             </Text> 
-           : user_messages.map((msg) => (
+           : messages.map((msg) => (
            <>
            { (currentTimeLag(msg)) ? 
            <Text style={styles.bar}>
-            {msg.split("\n").slice(-1)[0]}
+            {/* TODO */}
+            {msg.split("\\n").slice(-1)[0].substring(0, 2) + ":" + msg.split("\\n").slice(-1)[0].substring(2, 4)}
             </Text>:<Text style={styles.bar}></Text> }
             <View style={styles.message_box}>
-              {/* other one  */}
-              {msg.split(":")[0] != user_prof[0].id ? (
+              {/* TODO */}
+              {msg.split(":")[0] !== user.uid ? (
                 <>
                   <View style={styles.message_side}>
-                    <View style={styles.user} key={user.id}>
+                    <View style={styles.user} key={other_user.id}>
                       <Image
-                        source={{ uri: user.image }}
+                        source={{ uri: other_user.photoURL }}
                         style={styles.simp_image}
                       />
                     </View>
                   </View>
                   <View style={styles.message_mid}>
-                    <Text style={styles.message}>{msg.split(":").slice(1).join(":").split("\n")[0]}</Text>
+                    {/* TODO */}
+                    <Text style={styles.message}>{msg.split("\\n")[0].split(":")[1]}</Text> 
                   </View>
                   <View style={styles.message_side} />
                 </>
@@ -90,13 +157,14 @@ function ChatScreen({ route, navigation }) {
                   <View style={styles.message_self_side} />
                   <View style={styles.message_self_mid}>
                     <Text style={styles.message_self}>
-                      {msg.split(":").slice(1).join(":").split("\n")[0]}
+                      {/* TODO */}
+                      {msg.split("\\n")[0].split(":")[1]}
                     </Text>
                   </View>
                   <View style={styles.message_self_side}>
-                    <View style={styles.user_self} key={user.id}>
+                    <View style={styles.user_self} key={user.uid}>
                       <Image
-                        source={{ uri: user_prof[0].image }}
+                        source={{ uri: user.photoURL }} //TODO
                         style={styles.simp_image}
                       />
                     </View>
@@ -138,7 +206,7 @@ function ChatScreen({ route, navigation }) {
         blurOnSubmit={true}
         returnKeyType="blur"
         multiline
-        value={msg.message}
+        value={curr_msg.message}
         onContentSizeChange={(e) => {
           let inputH = Math.max(e.nativeEvent.contentSize.height+43, 60);
           if (inputH > 83) inputH = 83;
@@ -146,7 +214,7 @@ function ChatScreen({ route, navigation }) {
           setContentHeight({height: inputH});
         }}
         onChangeText={(text) => {
-          ((text.length > 0 && text[-1] != "\n") ? setMsg({message: text}): null)
+          ((text.length > 0 && text[-1] != "\n") ? setMsg({message : text}) : setMsg({message : ""}))
           }
         }
         
@@ -156,7 +224,7 @@ function ChatScreen({ route, navigation }) {
           activeOpacity={0.6}
           color="#247DCF"
           onPress={() => {
-            ((msg.message != "") ? sender(msg, setMsg, user_messages) : null)
+            ((curr_msg.message != "") ? sender(curr_msg, setMsg) : null)
           }
           }
           style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
@@ -190,17 +258,6 @@ function ChatScreen({ route, navigation }) {
       </View>
     </SafeAreaView>
   );
-}
-
-function sender(msg, setMsg, currMsg){
-  var hour = new Date().getHours();
-  var min = new Date().getMinutes();
-  
-  currMsg.push((user_prof[0].id + ":")
-  +((msg.message[-1] != "\n") ? msg.message : msg.message.slice(-1)) +"\n"
-  + ((hour >= 10)? hour : "0" + hour) +":"+((min >= 10)? min : "0" + min)),
-  console.log(currMsg),
-  setMsg({message: ""})
 }
 
 const styles = StyleSheet.create({
