@@ -28,6 +28,8 @@ function ChatScreen({ route, navigation }) {
 
   useEffect(
     () => {
+      console.log("current user photoURL: ", user.photoURL);
+
       // get messages map key. (id_id ascending order)
       const key = (user.uid > other_user.id) ? (other_user.id + "_" + user.uid) : (user.uid + "_" + other_user.id);
       setKey(key);
@@ -47,7 +49,7 @@ function ChatScreen({ route, navigation }) {
         }
       };
       getMessages();
-  }, []);
+  }, [messages]);
 
   // console.log(messages);
 
@@ -160,9 +162,9 @@ function ChatScreen({ route, navigation }) {
                     </Text>
                   </View>
                   <View style={styles.message_self_side}>
-                    <View style={styles.user_self} key={other_user.id}>
+                    <View style={styles.user_self} key={user.uid}>
                       <Image
-                        source={{ uri: user_prof[0].image }}
+                        source={{ uri: user.photoURL }} //TODO
                         style={styles.simp_image}
                       />
                     </View>
