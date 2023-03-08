@@ -6,28 +6,20 @@ import utilities from "./tailwind.json";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import MatchesScreen from "./src/screens/MatchesScreen";
-import InitScreen from "./src/screens/InitScreen";
-import ChatScreen from "./src/screens/ChatScreen";
-import ProfileScreen from "./src/screens/ProfileScreen";
 import MainStackNavigator from "./src/navigation/MainStackNavigator";
-import { NavigationContainer } from "@react-navigation/native";
-import {
-  createNativeStackNavigator,
-  createAppContainer,
-  createSwitchNavigator,
-} from "@react-navigation/native-stack";
+import { AuthProvider } from "./src/hooks/useAuth";
 
-const Stack = createNativeStackNavigator();
-
-const App = () => {
+function App() {
   return (
     <TailwindProvider utilities={utilities}>
       <View style={styles.pageContainer}>
-        <MainStackNavigator />
+        <AuthProvider>
+          <MainStackNavigator />
+        </AuthProvider>
       </View>
     </TailwindProvider>
   );
-};
+}
 
 const styles = StyleSheet.create({
   pageContainer: {

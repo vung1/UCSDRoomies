@@ -1,3 +1,4 @@
+
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Button, ImageBackground} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
@@ -331,6 +332,7 @@ let numberOfSquare = 4;
         screenCurr="HomeScreen"
         screenCurrName="HomeScreen"
       />
+
     </View>
   );
 }
@@ -350,9 +352,4 @@ const icon = StyleSheet.create( {
 })
 
 
-
 export default ProfileScreen;
-
-
-
-

@@ -28,6 +28,7 @@
     "@react-navigation/native": "^6.1.4",
     "@react-navigation/native-stack": "^6.9.10",
     "@react-navigation/stack": "^6.3.14",
+    "@testing-library/user-event": "^14.4.3",
     "entypo": "^2.2.1",
     "expo": "~47.0.12",
     "expo-camera": "~13.1.0",
@@ -42,6 +43,8 @@
     "nativewind": "^2.0.11",
     "react": "18.1.0",
     "react-feather": "^2.0.10",
+    "moment": "^2.29.4",
+    "react-firebase-hooks": "^5.1.1",
     "react-native": "0.70.5",
     "react-native-deck-swiper": "^2.0.13",
     "react-native-gesture-handler": "~2.8.0",
@@ -58,6 +61,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-wind": "^1.2.0",
     "react-navigation-stack": "^2.10.4",
+    "react-test-renderer": "18.1.0",
     "tailwind": "^4.0.0",
     "tailwind-rn": "^4.2.0"
   },
@@ -93,7 +97,7 @@
   "jest": {
     "preset": "jest-expo",
     "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|@react-native|native-base|(?!@ngrx|(?!deck.gl)|ng-dynamic)|@expo-google-fonts/|@sentry/.*)"
     ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
