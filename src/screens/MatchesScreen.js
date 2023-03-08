@@ -126,7 +126,37 @@ function MatchesScreen({ navigation }) {
                       </View>
                     </View>
                   </TouchableOpacity>
-                ) : null,
+                ) : ( 
+                  // in this case, the other_user haven't start a conversation with current logged in user
+                  <TouchableOpacity
+                  onPress={() =>
+                      navigation.navigate("Chat", {
+                        other_user
+                      })
+                    }
+                  >
+                    <View style={styles.message_box} key={other_user.id}>
+                      <View style={styles.user} key={other_user.id}>
+                        <Image
+                          source={{ uri: other_user.photoURL }}
+                          style={styles.simp_image}
+                        />
+                      </View>
+                      <View style={styles.message_mid}>
+                        <Text style={styles.msg_name}>{other_user.firstName}</Text>
+                        <Text style={styles.message}>
+                          {/* {messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[0].split(":")[1]} */}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={styles.time} />
+                        <Text style={styles.time}>
+                          {/* {messages[chat_map[other_user.id]][0].split("\\n")[0].split(":")[1]} */}
+                        </Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                )
             )}
           </View>
         </ScrollView>
