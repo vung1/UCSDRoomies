@@ -177,7 +177,7 @@ function HomeScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.pageContainer}>
+    <View testID="view.container"style={styles.pageContainer}>
       {/* Header */}
       {/* flex row item-center justify-between px-5 */}
       {/* <View style = {("flex row items-center justify-between relative px-5")}> */}
@@ -189,7 +189,7 @@ function HomeScreen({ navigation }) {
         {/* ROOMIES LOGO */}
 
         {/* a temp logout button */}
-        <Button title="Logout" onPress={logOut} />
+        <Button testID="logout.Button" title="Logout" onPress={logOut} />
 
         {/* FILTER ICON */}
         {/* <TouchableOpacity style ={ tailwind(" absolute right-5 top-3")} > */}
@@ -210,10 +210,11 @@ function HomeScreen({ navigation }) {
       {/* style ={tailwind('flex-1 -mt-3')} */}
 
       {/* <SafeAreaView style = {tailwind("flex-1")} > */}
-      <SafeAreaView style={styles.cardContainer}>
+      <SafeAreaView testID ="SAV" style={styles.cardContainer}>
         {/* <View style ={tailwind('flex-1')}> */}
-        <View style={styles.animatedCard}>
+        <View style={styles.animatedCard}>  
           <Swiper
+            testID="swiper"
             ref={swipeRef}
             // style= {styles.card}
             containerStyle={{ backgroundColor: "transparent" }}
@@ -303,6 +304,7 @@ function HomeScreen({ navigation }) {
         {/* <View style = {tailwind('mb-8 flex-row justify-evenly ')}> */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
+            testID="leftSwipe"
             onPress={() => {
               swipeRef.current.swipeLeft();
             }}
