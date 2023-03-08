@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
-import { getDocs, collection } from "@firebase/firestore";
+import { getDocs, collection, orderBy, query } from "@firebase/firestore";
 import users from "../../assets/data/users";
 import BackArrow from "../components/BackArrow";
 import useAuth from "../hooks/useAuth";
@@ -22,22 +22,21 @@ function LikesScreen({ navigation }) {
   const { user } = useAuth();
   const [swipes, setSwipes] = useState([]);
 
-  // const passes = await getDocs(
-  //   collection(db, "users", user.uid, "passes"),
-  // );
-
   useEffect(() => {
     async function getDocuments() {
-      await getDocs(collection(db, "users", user.uid, "swipes")).then(
-        (querySnapshot) => {
-          const passArr = [];
-          querySnapshot.forEach((doc) => {
-            const { firstName, lastName, photoURL } = doc.data();
-            passArr.push({ id: doc.id, firstName, lastName, photoURL });
-          });
-          setSwipes(passArr);
-        },
-      );
+      await getDocs(
+        query(
+          collection(db, "users", user.uid, "swipes"),
+          orderBy("swipe_pass_timestamp", "desc"),
+        ),
+      ).then((querySnapshot) => {
+        const passArr = [];
+        querySnapshot.forEach((doc) => {
+          const { firstName, lastName, photoURL } = doc.data();
+          passArr.push({ id: doc.id, firstName, lastName, photoURL });
+        });
+        setSwipes(passArr);
+      });
     }
     getDocuments();
   }, [swipes]);
