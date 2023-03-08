@@ -20,15 +20,27 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 function MatchesScreen({ navigation }) {
 
   const { user } = useAuth();
-  const [other_users, setAllUsers] = useState([]);
+  const [other_users, setAllUsers] = useState([]); // all the users except the current login user info
   const [messages, setAllMessages] = useState([]);
+  const [chat_map, setChatMap] = useState({});
 
   useEffect(() => {
-    // Get user info from firebase
     db.collection('users').get().then(snapshot => {
-      // Object.entries()
-      const arr = snapshot.docs.filter(doc => doc.id !== user.uid).map(doc => doc.data());
-      setAllUsers(arr);
+      // Get all other users info from firebase
+      const arr_users = snapshot.docs.map(doc => doc.data());
+      setAllUsers(arr_users);
+      
+      // Get all users info from firebase include current login user
+      var users_map = {};
+      snapshot.docs.map(function(doc) {
+        users_map[doc.data().id] = doc.data();
+      })
+      // Find current user and get messages historys KEYS
+      if ("messages" in users_map[user.uid]) {
+        setChatMap(users_map[user.uid].messages);
+      } else {
+        setChatMap({});
+      }
     });
 
     // Get message history from firebase
@@ -37,19 +49,13 @@ function MatchesScreen({ navigation }) {
       if (docSnap.exists()) {
         const firebase_messages_list = docSnap.data();
         setAllMessages(firebase_messages_list);
-        // const key = (user.uid > user.id) ? (user.id + "_" + user.uid) : (user.uid + "_" + user.id);
-        // if (key in firebase_messages_list) {
-        //   setAllMessages(firebase_messages_list[key]);
-        // } else {
-        //   setAllMessages([]);
-        // }
       }
     }
     getMessages();
 
   }, [db]);
 
-  // console.log(other_users);
+  // console.log(chat_map);
   // console.log(messages);
 
   return (
@@ -89,37 +95,38 @@ function MatchesScreen({ navigation }) {
       <View style={styles.message_area}>
         <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
-            {other_users.map((other_user) =>
-              (true) ? (//(messages.length!=0) ? (
-                <TouchableOpacity
-                onPress={() =>
-                    navigation.navigate("Chat", {
-                      other_user
-                    })
-                  }
-                >
-                  <View style={styles.message_box} key={other_user.id}>
-                    <View style={styles.user} key={other_user.id}>
-                      <Image
-                        source={{ uri: other_user.photoURL }}
-                        style={styles.simp_image}
-                      />
+            {other_users.map((other_user) => 
+                // chat_map[other_user.id] is the key, id_id, to get the actual chat data
+                (messages[chat_map[other_user.id]]!=null && messages[chat_map[other_user.id]].length!=0) ? ( //(true) ? (
+                  <TouchableOpacity
+                  onPress={() =>
+                      navigation.navigate("Chat", {
+                        other_user
+                      })
+                    }
+                  >
+                    <View style={styles.message_box} key={other_user.id}>
+                      <View style={styles.user} key={other_user.id}>
+                        <Image
+                          source={{ uri: other_user.photoURL }}
+                          style={styles.simp_image}
+                        />
+                      </View>
+                      <View style={styles.message_mid}>
+                        <Text style={styles.msg_name}>{other_user.firstName}</Text>
+                        <Text style={styles.message}>
+                          {messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[0].split(":")[1]}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={styles.time} />
+                        <Text style={styles.time}>
+                          {messages[chat_map[other_user.id]][0].split("\\n")[0].split(":")[1]}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={styles.message_mid}>
-                      <Text style={styles.msg_name}>{other_user.firstName}</Text>
-                      <Text style={styles.message}>
-                        {/* {messages.slice(-1)[0].split("\\n")[0].split(":")[1]} */}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={styles.time} />
-                      <Text style={styles.time}>
-                        {/* {messages[0].split("\\n")[0].split(":")[1]} */}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              ) : null,
+                  </TouchableOpacity>
+                ) : null,
             )}
           </View>
         </ScrollView>

@@ -71,12 +71,12 @@ function ChatScreen({ route, navigation }) {
 
     if ("messages" in curr_user_data) {
       curr_user_data.messages[other_user.id] = key
-      console.log(curr_user_data.messages);
+      // console.log(curr_user_data.messages);
       await updateDoc(doc(db, "users", user.uid), {
         messages: curr_user_data.messages
       });
     } else {
-      const return_message = {[user.uid]: key};
+      const return_message = {[other_user.id]: key};
       await updateDoc(doc(db, "users", user.uid), {
         messages: return_message
       });
