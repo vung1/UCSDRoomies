@@ -16,7 +16,7 @@ function ChatScreen({ route, navigation }) {
   const [curr_msg, setMsg] = useState({ message: "" });
   const [messages, setAllMessages] = useState([]);
   const [key, setKey] = useState("");
-
+  
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {

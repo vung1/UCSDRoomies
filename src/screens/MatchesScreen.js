@@ -23,8 +23,28 @@ function MatchesScreen({ navigation }) {
   const [other_users, setAllUsers] = useState([]); // all the users except the current login user info
   const [messages, setAllMessages] = useState([]);
   const [chat_map, setChatMap] = useState({});
+  const [swiped_users, setSwipes] = useState([]); // all the swiped other users
 
   useEffect(() => {
+    // Get all the swiped other users
+    async function getSwipedUsers() {
+      await getDocs(
+        query(
+          collection(db, "users", user.uid, "swipes"),
+          orderBy("swipe_pass_timestamp", "desc"),
+        ),
+      ).then((querySnapshot) => {
+        const passArr = [];
+        querySnapshot.forEach((doc) => {
+          const { firstName, lastName, photoURL } = doc.data();
+          passArr.push({ id: doc.id, firstName, lastName, photoURL });
+        });
+        setSwipes(passArr);
+      });
+    }
+    getSwipedUsers();
+
+    // Get current login user chat history
     db.collection('users').get().then(snapshot => {
       // Get all other users info from firebase
       const arr_users = snapshot.docs.map(doc => doc.data());
@@ -43,7 +63,7 @@ function MatchesScreen({ navigation }) {
       }
     });
 
-    // Get message history from firebase
+    // Get all message history from firebase
     const getMessages = async() => { 
       const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
       if (docSnap.exists()) {
@@ -53,10 +73,11 @@ function MatchesScreen({ navigation }) {
     }
     getMessages();
 
-  }, [db]);
+  }, [db, messages]); // [swiped_users]);
 
   // console.log(chat_map);
   // console.log(messages);
+  // console.log(swiped_users);
 
   return (
     <View style={styles.ver_container}>
@@ -75,7 +96,8 @@ function MatchesScreen({ navigation }) {
         </View>
         <ScrollView style={styles.scrollView} horizontal>
           <View style={styles.users}>
-            {other_users.map((other_user) => (
+            {swiped_users.map((other_user) => (
+              <View key={other_user.id}>
               <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Chat", {
@@ -83,11 +105,12 @@ function MatchesScreen({ navigation }) {
                 })
               }
               >
-                <View style={styles.user} key={other_user.id}>
+                <View style={styles.user} >
                   <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
                   <Text style={styles.name}>{other_user.firstName}</Text>
                 </View>
               </TouchableOpacity>
+              </View>
             ))}
           </View>
         </ScrollView>
@@ -95,7 +118,7 @@ function MatchesScreen({ navigation }) {
       <View style={styles.message_area}>
         <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
-            {other_users.map((other_user) => 
+            {swiped_users.map((other_user) => 
                 // chat_map[other_user.id] is the key, id_id, to get the actual chat data
                 (messages[chat_map[other_user.id]]!=null && messages[chat_map[other_user.id]].length!=0) ? ( //(true) ? (
                   <TouchableOpacity
