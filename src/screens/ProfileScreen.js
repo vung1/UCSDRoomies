@@ -88,21 +88,34 @@ let numberOfSquare = 4;
     return(
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{
-          width: '100%',
-          height: '100%',
-        }}>
+        >
         <View
           style={{
             width: '100%',
             height: '100%',
-            backgroundColor: 'white',
             flexWrap: 'wrap',
             flexDirection: 'row',
-            paddingVertical: 5,
-            justifyContent: 'space-between',
+            // paddingVertical: 5,
+            // justifyContent: 'space-between',
           }}>
-          {squares}
+          {user_prof[0].apartImg.map((img)=>
+
+          <View 
+          style={{
+            padding: 5,
+            width: '50%',
+            height: 150,
+          }}>
+              <Image style={{
+                width:"100%", 
+                height:"100%",
+                borderRadius:10,
+                backgroundColor:"grey"
+                }} source={{ uri: img}} />
+
+          </View>
+
+          )}
         </View>
       </ScrollView>
     )
