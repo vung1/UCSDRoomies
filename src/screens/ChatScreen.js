@@ -66,22 +66,21 @@ function ChatScreen({ route, navigation }) {
     await updateDoc(doc(db, "message_for_all", "all_messages"), docData);
 
     // store messages to each user in firebase
-    // db.collection("users").doc(user.uid).collection("messages").doc(other_user.id).set({ 
-    //   [user.uid]: key
-    // });
-    // const docSnap = await getDoc(doc(db, "users", user.uid));
-    // const all_users = docSnap.data();
-    // if ("messages" in all_users) {
-    //   const curr_messages = all_users.messages;
-    //   curr_messages.push({[key]: messages});
-    //   await updateDoc(doc(db, "users", user.uid), {
-    //     messages: curr_messages
-    //   });
-    // } else {
-    //   await updateDoc(doc(db, "users", user.uid), {
-    //     messages: {[key]: messages}
-    //   });
-    // }
+    const docSnap = await getDoc(doc(db, "users", user.uid));
+    const curr_user_data = docSnap.data();
+
+    if ("messages" in curr_user_data) {
+      curr_user_data.messages[other_user.id] = key
+      console.log(curr_user_data.messages);
+      await updateDoc(doc(db, "users", user.uid), {
+        messages: curr_user_data.messages
+      });
+    } else {
+      const return_message = {[user.uid]: key};
+      await updateDoc(doc(db, "users", user.uid), {
+        messages: return_message
+      });
+    }
 
     setMsg({message : ""});
   };
