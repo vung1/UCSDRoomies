@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-
+import { Component} from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import InitScreen from "../screens/InitScreen";
@@ -13,10 +13,21 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SigninScreen from "../screens/SigninScreen";
 import SignupScreen from "../screens/SignupScreen";
 import ImagePick from "../screens/ImagePick";
+import Save from "../components/Save";
+
+//  export class MainStackNavigator extends Component {
+//   constructor(props) {
+//     super()
+//     this.state = {
+//       loaded: false,
+//     }
+
 
 const Stack = createStackNavigator();
 
-function MainStackNavigator() {
+
+
+ function MainStackNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -25,8 +36,9 @@ function MainStackNavigator() {
           backgroundColor: "#FFFFFF",
         }}
       >
-       <Stack.Screen name="ImagePick" component={ImagePick} />
-       <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+      {/* This allows access to the navigation inside Profile Screen */}
+       <Stack.Screen name="ProfileScreen" component={ProfileScreen}  />
+        <Stack.Screen name="ImagePick" component={ImagePick} />
        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="InitScreen" component={InitScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -34,6 +46,7 @@ function MainStackNavigator() {
         <Stack.Screen name="SignupScreen" component={SignupScreen} />
         <Stack.Screen name="Matches" component={MatchesScreen} />
         <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="Save" component={Save} />
         
   
        
@@ -41,5 +54,6 @@ function MainStackNavigator() {
     </NavigationContainer>
   );
 }
+  
 
 export default MainStackNavigator;

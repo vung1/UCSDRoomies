@@ -3,21 +3,43 @@ import {View, Text, Image, TouchableOpacity, SafeAreaView, StyleSheet} from 'rea
 import Feather from 'react-native-vector-icons/Feather';
 // import LinearGradient from 'react-native-linear-gradient';
 import { LinearGradient } from "expo-linear-gradient";
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ImagePick} from '../screens/ImagePick';
+import * as ImagePicker from 'expo-image-picker';
 export const ProfileBody = ({
   name,
   accountName,
   profileImage,
+  
 //   post,
 //   followers,
 //   following,
 }) => {
+  
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      this.setImage({profileImage:result.assets[0].uri});
+    }
+  };
+
   return (
     
     <View
     style ={{flexDirection:'column',}}>
 
      {/* <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>  */}
+     
       <View
       
         style={{
@@ -45,6 +67,7 @@ export const ProfileBody = ({
             }}>
             {"Profile"}
           </Text>
+        
           <Image
             source={profileImage}
             
@@ -53,8 +76,12 @@ export const ProfileBody = ({
               width: 150,
               height: 150,
               borderRadius: 100,
+              
             }}
           />
+      <MaterialIcons name="edit" size={23} color = "white" containerStyle={styles.icon} onPress={pickImage}/>
+        
+          
           <Text
             style={{
               paddingVertical: 10,
@@ -63,6 +90,8 @@ export const ProfileBody = ({
             }}>
             {name}
           </Text>
+     
+
         </View>
         {/* <View style={{alignItems: 'center'}}>
           <Text style={{fontWeight: 'bold', fontSize: 18}}>{post}</Text>
@@ -126,112 +155,7 @@ export const ProfileBody = ({
   );
 };
 
-export const ProfileButtons = ({id, name, accountName, profileImage}) => {
-  const navigation = useNavigation();
-  const [follow, setFollow] = useState(follow);
-  return (
-    <>
-      {id === 0 ? (
-        <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-            paddingVertical: 5,
-          }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.push('EditProfile', {
-                name: name,
-                accountName: accountName,
-                profileImage: profileImage,
-              })
-            }
-            style={{
-              width: '100%',
-            }}>
-            <View
-              style={{
-                width: '100%',
-                height: 35,
-                borderRadius: 5,
-                borderColor: '#DEDEDE',
-                borderWidth: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 14,
-                  letterSpacing: 1,
-                  opacity: 0.8,
-                }}>
-                Edit Profile
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View
-          style={{
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() => setFollow(!follow)}
-            style={{width: '42%'}}>
-            <View
-              style={{
-                width: '100%',
-                height: 35,
-                borderRadius: 5,
-                backgroundColor: follow ? null : '#3493D9',
-                borderWidth: follow ? 1 : 0,
-                borderColor: '#DEDEDE',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{color: follow ? 'black' : 'white'}}>
-                {follow ? 'Following' : 'Follow'}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              width: '42%',
-              height: 35,
-              borderWidth: 1,
-              borderColor: '#DEDEDE',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 5,
-            }}>
-            <Text>Message</Text>
-          </View>
-          <View
-            style={{
-              width: '10%',
-              height: 35,
-              borderWidth: 1,
-              borderColor: '#DEDEDE',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 5,
-            }}>
-            <Feather
-              name="chevron-down"
-              style={{fontSize: 20, color: 'black'}}
-            />
-          </View>
-        </View>
-      )}
-    </>
-  );
-};
+
 
 const styles = StyleSheet.create({
   background: {
@@ -239,3 +163,11 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   }});
+
+const icon = StyleSheet.create( {
+ backgroundColor: '#ccc',
+ position: 'absolute',
+ right: 0,
+ bottom: 0,
+ marginRight: 10
+})
