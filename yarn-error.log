@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/danlinjiang/Desktop/CSE210/UCSDRoomies/node_modules/.yarn-integrity'
+  Error: EACCES: permission denied, unlink '/Users/danlinjiang/Desktop/CSE210/UCSDRoomies/node_modules/.bin/acorn'
 
 npm manifest: 
   {
@@ -50,11 +50,12 @@ npm manifest:
       "expo-linear-gradient": "^12.0.1",
       "expo-splash-screen": "~0.17.5",
       "expo-status-bar": "~1.4.2",
-      "moment": "^2.29.4",
       "firebase": "^9.17.1",
       "jest": "^26.6.3",
+      "moment": "^2.29.4",
       "nativewind": "^2.0.11",
       "react": "18.1.0",
+      "react-firebase-hooks": "^5.1.1",
       "react-native": "0.70.5",
       "react-native-deck-swiper": "^2.0.13",
       "react-native-gesture-handler": "~2.8.0",
@@ -67,6 +68,7 @@ npm manifest:
       "react-native-vector-icons": "^9.2.0",
       "react-native-wind": "^1.2.0",
       "react-navigation-stack": "^2.10.4",
+      "react-test-renderer": "18.1.0",
       "tailwind": "^4.0.0",
       "tailwind-rn": "^4.2.0"
     },
@@ -10666,6 +10668,11 @@ Lockfile:
       shell-quote "^1.6.1"
       ws "^7"
   
+  react-firebase-hooks@^5.1.1:
+    version "5.1.1"
+    resolved "https://registry.yarnpkg.com/react-firebase-hooks/-/react-firebase-hooks-5.1.1.tgz#fc92bb4b860c6753c806583f64d7f069b6ee6785"
+    integrity sha512-y2UpWs82xs+39q5Rc/wq316ca52QsC0n8m801V+yM4IC4hbfOL4yQPVSh7w+ydstdvjN9F+lvs1WrO2VYxpmdA==
+  
   react-freeze@^1.0.0:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/react-freeze/-/react-freeze-1.0.3.tgz#5e3ca90e682fed1d73a7cb50c2c7402b3e85618d"
@@ -10868,6 +10875,15 @@ Lockfile:
     dependencies:
       object-assign "^4.1.1"
       react-is "^16.12.0 || ^17.0.0 || ^18.0.0"
+  
+  react-test-renderer@18.1.0:
+    version "18.1.0"
+    resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-18.1.0.tgz#35b75754834cf9ab517b6813db94aee0a6b545c3"
+    integrity sha512-OfuueprJFW7h69GN+kr4Ywin7stcuqaYAt1g7airM5cUgP0BoF5G5CXsPGmXeDeEkncb2fqYNECO4y18sSqphg==
+    dependencies:
+      react-is "^18.1.0"
+      react-shallow-renderer "^16.15.0"
+      scheduler "^0.22.0"
   
   react-test-renderer@18.2.0:
     version "18.2.0"
