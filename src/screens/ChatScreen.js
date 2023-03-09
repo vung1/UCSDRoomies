@@ -28,7 +28,7 @@ function ChatScreen({ route, navigation }) {
 
   useEffect(
     () => {
-      console.log("current user photoURL: ", user.photoURL);
+      console.log("current user photoURL: ");
 
       // get messages map key. (id_id ascending order)
       const key = (user.uid > other_user.id) ? (other_user.id + "_" + user.uid) : (user.uid + "_" + other_user.id);

@@ -1,21 +1,45 @@
 
-import React, {useState} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Button, ImageBackground} from 'react-native';
-import Feather from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
-import { ProfileBody } from '../components/ProfileBody';
-import {BottomTabView} from '../components/BottomTabView';
+import React, {useState,useEffect} from 'react';
+import {View, Text, Image, TouchableOpacity,  ScrollView, StyleSheet, Button, ImageBackground} from 'react-native';
+
+import useAuth from "../hooks/useAuth";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { getDocs, collection, orderBy, query } from "@firebase/firestore";
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconMenu from "../components/IconMenu";
-import * as ImagePicker from 'expo-image-picker';
 import user_prof from '../../assets/data/user_prof';
-// import React from "react";
+import { db } from "../../firebase";
 
 
 const ProfileScreen = ({navigation}) => {
+  const { user } = useAuth();
+  const [curr_user, setUser] = useState({id: "", age:"N/A", firstName:"N/A", lastName:"N/A", photoURL:user_prof[0].image, major:"N/A"});
+
+  useEffect(() => {
+    console.log("current user  "+user.uid)
+    async function getDocuments() {
+      await getDocs(
+        query(
+          collection(db, "users"),
+        ),
+      ).then((querySnapshot) => {
+        const passArr = [];
+        // console.log("query ", querySnapshot);
+        querySnapshot.forEach((doc) => {
+          const { firstName, lastName, age, photoURL, id, major } = doc.data();
+          // console.log("data ", firstName);
+          console.log(id==user.uid);
+          if(id == user.uid){
+            setUser({ id: doc.id, age:age, firstName:firstName, lastName:lastName, photoURL:photoURL, major:major });
+          }
+          // passArr.push({ id: doc.id, firstName, lastName, photoURL });
+        });
+        
+      });
+    }
+    getDocuments();
+  }, []);
 
  const Tab = createMaterialTopTabNavigator();
   
@@ -135,15 +159,15 @@ const ProfileScreen = ({navigation}) => {
                   </Text>
                 
                   <Image 
-                  source={{uri : user_prof[0].image}} //TODO change to user.Photourl
-                  style={{  width: 100, height: 100, borderRadius: 100}} /> 
+                  source={{uri : curr_user.photoURL}} //TODO change to user.Photourl
+                  style={{  width: 100, height: 100, borderRadius: 100, backgroundColor:"grey"}} /> 
                   <Text
                     style={{
                       paddingVertical: 10,
                       fontWeight: 'bold',
                       color: 'white'
                     }}>
-                    {user_prof[0].name.split(" ")[0]}, {user_prof[0].age}
+                    {curr_user.firstName}, {curr_user.age}
                   </Text>
             </View>
           </View>
