@@ -62,8 +62,10 @@
     "react-native-wind": "^1.2.0",
     "react-navigation-stack": "^2.10.4",
     "react-test-renderer": "18.1.0",
+    "redux-mock-store": "^1.5.4",
     "tailwind": "^4.0.0",
-    "tailwind-rn": "^4.2.0"
+    "tailwind-rn": "^4.2.0",
+    "ts-jest": "^29.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -87,6 +89,7 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "jest-expo": "^48.0.1",
     "jest-fetch-mock": "^3.0.3",
+    "jest-mock-extended": "^3.0.3",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
     "prettier": "2.8.4",
@@ -104,6 +107,9 @@
     ],
     "setupFiles": [
       "./setupJest.js"
+    ],
+    "modulePaths": [
+      "<rootDir>"
     ]
   }
 }

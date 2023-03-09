@@ -1,0 +1,260 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering tests matches snapshot 1`] = `
+<ViewManagerAdapter_ExpoLinearGradient
+  proxiedProperties={
+    Object {
+      "colors": Array [
+        4285837014,
+        4280581583,
+      ],
+      "endPoint": undefined,
+      "locations": undefined,
+      "startPoint": undefined,
+    }
+  }
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "width": "100%",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "left": "6%",
+        "position": "absolute",
+        "top": "8%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "height": 50,
+          "opacity": 1,
+          "width": 50,
+        }
+      }
+      testID="BackButton"
+    >
+      <RNSVGSvgView
+        align="xMidYMid"
+        bbHeight="70%"
+        bbWidth="70%"
+        focusable={false}
+        height="70%"
+        meetOrSlice={0}
+        minX={0}
+        minY={0}
+        style={
+          Array [
+            Object {
+              "backgroundColor": "transparent",
+              "borderWidth": 0,
+            },
+            Object {
+              "flex": 0,
+              "height": "70%",
+              "width": "70%",
+            },
+          ]
+        }
+        vbHeight={512}
+        vbWidth={448}
+        width="70%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <RNSVGGroup>
+          <RNSVGPath
+            d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"
+            fill={
+              Object {
+                "payload": 4278190080,
+                "type": 0,
+              }
+            }
+            fillRule={0}
+            propList={
+              Array [
+                "fill",
+                "fillRule",
+              ]
+            }
+          />
+        </RNSVGGroup>
+      </RNSVGSvgView>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "marginBottom": "10%",
+        "marginTop": "30%",
+      }
+    }
+  />
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "red",
+          "borderRadius": 21,
+          "height": 42,
+          "marginTop": "3%",
+          "width": "75%",
+        },
+        Object {
+          "borderWidth": 0,
+        },
+      ]
+    }
+  >
+    <TextInput
+      autoCapitalize="none"
+      autoCorrect={false}
+      keyboardType="default"
+      onChangeText={[Function]}
+      placeholder="UCSD Email"
+      style={
+        Object {
+          "height": "100%",
+          "width": "86%",
+        }
+      }
+      testID="Signin.Email"
+    />
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "fontSize": 12,
+        "left": 0,
+        "marginLeft": 0,
+        "marginTop": "1.5%",
+        "width": "70%",
+      }
+    }
+  />
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderColor": "red",
+          "borderRadius": 21,
+          "height": 42,
+          "marginTop": "3%",
+          "width": "75%",
+        },
+        Object {
+          "borderWidth": 0,
+        },
+      ]
+    }
+  >
+    <TextInput
+      autoCapitalize="none"
+      autoCorrect={false}
+      keyboardType="default"
+      onChangeText={[Function]}
+      placeholder="Password"
+      secureTextEntry={true}
+      style={
+        Object {
+          "height": "100%",
+          "width": "86%",
+        }
+      }
+      testID="Signin.Password"
+    />
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "fontSize": 12,
+        "left": 0,
+        "marginLeft": 0,
+        "marginTop": "1.5%",
+        "width": "70%",
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "marginTop": "10%",
+        "width": "75%",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderRadius": 30,
+          "flexDirection": "row",
+          "height": 55,
+          "justifyContent": "center",
+          "opacity": 1,
+          "width": "100%",
+        }
+      }
+      testID="Signin.Button"
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 25,
+            "marginLeft": 10,
+            "marginRight": 10,
+            "width": 25,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "color": "black",
+            "fontFamily": "Arial",
+            "fontSize": 16,
+            "fontWeight": "bold",
+            "marginRight": 10,
+          }
+        }
+      >
+         SIGN IN WITH UCSD EMAIL 
+      </Text>
+    </View>
+  </View>
+</ViewManagerAdapter_ExpoLinearGradient>
+`;

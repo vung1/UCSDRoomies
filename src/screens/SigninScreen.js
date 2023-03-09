@@ -71,6 +71,7 @@ function SigninScreen({ navigation }) {
         ]}
       >
         <TextInput
+          testID = "Signin.Password"
           style={styles.textInput}
           placeholder="Password"
           keyboardType="default"
