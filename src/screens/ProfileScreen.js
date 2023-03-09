@@ -119,9 +119,10 @@ const ProfileScreen = ({navigation}) => {
             <View style={
               {transform: [{ scaleX: 0.125 }],
               marginTop:"10%",
-              // justifyContent:"center",
+              justifyContent:"center",
               flexDirection:"column",
-              alignItems:"center"
+              flex:1,
+              alignItems:"center",
             }
               }>
             <Text
@@ -150,7 +151,7 @@ const ProfileScreen = ({navigation}) => {
 
             {/* ABOUT */}
             {(user_prof[0].about.length > 0) ? infoSec(user_prof[0].about, "About") //TODO: connect firebase
-            : <View style={styles.input}><Text>There is no info here</Text></View>
+            : null
             } 
             
           {/* Line */}
@@ -161,8 +162,8 @@ const ProfileScreen = ({navigation}) => {
                   }} />
 
           {/* Apartment */}
-          {(user_prof[0].apart.length > 0) ? infoSec(user_prof[0].apart, "Apartment") //TODO: connect firebase
-            : <View style={styles.input}><Text>There is no info here</Text></View>
+          {(user_prof[0].apart && user_prof[0].apart.length > 0) ? infoSec(user_prof[0].apart, "Apartment") //TODO: connect firebase
+            : null
             } 
 
                 
@@ -224,7 +225,9 @@ const styles = StyleSheet.create({
 	second: {
     marginLeft:20,
     marginRight:20,
-    flex:2,
+    // flex:2,
+    minHeight:5,
+
 	},
   background: {
     flex: 1,
