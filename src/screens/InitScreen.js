@@ -4,10 +4,9 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import LoginLogo from "../components/LoginLogo";
 
-function InitScreen({navigation}) {
-
-  setTimeout(()=>{
-    navigation.navigate("LoginScreen", "LoginScreen")
+function InitScreen({ navigation }) {
+  setTimeout(() => {
+    navigation.navigate("LoginScreen", "LoginScreen");
   }, 1000);
 
   return (

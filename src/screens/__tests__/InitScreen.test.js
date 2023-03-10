@@ -9,12 +9,14 @@ import {
   mount,
 } from "@testing-library/react-native";
 
-import * as renderer from 'react-test-renderer';
+import * as renderer from "react-test-renderer";
 
 import InitScreen from "../InitScreen";
 import LoginLogo from "../../components/LoginLogo";
 
-test('renders correctly', () => {
-  const tree = renderer.create(<InitScreen />).toJSON();
-  expect(tree).toMatchSnapshot();
+describe('Rendering Tests', () => {
+  test("matches snapshot", () => {
+    const tree = renderer.create(<InitScreen />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });

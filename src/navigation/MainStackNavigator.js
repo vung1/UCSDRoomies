@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-
+import { Component} from "react-native"
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateProfileScreen from "../screens/CreateProfileScreen";
@@ -13,12 +13,13 @@ import LikesScreen from "../screens/LikesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SigninScreen from "../screens/SigninScreen";
 import SignupScreen from "../screens/SignupScreen";
+
 import ModelScreen from "../screens/ModelScreen";
 import useAuth from "../hooks/useAuth";
 
 const Stack = createNativeStackNavigator();
 
-const MainStackNavigator = () => {
+function MainStackNavigator() {
   const { user } = useAuth();
 
   return (

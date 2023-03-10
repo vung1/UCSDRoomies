@@ -5,16 +5,17 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 import { checkPluginState } from "react-native-reanimated/lib/reanimated2/core";
 
-
 function IconMenu(props) {
-  const { navigation, screenCurr} = props;
+  const { navigation, screenCurr } = props;
   return (
     <View style={styles.menuContainer}>
       <TouchableOpacity
         testID="homeIcon"
-        onPress={() => {screenCurr != "HomeScreen" ? navigation.navigate("HomeScreen",
-          "HomeScreen"
-        ) : console.log("stay")}}
+        onPress={() => {
+          screenCurr != "HomeScreen"
+            ? navigation.navigate("HomeScreen", "HomeScreen")
+            : console.log("stay");
+        }}
         activeOpacity={0.8}
         style={styles.button}
       >
@@ -23,9 +24,11 @@ function IconMenu(props) {
 
       <TouchableOpacity
         testID="likesIcon"
-        onPress={() => {screenCurr != "LikesScreen" ? navigation.navigate("Likes",
-        "LikesScreen"
-       ) : console.log("stay")}}
+        onPress={() => {
+          screenCurr != "LikesScreen"
+            ? navigation.navigate("Likes", "LikesScreen")
+            : console.log("stay");
+        }}
         activeOpacity={0.8}
         style={styles.button}
       >
@@ -34,9 +37,11 @@ function IconMenu(props) {
 
       <TouchableOpacity
         testID="matchesIcon"
-        onPress={() => {screenCurr != "MatchesScreen" ? navigation.navigate("Matches",
-         "MatchesScreen"
-        ) : console.log("stay")}}
+        onPress={() => {
+          screenCurr != "MatchesScreen"
+            ? navigation.navigate("Matches", "MatchesScreen")
+            : console.log("stay");
+        }}
         activeOpacity={0.8}
         style={styles.button}
       >
@@ -44,10 +49,12 @@ function IconMenu(props) {
       </TouchableOpacity>
 
       <TouchableOpacity
-      testID="profileIcon"
-      onPress={() => {screenCurr != "ProfileScreen" ? navigation.navigate("ProfileScreen",
-          "ProfileScreen"
-        ) : console.log("user")}}
+        testID="profileIcon"
+        onPress={() => {
+          screenCurr != "ProfileScreen"
+            ? navigation.navigate("ProfileScreen", "ProfileScreen")
+            : console.log("user");
+        }}
         // onPress={() => console.log("user")}
         activeOpacity={0.8}
         style={styles.button}

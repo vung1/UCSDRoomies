@@ -4,20 +4,19 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import useAuth from "../../hooks/useAuth";
 
 function SigninButton(props) {
-
   const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
-  
-   const { logIn, loading } = useAuth();
 
-  var emailMsg = '';
-  var passwordMsg = '';
+  const { logIn, loading } = useAuth();
+
+  let emailMsg = "";
+  let passwordMsg = "";
 
   const handleSignin = () => {
-    showMessages('', '');
-    var error = false
+    showMessages("", "");
+    let error = false;
     // Check input email
-    if (state.email == "" ) {
+    if (state.email == "") {
       emailMsg = "Please enter your UCSD email";
       error = true;
     } else if (reg.test(state.email) != true) {
@@ -32,7 +31,7 @@ function SigninButton(props) {
     // Show error messages if previous errors occur
     if (error) {
       showMessages(emailMsg, passwordMsg);
-    } 
+    }
     // If no error occurs on user inputs,
     // validate user email and password & log in the user
     else {
@@ -41,12 +40,13 @@ function SigninButton(props) {
   };
 
   return (
-    <TouchableOpacity {...props}
+    <TouchableOpacity
+      {...props}
       testID="Signin.Button"
       onPress={() => {
-        screenCurr == "LoginScreen" ? 
-        navigation.navigate("SigninScreen","SigninScreen") : 
-        handleSignin()
+        screenCurr == "LoginScreen"
+          ? navigation.navigate("SigninScreen", "SigninScreen")
+          : handleSignin();
       }}
       activeOpacity={0.8}
       style={styles.buttonContainer}
