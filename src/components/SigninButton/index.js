@@ -35,7 +35,7 @@ function SigninButton(props) {
     // If no error occurs on user inputs,
     // validate user email and password & log in the user
     else {
-      logIn(state, showMessages);
+      logIn(state, showMessages, navigation)
     }
   };
 

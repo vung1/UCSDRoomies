@@ -15,7 +15,7 @@ import { auth } from "../../firebase";
 
 const AuthContext = createContext({});
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -45,37 +45,38 @@ export function AuthProvider({ children }) {
       .finally(() => setLoading(false));
   };
 
-  const logIn = (state, showMessages) => {
-    setLoading(true);
+  const logIn = (state, showMessages, navigation) => {
+      setLoading(true);
 
-    signInWithEmailAndPassword(auth, state.email, state.password)
+      signInWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredential) => {
-        if (userCredential) {
-          const { user } = userCredential;
-          console.log("Logged in with:", user.email);
-        } else {
-          return Promise.reject();
-        }
+          if (userCredential) {
+              const user = userCredential.user;
+              console.log("Logged in with:", user.email);
+              navigation.navigate("HomeScreen","HomeScreen");
+          } else {
+              return Promise.reject();
+          }
       })
       .catch((error) => {
-        setError(error);
-        showMessages("", "Your email and password do not match");
+          setError(error);
+          showMessages('', 'Your email and password do not match');
       })
       .finally(() => setLoading(false));
   };
 
   const register = (state, showMessages, navigation) => {
-    setLoading(true);
+      setLoading(true);
 
-    createUserWithEmailAndPassword(auth, state.email, state.password)
+      createUserWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredentials) => {
-        const { user } = userCredentials;
-        console.log("Registered with:", user.email);
-        navigation.navigate("ModelScreen", "ModelScreen");
+          const user = userCredentials.user;
+          console.log("Registered with:", user.email);
+          navigation.navigate("CreateProfileScreen","CreateProfileScreen");
       })
       .catch((error) => {
-        setError(error);
-        showMessages("Account already exists", "", "");
+          setError(error);
+          showMessages('Account already exists', '', '')
       })
       .finally(() => setLoading(false));
   };
@@ -97,7 +98,7 @@ export function AuthProvider({ children }) {
       {!loadingInitial && children}
     </AuthContext.Provider>
   );
-}
+};
 
 export default function useAuth() {
   return useContext(AuthContext);
