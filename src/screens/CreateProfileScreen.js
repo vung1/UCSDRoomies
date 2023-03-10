@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { useTailwind } from "tailwind-rn";
-import { View, Text, TextInput, Switch, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Switch,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { db } from "../../firebase";
 import useAuth from "../hooks/useAuth";
-import AddImage from "../components/AddImage"
-import ProfileHideComponents from "../components/ProfileHideComponents"
+import AddImage from "../components/AddImage";
+import ProfileHideComponents from "../components/ProfileHideComponents";
 
 function CreateProfileScreen({ navigation }) {
-  
   const tailwind = useTailwind();
   const user = useAuth();
 
@@ -38,10 +44,44 @@ function CreateProfileScreen({ navigation }) {
   const ifUserImage = userimage1 || userimage2 || userimage3 || userimage4;
   const ifHouseImage = houseimage1 || houseimage2 || houseimage3 || houseimage4;
 
-  const incompleteForm = !userimage || !bio || !age || !major || !hobbies || !ifUserImage
-                         || (userType && (!houseInfo || !ifHouseImage));
+  const incompleteForm =
+    !userimage ||
+    !bio ||
+    !age ||
+    !major ||
+    !hobbies ||
+    !ifUserImage ||
+    (userType && (!houseInfo || !ifHouseImage));
 
   const updateUserProfile = () => {
+    const houseImages = [];
+    if (houseimage1 != null) {
+      houseImages.push(houseimage1);
+    }
+    if (houseimage2 != null) {
+      houseImages.push(houseimage2);
+    }
+    if (houseimage3 != null) {
+      houseImages.push(houseimage3);
+    }
+    if (houseimage4 != null) {
+      houseImages.push(houseimage4);
+    }
+
+    const userImages = [];
+    if (userimage1 != null) {
+      userImages.push(userimage1);
+    }
+    if (userimage2 != null) {
+      userImages.push(userimage2);
+    }
+    if (userimage3 != null) {
+      userImages.push(userimage3);
+    }
+    if (userimage4 != null) {
+      userImages.push(userimage4);
+    }
+
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       userimage,
@@ -51,16 +91,10 @@ function CreateProfileScreen({ navigation }) {
       bio,
       major,
       hobbies,
-      userimage1,
-      userimage2,
-      userimage3,
-      userimage4,
+      userImages,
       userType,
       houseInfo,
-      houseimage1,
-      houseimage2,
-      houseimage3,
-      houseimage4,
+      houseImages,
       timestamp: serverTimestamp,
     }).then(() => {
       navigation.navigate("HomeScreen");
@@ -69,13 +103,11 @@ function CreateProfileScreen({ navigation }) {
 
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      
-      <View style={{marginTop: 70}}></View>
+      <View style={{ marginTop: 70 }}></View>
 
       <Text style={tailwind("text-xl font-bold top-3")}>Create Profile</Text>
 
       <ScrollView style={styles.profileContainer} vertical>
-
         <Text style={styles.stepTitle}>Step 1: Upload a Profile Picture</Text>
         <View style={styles.imageContainer}>
           <AddImage saveImage={setUserImage} />
@@ -146,17 +178,25 @@ function CreateProfileScreen({ navigation }) {
 
         <Text style={styles.stepTitle}>Step 8: Your Photos</Text>
 
-        <ScrollView style={styles.scrollContainer} horizontal> 
-          <View style={styles.scrollImage}><AddImage saveImage={setUserImage1}/></View>
-          <View style={styles.scrollImage}><AddImage saveImage={setUserImage2}/></View>
-          <View style={styles.scrollImage}><AddImage saveImage={setUserImage3}/></View>
-          <View style={styles.scrollImage}><AddImage saveImage={setUserImage4}/></View>
+        <ScrollView style={styles.scrollContainer} horizontal>
+          <View style={styles.scrollImage}>
+            <AddImage saveImage={setUserImage1} />
+          </View>
+          <View style={styles.scrollImage}>
+            <AddImage saveImage={setUserImage2} />
+          </View>
+          <View style={styles.scrollImage}>
+            <AddImage saveImage={setUserImage3} />
+          </View>
+          <View style={styles.scrollImage}>
+            <AddImage saveImage={setUserImage4} />
+          </View>
         </ScrollView>
 
         <Text style={styles.stepTitle}>Step 9: Already Have A Leasing?</Text>
         <Switch
           value={userType}
-          onValueChange={value => setUserType(value)}
+          onValueChange={(value) => setUserType(value)}
           style={styles.switch}
         />
 
@@ -170,20 +210,18 @@ function CreateProfileScreen({ navigation }) {
         />
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity 
-            disabled={incompleteForm} 
+          <TouchableOpacity
+            disabled={incompleteForm}
             onPress={() => {
-              console.log("Build Profile")
-              // updateUserProfile()
+              console.log("Build Profile");
+              updateUserProfile();
             }}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Create Profile</Text>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
-
     </LinearGradient>
   );
 }
@@ -246,21 +284,21 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 180,
-    alignItems: 'center',
+    alignItems: "center",
   },
   button: {
     height: 40,
-    width: '60%',
+    width: "60%",
     borderRadius: 20,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '10%',
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "10%",
   },
   buttonText: {
     fontSize: 15,
     fontWeight: "bold",
-  }
+  },
 });
 
 export default CreateProfileScreen;
