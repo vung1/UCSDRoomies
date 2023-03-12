@@ -84,7 +84,7 @@ function CreateProfileScreen({ navigation }) {
 
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
-      userimage,
+      // userimage,
       firstName,
       lastName,
       age,
@@ -96,9 +96,11 @@ function CreateProfileScreen({ navigation }) {
       houseInfo,
       houseImages,
       timestamp: serverTimestamp,
-    }).then(() => {
-      navigation.navigate("HomeScreen");
-    });
+    })
+      .then(() => {
+        navigation.navigate("HomeScreen");
+      })
+      .catch((error) => console.log("error", error.message));
   };
 
   return (
