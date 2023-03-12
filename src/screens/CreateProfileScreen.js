@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -19,7 +19,7 @@ import ProfileHideComponents from "../components/ProfileHideComponents";
 
 function CreateProfileScreen({ navigation }) {
   const tailwind = useTailwind();
-  const user = useAuth();
+  const { user } = useAuth();
 
   const [userimage, setUserImage] = useState(null);
   const [firstName, setFirstName] = useState(null);
@@ -82,9 +82,11 @@ function CreateProfileScreen({ navigation }) {
       userImages.push(userimage4);
     }
 
+    // console.log(userImages, houseImages, houseInfo);
+    // console.log(user.uid, firstName, lastName, age, bio, major, hobbies, userType);
+
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
-      // userimage,
       firstName,
       lastName,
       age,
@@ -95,12 +97,12 @@ function CreateProfileScreen({ navigation }) {
       userType,
       houseInfo,
       houseImages,
-      timestamp: serverTimestamp,
+      timestamp: serverTimestamp(),
     })
       .then(() => {
         navigation.navigate("HomeScreen");
       })
-      .catch((error) => console.log("error", error.message));
+      .catch((error) => console.log("TTTTTTT error", error.message));
   };
 
   return (
