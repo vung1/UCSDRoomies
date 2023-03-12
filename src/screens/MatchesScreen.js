@@ -24,6 +24,7 @@ function MatchesScreen({ navigation }) {
   const [messages, setAllMessages] = useState([]);
   const [chat_map, setChatMap] = useState({});
   const [swiped_users, setSwipes] = useState([]); // all the swiped other users
+  const [user_data, setUserData] = useState({}); // current logged in user data
 
   useEffect(() => {
     // Get all the swiped other users
@@ -36,8 +37,8 @@ function MatchesScreen({ navigation }) {
       ).then((querySnapshot) => {
         const passArr = [];
         querySnapshot.forEach((doc) => {
-          const { firstName, lastName, photoURL } = doc.data();
-          passArr.push({ id: doc.id, firstName, lastName, photoURL });
+          const { firstName, lastName, userimage } = doc.data();
+          passArr.push({ id: doc.id, firstName, lastName, userimage });
         });
         setSwipes(passArr);
       });
@@ -55,6 +56,7 @@ function MatchesScreen({ navigation }) {
       snapshot.docs.map(function(doc) {
         users_map[doc.data().id] = doc.data();
       })
+      setUserData(users_map[user.uid]);
       // Find current user and get messages historys KEYS
       if ("messages" in users_map[user.uid]) {
         setChatMap(users_map[user.uid].messages);
@@ -78,6 +80,7 @@ function MatchesScreen({ navigation }) {
   // console.log(chat_map);
   // console.log(messages);
   // console.log(swiped_users);
+  // console.log(user_data);
 
   return (
     <View style={styles.ver_container}>
@@ -96,17 +99,18 @@ function MatchesScreen({ navigation }) {
         </View>
         <ScrollView style={styles.scrollView} horizontal>
           <View style={styles.users}>
-            {swiped_users.map((other_user) => (
+            {/* {swiped_users.map((other_user) => ( // TODO */}
+            {other_users.map((other_user) => (
               <View key={other_user.id}>
               <TouchableOpacity
               onPress={() =>
                 navigation.navigate("Chat", {
-                  other_user
+                  other_user, user_data
                 })
               }
               >
                 <View style={styles.user} >
-                  <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
+                  <Image source={{ uri: other_user.userimage }} style={styles.simp_image} />
                   <Text style={styles.name}>{other_user.firstName}</Text>
                 </View>
               </TouchableOpacity>
@@ -118,20 +122,21 @@ function MatchesScreen({ navigation }) {
       <View style={styles.message_area}>
         <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
-            {swiped_users.map((other_user) => 
+            {other_users.map((other_user) => 
+            // {swiped_users.map((other_user) => // TODO
                 // chat_map[other_user.id] is the key, id_id, to get the actual chat data
                 (messages[chat_map[other_user.id]]!=null && messages[chat_map[other_user.id]].length!=0) ? ( //(true) ? (
                   <TouchableOpacity
                   onPress={() =>
                       navigation.navigate("Chat", {
-                        other_user
+                        other_user, user_data
                       })
                     }
                   >
                     <View style={styles.message_box} key={other_user.id}>
                       <View style={styles.user} key={other_user.id}>
                         <Image
-                          source={{ uri: other_user.photoURL }}
+                          source={{ uri: other_user.userimage }}
                           style={styles.simp_image}
                         />
                       </View>
@@ -154,14 +159,14 @@ function MatchesScreen({ navigation }) {
                 //   <TouchableOpacity
                 //   onPress={() =>
                 //       navigation.navigate("Chat", {
-                //         other_user
+                //         other_user, user_data
                 //       })
                 //     }
                 //   >
                 //     <View style={styles.message_box} key={other_user.id}>
                 //       <View style={styles.user} key={other_user.id}>
                 //         <Image
-                //           source={{ uri: other_user.photoURL }}
+                //           source={{ uri: other_user.userimage }}
                 //           style={styles.simp_image}
                 //         />
                 //       </View>

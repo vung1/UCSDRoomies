@@ -257,7 +257,7 @@ function HomeScreen({ navigation }) {
                 <View key={card.id} style={styles.card}>
                   <Image
                     style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
-                    source={{ uri: card.photoURL }}
+                    source={{ uri: card.userimage }}
                   />
                   {/* <Text>{card.name}</Text> */}
                   {/* <View style={tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-between h-20 px-6 py-2 rounded-b-xl')}> */}

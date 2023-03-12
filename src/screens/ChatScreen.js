@@ -5,11 +5,11 @@ import user_prof from "../../assets/data/user_prof";
 import BackArrow from "../components/BackArrow";
 import Svg, { Path } from "react-native-svg";
 import { db, auth } from "../../firebase";
-import { doc, getDoc, updateDoc } from "@firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "@firebase/firestore";
 import useAuth from "../hooks/useAuth";
 
 function ChatScreen({ route, navigation }) {
-  const { other_user } = route.params;
+  const { other_user, user_data } = route.params;
   const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [contentHeight, setContentHeight] = useState({ height: 90 });
@@ -28,8 +28,6 @@ function ChatScreen({ route, navigation }) {
 
   useEffect(
     () => {
-      console.log("current user photoURL: ", user.photoURL);
-
       // get messages map key. (id_id ascending order)
       const key = (user.uid > other_user.id) ? (other_user.id + "_" + user.uid) : (user.uid + "_" + other_user.id);
       setKey(key);
@@ -45,13 +43,16 @@ function ChatScreen({ route, navigation }) {
             setAllMessages([]);
           }
         } else {
-          console.log("No such document!");
+          console.log("No such document! Setting...");
+          await setDoc(doc(db, "message_for_all", "all_messages"));
         }
       };
       getMessages();
   }, [messages]);
 
   // console.log(messages);
+  // console.log(user_data);
+  // console.log("current user photoURL: ", user_data.image);
 
   async function sender(curr_msg, setMsg){
     var hour = new Date().getHours();
@@ -68,14 +69,13 @@ function ChatScreen({ route, navigation }) {
     await updateDoc(doc(db, "message_for_all", "all_messages"), docData);
 
     // store messages to each user in firebase
-    const docSnap = await getDoc(doc(db, "users", user.uid));
-    const curr_user_data = docSnap.data();
-
-    if ("messages" in curr_user_data) {
-      curr_user_data.messages[other_user.id] = key
+    // const docSnap = await getDoc(doc(db, "users", user.uid));
+    // const curr_user_data = docSnap.data();
+    if ("messages" in user_data) {
+      user_data.messages[other_user.id] = key
       // console.log(curr_user_data.messages);
       await updateDoc(doc(db, "users", user.uid), {
-        messages: curr_user_data.messages
+        messages: user_data.messages
       });
     } else {
       const return_message = {[other_user.id]: key};
@@ -107,7 +107,7 @@ function ChatScreen({ route, navigation }) {
           />
   
           <View style={styles.user} key={other_user.id}>
-            <Image source={{ uri: other_user.photoURL }} style={styles.simp_image} />
+            <Image source={{ uri: other_user.userimage }} style={styles.simp_image} />
           </View>
           <Text style={styles.name}>{other_user.firstName}</Text>
         </View>
@@ -140,7 +140,7 @@ function ChatScreen({ route, navigation }) {
                   <View style={styles.message_side}>
                     <View style={styles.user} key={other_user.id}>
                       <Image
-                        source={{ uri: other_user.photoURL }}
+                        source={{ uri: other_user.userimage }}
                         style={styles.simp_image}
                       />
                     </View>
@@ -164,7 +164,7 @@ function ChatScreen({ route, navigation }) {
                   <View style={styles.message_self_side}>
                     <View style={styles.user_self} key={user.uid}>
                       <Image
-                        source={{ uri: user.photoURL }} //TODO
+                        source={{ uri: user_data.userimage }} //TODO
                         style={styles.simp_image}
                       />
                     </View>

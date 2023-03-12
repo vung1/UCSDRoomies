@@ -87,6 +87,7 @@ function CreateProfileScreen({ navigation }) {
 
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
+      userimage,
       firstName,
       lastName,
       age,
