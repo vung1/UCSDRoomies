@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import useAuth from "../../hooks/useAuth";
 
+const tritonLogo = require("../../../assets/images/tritonLogo.png");
+
 function SignupButton(props) {
   const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
@@ -14,10 +16,10 @@ function SignupButton(props) {
   const handleSignup = () => {
     showMessages("", "", "");
     let error = false;
-    if (state.email == "") {
+    if (state.email === "") {
       emailMsg = "Please enter your UCSD email";
       error = true;
-    } else if (reg.test(state.email) != true) {
+    } else if (reg.test(state.email) !== true) {
       emailMsg = "Please enter your UCSD email in correct format";
       error = true;
     } else if (false) {
@@ -33,10 +35,11 @@ function SignupButton(props) {
       error = true;
     } else {
       // Check confirm password
-      if (state.repassword == "") {
+      if (state.repassword === "") {
         repasswordMsg = "Please confirm your password";
         error = true;
-      } else if (state.password != state.repassword) {
+      }
+      if (state.password !== state.repassword) {
         repasswordMsg = "Passwords did not match";
         error = true;
       }
@@ -58,17 +61,16 @@ function SignupButton(props) {
         {...props}
         testID="Signup.Button"
         onPress={() => {
-          screenCurr == "LoginScreen"
-            ? navigation.navigate("SignupScreen", "SignupScreen")
-            : handleSignup();
+          if (screenCurr === "LoginScreen") {
+            navigation.navigate("SignupScreen", "SignupScreen");
+          } else {
+            handleSignup();
+          }
         }}
         activeOpacity={0.8}
         style={styles.buttonContainer}
       >
-        <Image
-          source={require("../../../assets/images/tritonLogo.png")}
-          style={styles.image}
-        />
+        <Image source={tritonLogo} style={styles.image} />
         <Text style={styles.buttonText}> SIGN UP WITH UCSD EMAIL </Text>
       </TouchableOpacity>
     </View>

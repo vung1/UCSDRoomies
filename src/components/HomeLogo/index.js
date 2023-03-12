@@ -3,6 +3,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { Text, Image, View, StyleSheet } from "react-native";
 import { useFonts, Almendra700BoldItalic } from "@expo-google-fonts/almendra";
 
+const appLogoPNG = require("../../../assets/images/appLogo.png");
+
 function HomoLogo() {
   // Load the font
   // const [fontsLoaded] = useFonts({ Almendra700BoldItalic });
@@ -22,10 +24,7 @@ function HomoLogo() {
 
   return (
     <View style={styles.logoContainer}>
-      <Image
-        source={require("../../../assets/images/appLogo.png")}
-        style={styles.image}
-      />
+      <Image source={appLogoPNG} style={styles.image} />
       <Text style={styles.text}>Roomies</Text>
     </View>
   );

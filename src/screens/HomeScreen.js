@@ -30,6 +30,9 @@ import { db, auth } from "../../firebase";
 
 import useAuth from "../hooks/useAuth";
 
+const nopePNG = require("../../assets/images/nope.png");
+const likePNG = require("../../assets/images/like.png");
+
 const DUMMY_DATA = [
   {
     firstName: "Mya",
@@ -118,11 +121,11 @@ function HomeScreen({ navigation }) {
     const fetchCards = async () => {
       const passes = await getDocs(
         collection(db, "users", user.uid, "passes"),
-      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+      ).then((snapshot) => snapshot.docs.map((document) => document.id));
 
       const swipes = await getDocs(
         collection(db, "users", user.uid, "swipes"),
-      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+      ).then((snapshot) => snapshot.docs.map((document) => document.id));
 
       const passedUserIds = passes.length > 0 ? passes : ["test"];
       const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
@@ -137,11 +140,11 @@ function HomeScreen({ navigation }) {
         (snapshot) => {
           setProfiles(
             snapshot.docs
-              .filter((doc) => doc.id !== user.uid)
-              .map((doc) => ({
-                id: doc.id,
+              .filter((document) => document.id !== user.uid)
+              .map((document) => ({
+                id: document.id,
                 swipe_pass_timestamp: serverTimestamp(),
-                ...doc.data(),
+                ...document.data(),
               })),
           );
         },
@@ -177,7 +180,7 @@ function HomeScreen({ navigation }) {
   };
 
   return (
-    <View testID="view.container"style={styles.pageContainer}>
+    <View testID="view.container" style={styles.pageContainer}>
       {/* Header */}
       {/* flex row item-center justify-between px-5 */}
       {/* <View style = {("flex row items-center justify-between relative px-5")}> */}
@@ -210,9 +213,9 @@ function HomeScreen({ navigation }) {
       {/* style ={tailwind('flex-1 -mt-3')} */}
 
       {/* <SafeAreaView style = {tailwind("flex-1")} > */}
-      <SafeAreaView testID ="SAV" style={styles.cardContainer}>
+      <SafeAreaView testID="SAV" style={styles.cardContainer}>
         {/* <View style ={tailwind('flex-1')}> */}
-        <View style={styles.animatedCard}>  
+        <View style={styles.animatedCard}>
           <Swiper
             testID="swiper"
             ref={swipeRef}
@@ -312,10 +315,7 @@ function HomeScreen({ navigation }) {
             // style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-red-500')}>
             style={styles.button}
           >
-            <Image
-              source={require("../../assets/images/nope.png")}
-              style={styles.image}
-            />
+            <Image source={nopePNG} style={styles.image} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -326,10 +326,7 @@ function HomeScreen({ navigation }) {
             // style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-blue-500')}>
             style={styles.button}
           >
-            <Image
-              source={require("../../assets/images/like.png")}
-              style={styles.image}
-            />
+            <Image source={likePNG} style={styles.image} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>

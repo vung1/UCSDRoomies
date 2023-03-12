@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { Text, Image, View, StyleSheet } from "react-native";
-import { useFonts, Almendra_700Bold_Italic } from "@expo-google-fonts/almendra";
+import { useFonts, Almendra700BoldItalic } from "@expo-google-fonts/almendra";
+
+const appLogoPNG = require("../../../assets/images/appLogo.png");
 
 function LoginLogo() {
   // Load the font
-  const [fontsLoaded] = useFonts({ Almendra_700Bold_Italic });
+  const [fontsLoaded] = useFonts({ Almendra700BoldItalic });
 
   useEffect(() => {
     if (fontsLoaded) {
@@ -22,15 +24,12 @@ function LoginLogo() {
 
   return (
     <View style={styles.logoContainer}>
-      <Image
-        source={require("../../../assets/images/appLogo.png")}
-        style={styles.image}
-      />
-      <Text style={{ fontSize: 24, fontFamily: "Almendra_700Bold_Italic" }}>
+      <Image source={appLogoPNG} style={styles.image} />
+      <Text style={{ fontSize: 24, fontFamily: "Almendra700BoldItalic" }}>
         {" "}
         UCSD{" "}
       </Text>
-      <Text style={{ fontSize: 25, fontFamily: "Almendra_700Bold_Italic" }}>
+      <Text style={{ fontSize: 25, fontFamily: "Almendra700BoldItalic" }}>
         {" "}
         Roomies{" "}
       </Text>

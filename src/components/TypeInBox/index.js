@@ -38,7 +38,7 @@ function TypeInBox(props) {
           returnKeyType="send"
           value={msg.message}
           onKeyPress={(e) => {
-            if (e.nativeEvent.key == "Enter") {
+            if (e.nativeEvent.key === "Enter") {
               sender(msg, setMsg, currMsg);
             }
           }}
@@ -48,8 +48,8 @@ function TypeInBox(props) {
             // console.log("inside "+typeof(inputH));
             setContentHeight(contentHeight + inputH);
           }}
-          onChangeText={(text) => {
-            setMsg({ message: text });
+          onChangeText={(textMessage) => {
+            setMsg({ message: textMessage });
           }}
         />
       </View>
