@@ -14,7 +14,7 @@ import * as renderer from "react-test-renderer";
 import InitScreen from "../InitScreen";
 import LoginLogo from "../../components/LoginLogo";
 
-describe('Rendering Tests', () => {
+describe("Rendering Tests", () => {
   test("matches snapshot", () => {
     const tree = renderer.create(<InitScreen />).toJSON();
     expect(tree).toMatchSnapshot();

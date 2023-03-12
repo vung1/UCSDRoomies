@@ -11,8 +11,6 @@ import {
 
 import { ScrollView } from "react-native-gesture-handler";
 import { getDocs, collection, orderBy, query } from "@firebase/firestore";
-import users from "../../assets/data/users";
-import BackArrow from "../components/BackArrow";
 import useAuth from "../hooks/useAuth";
 import IconMenu from "../components/IconMenu";
 
@@ -132,7 +130,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   name: {
-    fontWeight: "300",
     fontSize: 14,
     fontWeight: "bold",
     color: "white",

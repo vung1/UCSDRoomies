@@ -107,7 +107,7 @@ function CreateProfileScreen({ navigation }) {
 
   return (
     <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      <View style={{ marginTop: 70 }}></View>
+      <View style={{ marginTop: 70 }} />
 
       <Text style={tailwind("text-xl font-bold top-3")}>Create Profile</Text>
 
@@ -153,7 +153,7 @@ function CreateProfileScreen({ navigation }) {
           <TextInput
             value={bio}
             style={styles.inputText}
-            multiline={true}
+            multiline
             onChangeText={(bioText) => setBio(bioText)}
             placeholder="Write a short bio about yourself"
           />
@@ -174,7 +174,7 @@ function CreateProfileScreen({ navigation }) {
           <TextInput
             value={hobbies}
             style={styles.inputText}
-            multiline={true}
+            multiline
             onChangeText={(hobbiesText) => setHobbies(hobbiesText)}
             placeholder="Enter your interests"
           />

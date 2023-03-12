@@ -9,11 +9,11 @@ import {
   mount,
 } from "@testing-library/react-native";
 
+import * as renderer from "react-test-renderer";
 import SignupScreen from "../SignupScreen";
 import LoginLogo from "../../components/LoginLogo";
-import * as renderer from "react-test-renderer";
 
-describe('Rendering Tests', () => {
+describe("Rendering Tests", () => {
   it("renders default elements", async () => {
     await render(<SignupScreen />);
 
@@ -29,10 +29,9 @@ describe('Rendering Tests', () => {
     const tree = renderer.create(<SignupScreen />).toJSON();
     expect(tree).toMatchSnapshot();
   });
-
 });
 
-describe('Navigation Tests', () => {
+describe("Navigation Tests", () => {
   it("should go back to LoginScreen", async () => {
     const navigation = { navigate: () => {} };
     spyOn(navigation, "navigate");

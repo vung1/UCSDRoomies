@@ -1,12 +1,12 @@
-import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React from "react";
+import { View, Text, ScrollView } from "react-native";
 
-const BottomTabView = () => {
-    return(
-        <View>
-            <Text>BottomTabView</Text>
-        </View>
-    );
-};
+function BottomTabView() {
+  return (
+    <View>
+      <Text>BottomTabView</Text>
+    </View>
+  );
+}
 
-export default BottomTabView;  
+export default BottomTabView;

@@ -13,11 +13,11 @@ import {
 
 import * as renderer from "react-test-renderer";
 import { expect } from "@jest/globals";
+import { Button } from "react-native";
 import MatchesScreen from "../MatchesScreen";
 import IconMenu from "../../components/IconMenu";
-import {Button} from "react-native";
 
-describe('Navigation Tests', () => {
+describe("Navigation Tests", () => {
   // IconMenu test cases
   it("should go back to Home page", async () => {
     const navigation = { navigate: () => {} };
@@ -29,7 +29,10 @@ describe('Navigation Tests', () => {
     // simulate button click
     fireEvent.press(home);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith("HomeScreen", "HomeScreen");
+    expect(navigation.navigate).toHaveBeenCalledWith(
+      "HomeScreen",
+      "HomeScreen",
+    );
   });
 
   it("should go back to Likes page", async () => {
@@ -47,12 +50,18 @@ describe('Navigation Tests', () => {
 });
 
 // Logout test
-describe('Logout Test', () => {
-  const mockLogOut = jest.fn()
+describe("Logout Test", () => {
+  const mockLogOut = jest.fn();
   test("should logout of app", async () => {
     // await render(<HomeScreen />);
-    render(<Button title="mock button" testID="logout.Button" onPress={mockLogOut} />);
-    const logoutButton = screen.getByTestId('logout.Button');
+    render(
+      <Button
+        title="mock button"
+        testID="logout.Button"
+        onPress={mockLogOut}
+      />,
+    );
+    const logoutButton = screen.getByTestId("logout.Button");
     fireEvent.press(logoutButton);
     expect(mockLogOut).toHaveBeenCalledTimes(1);
   });
