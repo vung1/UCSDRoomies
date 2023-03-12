@@ -16,8 +16,8 @@ import useAuth from "../hooks/useAuth";
 function ModelScreen() {
   const tailwind = useTailwind();
   const { user } = useAuth();
-  const [first_name, setFirstName] = useState(null);
-  const [last_name, setLastName] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
   const [age, setAge] = useState(null);
   const [education, setEducation] = useState(null);
   const [major, setMajor] = useState(null);
@@ -28,8 +28,8 @@ function ModelScreen() {
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       email: user.email,
-      firstName: first_name,
-      lastName: last_name,
+      firstName,
+      lastName,
       age,
       classification: education,
       majors: major,
@@ -48,7 +48,7 @@ function ModelScreen() {
 
       <Text style={tailwind("font-bold")}>Step 1: First Name</Text>
       <TextInput
-        value={first_name}
+        value={firstName}
         onChangeText={(text) => setFirstName(text)}
         style={tailwind("text-xl")}
         placeholder="Enter your first name"
@@ -56,7 +56,7 @@ function ModelScreen() {
 
       <Text style={tailwind("font-bold")}>Step 2: Last Name</Text>
       <TextInput
-        value={last_name}
+        value={lastName}
         onChangeText={(text) => setLastName(text)}
         style={tailwind("text-xl")}
         placeholder="Enter your last name"

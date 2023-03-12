@@ -16,7 +16,7 @@ import { expect } from "@jest/globals";
 import LoginScreen from "../LoginScreen";
 import SigninButton from "../../components/SigninButton";
 
-describe('Rendering Tests', () => {
+describe("Rendering Tests", () => {
   it("renders default elements", async () => {
     await render(<LoginScreen />);
 
@@ -33,7 +33,7 @@ describe('Rendering Tests', () => {
 });
 
 // Test navigation
-describe('Navigation Tests', () => {
+describe("Navigation Tests", () => {
   it("should go to SignIn screen when tapped", async () => {
     const navigation = { navigate: () => {} };
     spyOn(navigation, "navigate");

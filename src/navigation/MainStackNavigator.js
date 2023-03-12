@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { Component} from "react-native"
+import { Component } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateProfileScreen from "../screens/CreateProfileScreen";
@@ -39,7 +39,10 @@ function MainStackNavigator() {
             <Stack.Screen name="Likes" component={LikesScreen} />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="ModelScreen" component={ModelScreen} />
-            <Stack.Screen name="CreateProfileScreen" component={CreateProfileScreen} />
+            <Stack.Screen
+              name="CreateProfileScreen"
+              component={CreateProfileScreen}
+            />
           </>
         ) : (
           <>
@@ -52,6 +55,6 @@ function MainStackNavigator() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 export default MainStackNavigator;

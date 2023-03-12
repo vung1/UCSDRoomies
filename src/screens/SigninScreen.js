@@ -21,8 +21,18 @@ function SigninScreen({ navigation }) {
   const showMessages = (emailMsg, passwordMsg) => {
     setEmailMsg(emailMsg);
     setPasswordMsg(passwordMsg);
-    emailMsg == "" ? setEmailInputBorder(0) : setEmailInputBorder(2);
-    passwordMsg == "" ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
+
+    if (emailMsg === "") {
+      setEmailInputBorder(0);
+    } else {
+      setEmailInputBorder(2);
+    }
+
+    if (passwordMsg === "") {
+      setPasswordInputBorder(0);
+    } else {
+      setPasswordInputBorder(2);
+    }
   };
 
   return (
@@ -71,7 +81,7 @@ function SigninScreen({ navigation }) {
         ]}
       >
         <TextInput
-          testID = "Signin.Password"
+          testID="Signin.Password"
           style={styles.textInput}
           placeholder="Password"
           keyboardType="default"
