@@ -82,6 +82,7 @@ function CreateProfileScreen({ navigation }) {
       id: user.uid,
       firstName,
       lastName,
+      userimage,
       age,
       bio,
       major,

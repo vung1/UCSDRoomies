@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,17 +14,43 @@ import { useNavigation } from "@react-navigation/native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
-import * as ImagePicker from "expo-image-picker";
+import { getDoc, doc } from "@firebase/firestore";
 import IconMenu from "../components/IconMenu";
+import useAuth from "../hooks/useAuth";
+import { db, auth } from "../../firebase";
+
+
 
 import userProf from "../../assets/data/user_prof";
 // import React from "react";
 
 function ProfileScreen({ navigation }) {
+
+  const { user } = useAuth();
+  const [userData, setUserData] = useState([]);
+  const [load, setLoad] = useState(false)
+
+  useEffect(() => {
+    async function getDocuments() {
+      await getDoc(
+        doc(db, "users", user.uid),
+      ).then((docSnapshot) => {
+        // const currentUserData = docSnapshot.data();
+        setUserData(docSnapshot.data());
+      });
+    }
+    getDocuments().then(() => {
+      setLoad(true)
+    })
+
+    console.log(userData)
+    
+   
+  }, [load]);
+
   const Tab = createMaterialTopTabNavigator();
 
   function Posts({ route }) {
-    const { imageGall } = route.params;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -38,7 +64,8 @@ function ProfileScreen({ navigation }) {
             flexDirection: "row",
           }}
         >
-          {imageGall.map((img) => (
+          {imageGall && imageGall.map((img) => (
+           
             <View
               style={{
                 padding: 5,
@@ -141,7 +168,7 @@ function ProfileScreen({ navigation }) {
               </Text>
 
               <Image
-                source={{ uri: userProf[0].image }} // TODO change to user.Photourl
+                source={{ uri: userData.userimge }}
                 style={{ width: 100, height: 100, borderRadius: 100 }}
               />
               <Text
@@ -151,16 +178,13 @@ function ProfileScreen({ navigation }) {
                   color: "white",
                 }}
               >
-                {userProf[0].name.split(" ")[0]}, {userProf[0].age}
+                {userData.firstName}, {userData.age}
               </Text>
             </View>
           </View>
           <View style={styles.second}>
             {/* ABOUT */}
-            {userProf[0].about.length > 0
-              ? infoSec(userProf[0].about, "About") // TODO: connect firebase
-              : null}
-
+            {infoSec(["Major:"+userData.major, "Interests:" + userData.hobbies], "About")} 
             {/* Line */}
             <View
               style={{
@@ -171,8 +195,8 @@ function ProfileScreen({ navigation }) {
             />
 
             {/* Apartment */}
-            {userProf[0].apart && userProf[0].apart.length > 0
-              ? infoSec(userProf[0].apart, "Apartment") // TODO: connect firebase
+            {userData.userType
+              ? infoSec(["House Information:" + userData.houseInfo], "Apartment") 
               : null}
           </View>
         </View>
@@ -183,13 +207,13 @@ function ProfileScreen({ navigation }) {
             <Tab.Screen
               name="Posts"
               component={Posts}
-              initialParams={{ imageGall: userProf[0].personalimages }} // TODO:connect to firebase
+              initialParams={{ imageGall: userData.userImages }} // TODO:connect to firebase
               options={tabBarOptions}
             />
             <Tab.Screen
               name="Apartment"
               component={Posts}
-              initialParams={{ imageGall: userProf[0].apartImg }} // TODO:connect to firebase
+              initialParams={{ imageGall: userData.houseImages }} // TODO:connect to firebase
               options={tabBarOptions}
             />
           </Tab.Navigator>
