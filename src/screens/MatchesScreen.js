@@ -10,21 +10,12 @@ import {
 
 import { ScrollView } from "react-native-gesture-handler";
 // import users from "../../assets/data/users";
-import {
-  collection,
-  query,
-  orderBy,
-  getDocs,
-  getDoc,
-  doc,
-} from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import useAuth from "../hooks/useAuth";
 import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
 import { db, auth } from "../../firebase";
 import { setDoc, getDoc, doc, updateDoc } from "firebase/firestore";
-import { useCollection } from 'react-firebase-hooks/firestore';
 
 function MatchesScreen({ navigation }) {
   const { user } = useAuth();

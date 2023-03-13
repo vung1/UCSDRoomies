@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
+import BackArrow from "../components/BackArrow";
 import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import Svg, { Path } from "react-native-svg";
 import { db, auth } from "../../firebase";
@@ -88,7 +89,7 @@ function ChatScreen({ route, navigation }) {
         messages: user_data.messages
       });
     } else {
-      const returnMessage = { [otherUser.id]: key };
+      const returnMessage = { [other_user.id]: key };
       await updateDoc(doc(db, "users", user.uid), {
         messages: returnMessage,
       });
@@ -118,7 +119,7 @@ function ChatScreen({ route, navigation }) {
           <View style={styles.user} key={other_user.id}>
             <Image source={{ uri: other_user.userimage }} style={styles.simp_image} />
           </View>
-          <Text style={styles.name}>{otherUser.firstName}</Text>
+          <Text style={styles.name}>{other_user.firstName}</Text>
         </View>
       </View>
 
