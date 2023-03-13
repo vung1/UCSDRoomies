@@ -10,15 +10,15 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
+import BackArrow from "../components/BackArrow";
 import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import Svg, { Path } from "react-native-svg";
-import { doc, getDoc, updateDoc } from "@firebase/firestore";
-import BackArrow from "../components/BackArrow";
 import { db, auth } from "../../firebase";
+import { doc, setDoc, getDoc, updateDoc } from "@firebase/firestore";
 import useAuth from "../hooks/useAuth";
 
 function ChatScreen({ route, navigation }) {
-  const { otherUser } = route.params;
+  const { other_user, user_data } = route.params;
   const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [contentHeight, setContentHeight] = useState({ height: 90 });
@@ -35,34 +35,33 @@ function ChatScreen({ route, navigation }) {
   const scrollViewRef = useRef();
   let prevTime = 0;
 
-  useEffect(() => {
-    console.log("current user photoURL: ", user.photoURL);
+  useEffect(
+    () => {
+      // get messages map key. (id_id ascending order)
+      const key = (user.uid > other_user.id) ? (other_user.id + "_" + user.uid) : (user.uid + "_" + other_user.id);
+      setKey(key);
 
-    // get messages map key. (id_id ascending order)
-    const key =
-      user.uid > otherUser.id
-        ? `${otherUser.id}_${user.uid}`
-        : `${user.uid}_${otherUser.id}`;
-    setKey(key);
-
-    // Get message history from firebase
-    const getMessages = async () => {
-      const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
-      if (docSnap.exists()) {
-        const firebaseMessagesList = docSnap.data();
-        if (key in firebaseMessagesList) {
-          setAllMessages(firebaseMessagesList[key]);
+      // Get message history from firebase
+      const getMessages = async() => { 
+        const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
+        if (docSnap.exists()) {
+          const firebase_messages_list = docSnap.data();
+          if (key in firebase_messages_list) {
+            setAllMessages(firebase_messages_list[key]);
+          } else {
+            setAllMessages([]);
+          }
         } else {
-          setAllMessages([]);
+          console.log("No such document! Setting...");
+          setDoc(doc(db, "message_for_all", "all_messages"));
         }
-      } else {
-        console.log("No such document!");
-      }
-    };
-    getMessages();
+      };
+      getMessages();
   }, [messages]);
 
   // console.log(messages);
+  // console.log(user_data);
+  // console.log("current user photoURL: ", user_data.image);
 
   async function sender(currMsg, setMessage) {
     const hour = new Date().getHours();
@@ -81,17 +80,16 @@ function ChatScreen({ route, navigation }) {
     await updateDoc(doc(db, "message_for_all", "all_messages"), docData);
 
     // store messages to each user in firebase
-    const docSnap = await getDoc(doc(db, "users", user.uid));
-    const currUserData = docSnap.data();
-
-    if ("messages" in currUserData) {
-      currUserData.messages[otherUser.id] = key;
-      // console.log(currUserData.messages);
+    // const docSnap = await getDoc(doc(db, "users", user.uid));
+    // const curr_user_data = docSnap.data();
+    if ("messages" in user_data) {
+      user_data.messages[other_user.id] = key
+      // console.log(curr_user_data.messages);
       await updateDoc(doc(db, "users", user.uid), {
-        messages: currUserData.messages,
+        messages: user_data.messages
       });
     } else {
-      const returnMessage = { [otherUser.id]: key };
+      const returnMessage = { [other_user.id]: key };
       await updateDoc(doc(db, "users", user.uid), {
         messages: returnMessage,
       });
@@ -117,14 +115,11 @@ function ChatScreen({ route, navigation }) {
             screen="MatchesScreen"
             screenName="Matches"
           />
-
-          <View style={styles.user} key={otherUser.id}>
-            <Image
-              source={{ uri: otherUser.photoURL }}
-              style={styles.simp_image}
-            />
+  
+          <View style={styles.user} key={other_user.id}>
+            <Image source={{ uri: other_user.userimage }} style={styles.simp_image} />
           </View>
-          <Text style={styles.name}>{otherUser.firstName}</Text>
+          <Text style={styles.name}>{other_user.firstName}</Text>
         </View>
       </View>
 
@@ -140,66 +135,60 @@ function ChatScreen({ route, navigation }) {
             scrollViewRef.current.scrollToEnd({ animated: true })
           }
         >
-          {messages.length === 0 ? (
-            <Text style={styles.bar}>New message</Text>
-          ) : (
-            messages.map((msg) => (
-              <>
-                {currentTimeLag(msg) ? (
-                  <Text style={styles.bar}>
+           {(messages.length == 0) ? 
+           <Text 
+           style={styles.bar}>
+            New message
+            </Text> 
+           : messages.map((msg) => (
+           <>
+           { (currentTimeLag(msg)) ? 
+           <Text style={styles.bar}>
+            {/* TODO */}
+            {msg.split("\\n").slice(-1)[0].substring(0, 2) + ":" + msg.split("\\n").slice(-1)[0].substring(2, 4)}
+            </Text>:<Text style={styles.bar}></Text> }
+            <View style={styles.message_box}>
+              {/* TODO */}
+              {msg.split(":")[0] !== user.uid ? (
+                <>
+                  <View style={styles.message_side}>
+                    <View style={styles.user} key={other_user.id}>
+                      <Image
+                        source={{ uri: other_user.userimage }}
+                        style={styles.simp_image}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.message_mid}>
                     {/* TODO */}
-                    {`${msg.split("\\n").slice(-1)[0].substring(0, 2)}:${msg
-                      .split("\\n")
-                      .slice(-1)[0]
-                      .substring(2, 4)}`}
-                  </Text>
-                ) : (
-                  <Text style={styles.bar} />
-                )}
-                <View style={styles.message_box}>
-                  {/* TODO */}
-                  {msg.split(":")[0] !== user.uid ? (
-                    <>
-                      <View style={styles.message_side}>
-                        <View style={styles.user} key={otherUser.id}>
-                          <Image
-                            source={{ uri: otherUser.photoURL }}
-                            style={styles.simp_image}
-                          />
-                        </View>
-                      </View>
-                      <View style={styles.message_mid}>
-                        {/* TODO */}
-                        <Text style={styles.message}>
-                          {msg.split("\\n")[0].split(":")[1]}
-                        </Text>
-                      </View>
-                      <View style={styles.message_side} />
-                    </>
-                  ) : (
-                    <>
-                      {/* self user */}
-                      <View style={styles.message_self_side} />
-                      <View style={styles.message_self_mid}>
-                        <Text style={styles.message_self}>
-                          {/* TODO */}
-                          {msg.split("\\n")[0].split(":")[1]}
-                        </Text>
-                      </View>
-                      <View style={styles.message_self_side}>
-                        <View style={styles.user_self} key={user.uid}>
-                          <Image
-                            source={{ uri: user.photoURL }} // TODO
-                            style={styles.simp_image}
-                          />
-                        </View>
-                      </View>
-                    </>
-                  )}
-                </View>
-              </>
-            ))
-          )}
+                    <Text style={styles.message}>{msg.split("\\n")[0].split(":")[1]}</Text> 
+                  </View>
+                  <View style={styles.message_side} />
+                </>
+              ) : (
+                <>
+                  {/* self user */}
+                  <View style={styles.message_self_side} />
+                  <View style={styles.message_self_mid}>
+                    <Text style={styles.message_self}>
+                      {/* TODO */}
+                      {msg.split("\\n")[0].split(":")[1]}
+                    </Text>
+                  </View>
+                  <View style={styles.message_self_side}>
+                    <View style={styles.user_self} key={user.uid}>
+                      <Image
+                        source={{ uri: user_data.userimage }} //TODO
+                        style={styles.simp_image}
+                      />
+                    </View>
+                  </View>
+                </>
+              )} 
+              
+            </View>
+           </> 
+          ))}
         </ScrollView>
       </View>
 

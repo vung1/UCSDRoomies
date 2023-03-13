@@ -52,7 +52,8 @@ function ProfileScreen({ navigation }) {
 
   function Posts({ route }) {
 
-    const { imageGall} = route.params;
+    const { imageGall } = route.params;
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}

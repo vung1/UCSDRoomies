@@ -17,6 +17,8 @@ import {
   doc,
   setDoc,
   getDocs,
+  updateDoc,
+  getDoc,
   onSnapshot,
   collection,
   query,
@@ -107,6 +109,8 @@ function HomeScreen({ navigation }) {
   const tailwind = useTailwind();
   const { user } = useAuth(); // auth.currentUser;
   const [profiles, setProfiles] = useState([]);
+  const [passes_user_ids, setPassesIds] = useState([]);
+  const [swipes_user_ids, setSwipesIds] = useState([]);
 
   // if the database is empty, redirect to ModelScreen
   // useLayoutEffect(() => onSnapshot(doc(db, "users", user.uid), (snapshot) => {
@@ -131,6 +135,12 @@ function HomeScreen({ navigation }) {
       const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
 
       // console.log(passes, passedUserIds, swipes, swipedUserIds)
+
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      if (docSnap.exists()) {
+        setPassesIds(docSnap.data().passes);
+        setSwipesIds(docSnap.data().swipes);
+      }
 
       unsub = onSnapshot(
         query(
@@ -166,6 +176,10 @@ function HomeScreen({ navigation }) {
     console.log(`you swiped PASS on ${userSwiped.firstName}`);
 
     setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
+
+    passes_user_ids.push(userSwiped.id);
+    setPassesIds(passes_user_ids);
+    updateDoc(doc(db, "users", user.uid), {passes : passes_user_ids});
   };
 
   const swipeRight = async (cardIndex) => {
@@ -177,6 +191,10 @@ function HomeScreen({ navigation }) {
     console.log(`you swiped on ${userSwiped.firstName}`);
 
     setDoc(doc(db, "users", user.uid, "swipes", userSwiped.id), userSwiped);
+
+    swipes_user_ids.push(userSwiped.id);
+    setSwipesIds(swipes_user_ids);
+    updateDoc(doc(db, "users", user.uid), {swipes : swipes_user_ids});
   };
 
   return (
@@ -241,7 +259,7 @@ function HomeScreen({ navigation }) {
                 <View key={card.id} style={styles.card}>
                   <Image
                     style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
-                    source={{ uri: card.photoURL }}
+                    source={{ uri: card.userimage }}
                   />
                   <View
                     style={[

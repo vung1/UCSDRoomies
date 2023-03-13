@@ -1,3 +1,5 @@
+/* eslint-disable react/react-in-jsx-scope */
+/* eslint-disable testing-library/prefer-screen-queries */
 import {
   render,
   fireEvent,
@@ -15,6 +17,7 @@ import LoginLogo from "../../components/LoginLogo";
 
 describe("Rendering Tests", () => {
   it("renders default elements", async () => {
+    // eslint-disable-next-line react/react-in-jsx-scope
     await render(<ChatScreen />);
 
     await waitFor(() => {
@@ -27,11 +30,11 @@ describe("Rendering Tests", () => {
 describe("Back button Test", () => {
   it("should go back to MatchesScreen", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<ChatScreen navigation={navigation} />);
+    const view = render(<ChatScreen navigation={navigation} />);
     // access your button
-    const button = page.getByTestId("BackButton");
+    const button = view.getByTestId("BackButton");
     // simulate button click
     fireEvent.press(button);
     // expect result
