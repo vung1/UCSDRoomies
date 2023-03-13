@@ -98,6 +98,8 @@ function CreateProfileScreen({ navigation }) {
       userType,
       houseInfo,
       houseImages,
+      passes : [],
+      swipes : [],
       timestamp: serverTimestamp(),
     })
       .then(() => {

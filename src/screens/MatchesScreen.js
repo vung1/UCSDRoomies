@@ -14,48 +14,29 @@ import useAuth from "../hooks/useAuth";
 import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
 import { db, auth } from "../../firebase";
-import { collection, query, where, orderBy, limit, getDocs, getDoc, doc } from "firebase/firestore";
+import { collection, query, getDocs, getDoc, doc, updateDoc } from "firebase/firestore";
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 function MatchesScreen({ navigation }) {
 
   const { user } = useAuth();
-  const [other_users, setAllUsers] = useState([]); // all the users except the current login user info
   const [messages, setAllMessages] = useState([]);
   const [chat_map, setChatMap] = useState({});
-  const [swiped_users, setSwipes] = useState([]); // all the swiped other users
+  const [all_users, setAllUsers] = useState([]); // all the users except the current login user info
   const [user_data, setUserData] = useState({}); // current logged in user data
+  const [matched_users, setMatches] = useState([]); // all the swiped and matched other users
 
   useEffect(() => {
-    // Get all the swiped other users
-    async function getSwipedUsers() {
-      await getDocs(
-        query(
-          collection(db, "users", user.uid, "swipes"),
-          orderBy("swipe_pass_timestamp", "desc"),
-        ),
-      ).then((querySnapshot) => {
-        const passArr = [];
-        querySnapshot.forEach((doc) => {
-          const { firstName, lastName, userimage } = doc.data();
-          passArr.push({ id: doc.id, firstName, lastName, userimage });
-        });
-        setSwipes(passArr);
-      });
-    }
-    getSwipedUsers();
+    // let unsub;
 
     // Get current login user chat history
     db.collection('users').get().then(snapshot => {
-      // Get all other users info from firebase
-      const arr_users = snapshot.docs.map(doc => doc.data());
-      setAllUsers(arr_users);
-      
       // Get all users info from firebase include current login user
-      var users_map = {};
-      snapshot.docs.map(function(doc) {
+      const users_map = {};
+      snapshot.docs.map((doc) => {
         users_map[doc.data().id] = doc.data();
       })
+      setAllUsers(users_map);
       setUserData(users_map[user.uid]);
       // Find current user and get messages historys KEYS
       if ("messages" in users_map[user.uid]) {
@@ -75,12 +56,51 @@ function MatchesScreen({ navigation }) {
     }
     getMessages();
 
-  }, [db, messages]); // [swiped_users]);
+    // Get all the swiped other_users
+    async function getSwipedUsers() {
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      if (docSnap.exists()) {
+        // setSwipesIds(docSnap.data().swipes);
+        const matchArr = [];
+        docSnap.data().swipes.forEach((swiped_id) => {
+          const curr = all_users.swiped_id;
+          if (curr.swipes.includes(user.uid)) {
+            matchArr.push({ id:curr.id, firstName:curr.firstName, lastName:curr.lastName, userimage:curr.userimage });
+          }
+        });
+        setMatches(matchArr);
+      }
+    }
+    // async function getSwipedUsers() {
+    //   await getDocs(
+    //     query(
+    //       collection(db, "users", user.uid, "swipes"), // query each swipe of current logged_in user
+    //       // orderBy("swipe_pass_timestamp", "desc"),
+    //     ),
+    //   ).then((querySnapshot) => {
+    //     const matchArr = [];
+    //     querySnapshot.forEach((swiped_doc) => {
+    //       const { id, firstName, lastName, userimage, swipes} = swiped_doc.data();
+    //       // all_users.id.
+    //       // check if there is a match  
+    //       if (swipes.includes(user.uid)) {
+    //         matchArr.push({ id, firstName, lastName, userimage });
+    //         // if there is a match, add the new matched user to current logged_in user swipes record
+    //         const swipes_user_ids = user_data.swipes;
+    //         swipes_user_ids.push(id);
+    //         updateDoc(doc(db, "users", user.uid), {swipes : swipes_user_ids});
+    //       }
+    //     });
+    //     setMatches(matchArr);
+    //   });
+    // }
+    getSwipedUsers();
 
-  // console.log(chat_map);
-  // console.log(messages);
-  // console.log(swiped_users);
-  // console.log(user_data);
+    // return unsub;
+  }, []); // messages, matched_users
+
+  // console.log(matched_users);
+  // console.log(all_users)
 
   return (
     <View style={styles.ver_container}>
@@ -99,8 +119,8 @@ function MatchesScreen({ navigation }) {
         </View>
         <ScrollView style={styles.scrollView} horizontal>
           <View style={styles.users}>
-            {/* {swiped_users.map((other_user) => ( // TODO */}
-            {other_users.map((other_user) => (
+            {/* {all_users.map((other_user) => ( */}
+            {matched_users.map((other_user) => (
               <View key={other_user.id}>
               <TouchableOpacity
               onPress={() =>
@@ -122,8 +142,8 @@ function MatchesScreen({ navigation }) {
       <View style={styles.message_area}>
         <ScrollView style={styles.scrollView} vertical>
           <View style={styles.container}>
-            {other_users.map((other_user) => 
-            // {swiped_users.map((other_user) => // TODO
+            {/* {all_users.map((other_user) =>  */}
+            {matched_users.map((other_user) => 
                 // chat_map[other_user.id] is the key, id_id, to get the actual chat data
                 (messages[chat_map[other_user.id]]!=null && messages[chat_map[other_user.id]].length!=0) ? ( //(true) ? (
                   <TouchableOpacity
