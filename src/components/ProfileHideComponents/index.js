@@ -8,6 +8,10 @@ function ProfileHideComponents(props) {
   const {
     hide,
     sethouseInfo,
+    houseimage1,
+    houseimage2,
+    houseimage3,
+    houseimage4,
     setHouseImage1,
     setHouseImage2,
     setHouseImage3,
@@ -40,16 +44,16 @@ function ProfileHideComponents(props) {
 
       <ScrollView style={styles.scrollContainer} horizontal>
         <View style={styles.scrollImage}>
-          <AddImage saveImage={setHouseImage1} />
+          <AddImage storeImage={houseimage1} saveImage={setHouseImage1} />
         </View>
         <View style={styles.scrollImage}>
-          <AddImage saveImage={setHouseImage2} />
+          <AddImage storeImage={houseimage2} saveImage={setHouseImage2} />
         </View>
         <View style={styles.scrollImage}>
-          <AddImage saveImage={setHouseImage3} />
+          <AddImage storeImage={houseimage3} saveImage={setHouseImage3} />
         </View>
         <View style={styles.scrollImage}>
-          <AddImage saveImage={setHouseImage4} />
+          <AddImage storeImage={houseimage4} saveImage={setHouseImage4} />
         </View>
       </ScrollView>
     </View>
@@ -82,6 +86,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   scrollImage: {
+    height: 100,
+    width: 100,
     paddingRight: 5,
   },
 });

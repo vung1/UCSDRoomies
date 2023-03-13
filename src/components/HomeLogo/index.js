@@ -1,26 +1,9 @@
-import React, { useEffect } from "react";
-import * as SplashScreen from "expo-splash-screen";
+import React from "react";
 import { Text, Image, View, StyleSheet } from "react-native";
-import { useFonts, Almendra700BoldItalic } from "@expo-google-fonts/almendra";
 
 const appLogoPNG = require("../../../assets/images/appLogo.png");
 
 function HomoLogo() {
-  // Load the font
-  // const [fontsLoaded] = useFonts({ Almendra700BoldItalic });
-
-  // useEffect(() => {
-  //   if (fontsLoaded) {
-  //     // Hide the splash screen after the fonts have loaded and the
-  //     // UI is ready.
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [fontsLoaded]);
-
-  // // Prevent rendering until the font has loaded
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
 
   return (
     <View style={styles.logoContainer}>
@@ -45,7 +28,7 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     height: 25,
     fontSize: 25,
-    fontFamily: "Almendra_700Bold_Italic",
+    fontFamily: "AmericanTypewriter-CondensedBold",
   },
 });
 
