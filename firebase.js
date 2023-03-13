@@ -8,25 +8,25 @@ import "firebase/compat/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDjZyLkmat0Y3VEkPzr9Q7_jm-3LRGC7bc",
-  authDomain: "ucsdroomies-4a216.firebaseapp.com",
-  projectId: "ucsdroomies-4a216",
-  storageBucket: "ucsdroomies-4a216.appspot.com",
-  messagingSenderId: "702319009828",
-  appId: "1:702319009828:web:b3a178ff7531be3fdeb8b1",
-  measurementId: "G-T6VKB8ZFLD",
-};
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDjZyLkmat0Y3VEkPzr9Q7_jm-3LRGC7bc",
+//   authDomain: "ucsdroomies-4a216.firebaseapp.com",
+//   projectId: "ucsdroomies-4a216",
+//   storageBucket: "ucsdroomies-4a216.appspot.com",
+//   messagingSenderId: "702319009828",
+//   appId: "1:702319009828:web:b3a178ff7531be3fdeb8b1",
+//   measurementId: "G-T6VKB8ZFLD",
+// };
 
 // backup
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAWuvZh9_F4gndUhXLFod2Txxp6s83Vc38",
-//   authDomain: "ucsdroomiesbackup-74839.firebaseapp.com",
-//   projectId: "ucsdroomiesbackup-74839",
-//   storageBucket: "ucsdroomiesbackup-74839.appspot.com",
-//   messagingSenderId: "921771591759",
-//   appId: "1:921771591759:web:d27104cbf9857f5824823a"
-// };
+const firebaseConfig = {
+  apiKey: "AIzaSyAWuvZh9_F4gndUhXLFod2Txxp6s83Vc38",
+  authDomain: "ucsdroomiesbackup-74839.firebaseapp.com",
+  projectId: "ucsdroomiesbackup-74839",
+  storageBucket: "ucsdroomiesbackup-74839.appspot.com",
+  messagingSenderId: "921771591759",
+  appId: "1:921771591759:web:d27104cbf9857f5824823a"
+};
 
 let app;
 

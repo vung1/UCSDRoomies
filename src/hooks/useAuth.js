@@ -70,7 +70,7 @@ export function AuthProvider({ children }) {
 
     createUserWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredentials) => {
-        const { currentUser } = userCredentials;
+        const currentUser = userCredentials.user;
         console.log("Registered with:", currentUser.email);
         navigation.navigate("CreateProfileScreen", "CreateProfileScreen");
       })
@@ -78,7 +78,9 @@ export function AuthProvider({ children }) {
         setError(err);
         showMessages("Account already exists", "", "");
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false)
+      });
   };
 
   const memoedValue = useMemo(
