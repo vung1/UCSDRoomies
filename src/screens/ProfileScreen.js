@@ -26,7 +26,7 @@ import userProf from "../../assets/data/user_prof";
 
 function ProfileScreen({ navigation }) {
 
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [userData, setUserData] = useState([]);
   const [load, setLoad] = useState(false)
 
@@ -51,6 +51,9 @@ function ProfileScreen({ navigation }) {
   const Tab = createMaterialTopTabNavigator();
 
   function Posts({ route }) {
+
+    const { imageGall } = route.params;
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -181,6 +184,25 @@ function ProfileScreen({ navigation }) {
                 {userData.firstName}, {userData.age}
               </Text>
             </View>
+          </View>
+          <View style={{ 
+            position: "absolute", right: "8%", top: "16%"}}>
+            <TouchableOpacity
+              onPress={() => {
+                logOut();
+              }}
+              style={{
+                backgroundColor: "white", 
+                height: 25, 
+                width: 80, 
+                borderRadius: 12.5,
+                justifyContent:"center",
+                alignItems:"center"}}
+            >
+              <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
+                Log Out
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.second}>
             {/* ABOUT */}
