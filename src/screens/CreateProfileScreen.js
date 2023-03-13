@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   scaleBackground: {
     backgroundColor: "#247DCF",
     alignSelf: "center",
-    height: "30%",
+    height: 255,
     width: 200,
     borderBottomRightRadius: 100,
     borderBottomLeftRadius: 100,

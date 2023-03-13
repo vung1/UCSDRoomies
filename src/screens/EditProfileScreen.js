@@ -14,9 +14,10 @@ import { db } from "../../firebase";
 import useAuth from "../hooks/useAuth";
 import AddImage from "../components/AddImage";
 import ProfileHideComponents from "../components/ProfileHideComponents";
+import IconMenu from "../components/IconMenu";
 
 function EditProfileScreen({ navigation }) {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   const [userimage, setUserImage] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -100,7 +101,7 @@ function EditProfileScreen({ navigation }) {
   
   return (
 
-    <View style={{ height: "100%" }}>
+    <View><View style={{ width: "100%", height: "90%" }}>
       
       <View style={styles.scaleBackground}>
         <View style={{ transform: [{ scaleX: 0.25 }] }}>
@@ -227,8 +228,8 @@ function EditProfileScreen({ navigation }) {
           setHouseImage4={setHouseImage4}
         />
 
-        {/* Button */}
-        <View style={{ height: 160, alignItems: "center" }}>
+        {/* Save Button */}
+        <View style={{ height: 40, alignItems: "center" }}>
           <TouchableOpacity
             disabled={incompleteForm}
             onPress={() => {
@@ -242,7 +243,27 @@ function EditProfileScreen({ navigation }) {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Logout Button */}
+        <View style={{ height: 120, alignItems: "center", marginTop:"5%" }}>
+          <TouchableOpacity
+            onPress={() => {
+              logOut();
+            }}
+            style={styles.button}
+          >
+            <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
+              Log Out
+            </Text>
+          </TouchableOpacity>
+        </View>
+
       </ScrollView>
+
+    </View>
+
+    <IconMenu navigation={navigation} screenCurr="EditProfileScreen" />
+
     </View>
   );
 }
@@ -251,7 +272,7 @@ const styles = StyleSheet.create({
   scaleBackground: {
     backgroundColor: "#247DCF",
     alignSelf: "center",
-    height: "30%",
+    height: 255,
     width: 200,
     borderBottomRightRadius: 100,
     borderBottomLeftRadius: 100,

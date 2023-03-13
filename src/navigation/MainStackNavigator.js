@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
 import React from "react";
-import { Component } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CreateProfileScreen from "../screens/CreateProfileScreen";
@@ -29,15 +28,12 @@ function MainStackNavigator() {
         screenOptions={{
           headerShown: false,
           backgroundColor: "#FFFFFF",
-          animationEnabled: false,
+          animation: "none",
         }}
+        
       >
         {user ? (
           <>
-            <Stack.Screen
-              name="EditProfileScreen"
-              component={EditProfileScreen}
-            />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="Matches" component={MatchesScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
@@ -48,13 +44,28 @@ function MainStackNavigator() {
               name="CreateProfileScreen"
               component={CreateProfileScreen}
             />
+            <Stack.Screen
+              name="EditProfileScreen"
+              component={EditProfileScreen}
+            />
           </>
         ) : (
           <>
             <Stack.Screen name="InitScreen" component={InitScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} />
-            <Stack.Screen name="SigninScreen" component={SigninScreen} />
-            <Stack.Screen name="SignupScreen" component={SignupScreen} />
+            <Stack.Screen 
+              name="LoginScreen" 
+              component={LoginScreen} 
+              options={{animation:"fade"}}/>
+            <Stack.Screen 
+              name="SigninScreen" 
+              component={SigninScreen} 
+              options={{animation:"slide_from_bottom"}}
+            />
+            <Stack.Screen 
+              name="SignupScreen" 
+              component={SignupScreen} 
+              options={{animation:"slide_from_bottom"}}
+            />
           </>
         )}
       </Stack.Navigator>
