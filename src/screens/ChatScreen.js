@@ -44,7 +44,7 @@ function ChatScreen({ route, navigation }) {
           }
         } else {
           console.log("No such document! Setting...");
-          await setDoc(doc(db, "message_for_all", "all_messages"));
+          setDoc(doc(db, "message_for_all", "all_messages"));
         }
       };
       getMessages();

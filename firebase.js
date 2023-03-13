@@ -20,12 +20,12 @@ import "firebase/compat/firestore";
 
 // backup
 const firebaseConfig = {
-  apiKey: "AIzaSyDVb7CYkYyQCQp1RoMawhB-gVRSpRRbHDE",
-  authDomain: "ucsdroomiesbackup.firebaseapp.com",
-  projectId: "ucsdroomiesbackup",
-  storageBucket: "ucsdroomiesbackup.appspot.com",
-  messagingSenderId: "872579576069",
-  appId: "1:872579576069:web:f13340675c1c3ebbe5476c"
+  apiKey: "AIzaSyCARIDaerptf-k1v0p4TQD92HjMn99s3Wk",
+  authDomain: "ucsdroomiesbackup-49ccd.firebaseapp.com",
+  projectId: "ucsdroomiesbackup-49ccd",
+  storageBucket: "ucsdroomiesbackup-49ccd.appspot.com",
+  messagingSenderId: "431760598556",
+  appId: "1:431760598556:web:a84887e03cc2d96f9ce1d9"
 };
 
 let app;

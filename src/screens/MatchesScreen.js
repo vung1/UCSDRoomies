@@ -14,7 +14,7 @@ import useAuth from "../hooks/useAuth";
 import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
 import { db, auth } from "../../firebase";
-import { collection, query, getDocs, getDoc, doc, updateDoc } from "firebase/firestore";
+import { setDoc, getDoc, doc, updateDoc } from "firebase/firestore";
 import { useCollection } from 'react-firebase-hooks/firestore';
 
 function MatchesScreen({ navigation }) {
@@ -22,7 +22,7 @@ function MatchesScreen({ navigation }) {
   const { user } = useAuth();
   const [messages, setAllMessages] = useState([]);
   const [chat_map, setChatMap] = useState({});
-  const [all_users, setAllUsers] = useState([]); // all the users except the current login user info
+  // const [all_users, setAllUsers] = useState([]); // all the users except the current login user info
   const [user_data, setUserData] = useState({}); // current logged in user data
   const [matched_users, setMatches] = useState([]); // all the swiped and matched other users
 
@@ -36,7 +36,7 @@ function MatchesScreen({ navigation }) {
       snapshot.docs.map((doc) => {
         users_map[doc.data().id] = doc.data();
       })
-      setAllUsers(users_map);
+      // setAllUsers(users_map);
       setUserData(users_map[user.uid]);
       // Find current user and get messages historys KEYS
       if ("messages" in users_map[user.uid]) {
@@ -56,6 +56,7 @@ function MatchesScreen({ navigation }) {
         setAllMessages(firebase_messages_list);
       } else {
         console.log("No such document! message_for_all, all_messages");
+        setDoc(doc(db, "message_for_all", "all_messages"));
       }
     }
     getMessages();
@@ -64,42 +65,29 @@ function MatchesScreen({ navigation }) {
     async function getSwipedUsers() {
       const docSnap = await getDoc(doc(db, "users", user.uid));
       if (docSnap.exists()) {
-        // setSwipesIds(docSnap.data().swipes);
-        const matchArr = [];
-        docSnap.data().swipes.forEach((swiped_id) => {
-          const curr = all_users[swiped_id];
-          if (typeof curr.swipes !== 'undefined' && curr.swipes.length === 0 && curr.swipes.includes(user.uid)) {
-            matchArr.push({ id:curr.id, firstName:curr.firstName, lastName:curr.lastName, userimage:curr.userimage });
-          }
+        db.collection('users').get().then(snapshot => {
+          // Get all users info from firebase include current login user
+          const users_map = {};
+          snapshot.docs.map((doc) => {
+            users_map[doc.data().id] = doc.data();
+          });
+
+          const matchArr = [];
+          docSnap.data().swipes.forEach((swiped_id) => {
+            const curr = users_map[swiped_id];
+            // console.log(curr.swipes);
+            if (typeof curr.swipes !== 'undefined' && curr.swipes.length !== 0 && curr.swipes.includes(user.uid)) {
+              matchArr.push({ id:curr.id, firstName:curr.firstName, lastName:curr.lastName, userimage:curr.userimage });
+            }
+          });
+          setMatches(matchArr);
+        }).catch((error) => {
+          console.error(error);
         });
-        setMatches(matchArr);
       } else {
         console.log("No such document! users, user.uid");
       }
     }
-    // async function getSwipedUsers() {
-    //   await getDocs(
-    //     query(
-    //       collection(db, "users", user.uid, "swipes"), // query each swipe of current logged_in user
-    //       // orderBy("swipe_pass_timestamp", "desc"),
-    //     ),
-    //   ).then((querySnapshot) => {
-    //     const matchArr = [];
-    //     querySnapshot.forEach((swiped_doc) => {
-    //       const { id, firstName, lastName, userimage, swipes} = swiped_doc.data();
-    //       // all_users.id.
-    //       // check if there is a match  
-    //       if (swipes.includes(user.uid)) {
-    //         matchArr.push({ id, firstName, lastName, userimage });
-    //         // if there is a match, add the new matched user to current logged_in user swipes record
-    //         const swipes_user_ids = user_data.swipes;
-    //         swipes_user_ids.push(id);
-    //         updateDoc(doc(db, "users", user.uid), {swipes : swipes_user_ids});
-    //       }
-    //     });
-    //     setMatches(matchArr);
-    //   });
-    // }
     getSwipedUsers();
 
     // return unsub;
