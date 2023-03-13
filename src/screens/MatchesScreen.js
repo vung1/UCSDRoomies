@@ -44,6 +44,8 @@ function MatchesScreen({ navigation }) {
       } else {
         setChatMap({});
       }
+    }).catch((error) => {
+      console.error(error);
     });
 
     // Get all message history from firebase
@@ -52,6 +54,8 @@ function MatchesScreen({ navigation }) {
       if (docSnap.exists()) {
         const firebase_messages_list = docSnap.data();
         setAllMessages(firebase_messages_list);
+      } else {
+        console.log("No such document! message_for_all, all_messages");
       }
     }
     getMessages();
@@ -63,12 +67,14 @@ function MatchesScreen({ navigation }) {
         // setSwipesIds(docSnap.data().swipes);
         const matchArr = [];
         docSnap.data().swipes.forEach((swiped_id) => {
-          const curr = all_users.swiped_id;
-          if (curr.swipes.includes(user.uid)) {
+          const curr = all_users[swiped_id];
+          if (typeof curr.swipes !== 'undefined' && curr.swipes.length === 0 && curr.swipes.includes(user.uid)) {
             matchArr.push({ id:curr.id, firstName:curr.firstName, lastName:curr.lastName, userimage:curr.userimage });
           }
         });
         setMatches(matchArr);
+      } else {
+        console.log("No such document! users, user.uid");
       }
     }
     // async function getSwipedUsers() {
