@@ -83,6 +83,7 @@ function CreateProfileScreen({ navigation }) {
       userimage,
       firstName,
       lastName,
+      userimage,
       age,
       bio,
       major,

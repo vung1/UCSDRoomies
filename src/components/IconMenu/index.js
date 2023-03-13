@@ -51,8 +51,8 @@ function IconMenu(props) {
       <TouchableOpacity
         testID="profileIcon"
         onPress={() => {
-          if (screenCurr !== "EditProfileScreen") {
-            navigation.navigate("EditProfileScreen", "EditProfileScreen");
+          if (screenCurr !== "ProfileScreen") {
+            navigation.navigate("ProfileScreen", "ProfileScreen");
           }
         }}
         activeOpacity={0.8}
