@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -99,6 +99,16 @@ function CreateProfileScreen({ navigation }) {
       .catch((error) => console.log("TTTTTTT error", error.message));
   };
 
+  useEffect(() => {
+    if (!userType) {
+      sethouseInfo(null);
+      setHouseImage1(null);
+      setHouseImage2(null);
+      setHouseImage3(null);
+      setHouseImage4(null);
+    }
+  }, [userType]);
+  
   return (
 
     <View style={{ height: "100%" }}>
@@ -314,7 +324,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "10%",
-    
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
   },
 });
 
