@@ -91,7 +91,7 @@ function MatchesScreen({ navigation }) {
     getSwipedUsers();
 
     // return unsub;
-  }, [messages]); // messages, matched_users
+  }, [chat_map]); // messages, matched_users
 
   // console.log(matched_users);
   // console.log(all_users)
