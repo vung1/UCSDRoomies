@@ -38,11 +38,24 @@ describe('Navigation Tests', () => {
     // render your component
     const page = render(<MatchesScreen navigation={navigation} />);
     // access your button
-    const matches = page.getByTestId("likesIcon");
+    const like = page.getByTestId("likesIcon");
     // simulate button click
-    fireEvent.press(matches);
+    fireEvent.press(like);
     // expect result
     expect(navigation.navigate).toHaveBeenCalledWith("Likes", "LikesScreen");
+  });
+
+    it("should go back to Profile page", async () => {
+    const navigation = { navigate: () => {} };
+    spyOn(navigation, "navigate");
+    // render your component
+    const page = render(<MatchesScreen navigation={navigation} />);
+    // access your button
+    const profile = page.getByTestId("profileIcon");
+    // simulate button click
+    fireEvent.press(profile);
+    // expect result
+    expect(navigation.navigate).toHaveBeenCalledWith("ProfileScreen", "ProfileScreen");
   });
 });
 

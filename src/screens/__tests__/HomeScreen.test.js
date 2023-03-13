@@ -48,6 +48,19 @@ describe('Navigation Tests', () => {
     // expect result
     expect(navigation.navigate).toHaveBeenCalledWith("Matches", "MatchesScreen");
   });
+
+  it("should go back to Profile page", async () => {
+    const navigation = { navigate: () => {} };
+    spyOn(navigation, "navigate");
+    // render your component
+    const page = render(<HomeScreen navigation={navigation} />);
+    // access your button
+    const profile = page.getByTestId("profileIcon");
+    // simulate button click
+    fireEvent.press(profile);
+    // expect result
+    expect(navigation.navigate).toHaveBeenCalledWith("ProfileScreen", "ProfileScreen");
+  });
 });
 
 describe('Swiping Tests', () => {

@@ -191,8 +191,8 @@ const ProfileScreen = ({navigation}) => {
   
       <IconMenu 
         navigation={navigation}
-        screenCurr="HomeScreen"
-        screenCurrName="HomeScreen"
+        screenCurr="ProfileScreen"
+        screenCurrName="ProfileScreen"
       />
     </View>
   );
