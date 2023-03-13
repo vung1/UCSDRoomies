@@ -105,7 +105,7 @@ function HomeScreen({ navigation }) {
   // const navigation = useNavigation();
   const swipeRef = React.useRef(null);
   const tailwind = useTailwind();
-  const { user, logOut } = useAuth(); // auth.currentUser;
+  const { user } = useAuth(); // auth.currentUser;
   const [profiles, setProfiles] = useState([]);
 
   // if the database is empty, redirect to ModelScreen
@@ -182,8 +182,6 @@ function HomeScreen({ navigation }) {
   return (
     <View testID="view.container" style={styles.pageContainer}>
       {/* Header */}
-      {/* flex row item-center justify-between px-5 */}
-      {/* <View style = {("flex row items-center justify-between relative px-5")}> */}
       <View style={styles.logoContainer}>
         {/* ROOMIES LOGO */}
         <View>
@@ -191,30 +189,15 @@ function HomeScreen({ navigation }) {
         </View>
         {/* ROOMIES LOGO */}
 
-        {/* a temp logout button */}
-        <Button testID="logout.Button" title="Logout" onPress={logOut} />
-
         {/* FILTER ICON */}
-        {/* <TouchableOpacity style ={ tailwind(" absolute right-5 top-3")} > */}
         <TouchableOpacity style={styles.filter}>
           <AntIcon name="filter" size={30} />
         </TouchableOpacity>
-        {/* <TouchableOpacity style = {tailwind("right-100 top-33")}>
-        <AntIcon name = 'filter' size = {30}/>  
-      </TouchableOpacity>
-      <TouchableOpacity style = {tailwind("right-100 top-33")}>
-        <AntIcon name = 'filter' size = {30}/>  
-      </TouchableOpacity> */}
         {/* FILTER ICON */}
       </View>
       {/* ENd of Header */}
 
-      {/* {Cards} */}
-      {/* style ={tailwind('flex-1 -mt-3')} */}
-
-      {/* <SafeAreaView style = {tailwind("flex-1")} > */}
       <SafeAreaView testID="SAV" style={styles.cardContainer}>
-        {/* <View style ={tailwind('flex-1')}> */}
         <View style={styles.animatedCard}>
           <Swiper
             testID="swiper"
@@ -255,15 +238,11 @@ function HomeScreen({ navigation }) {
             }}
             renderCard={(card) =>
               card ? (
-                // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
-                // <View key = {card.id} style= {tailwind("relative bg-white h-3/4 rounded-xl")}>
                 <View key={card.id} style={styles.card}>
                   <Image
                     style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
                     source={{ uri: card.photoURL }}
                   />
-                  {/* <Text>{card.name}</Text> */}
-                  {/* <View style={tailwind('absolute bottom-0 bg-white w-full flex-row justify-between items-between h-20 px-6 py-2 rounded-b-xl')}> */}
                   <View
                     style={[
                       tailwind(
@@ -276,9 +255,6 @@ function HomeScreen({ navigation }) {
                       <Text style={tailwind("text-xl font-bold")}>
                         {card.firstName}
                       </Text>
-                      {/* <Text style = {{fontSize:20, height:20}}>{card.firstName}</Text> */}
-                      {/* <Text>{card.majors}</Text> */}
-                      {/* style = {tailwind("text-xl text-white font-bold")} */}
                       <Text>{card.classification}</Text>
                     </View>
                     <Text style={tailwind("text-xl font-bold")}>
@@ -288,7 +264,6 @@ function HomeScreen({ navigation }) {
                 </View>
               ) : (
                 <View style={styles.card}>
-                  {/* <Text style={tailwind("text-xl font-bold text-white")}>No more profiles</Text> */}
                   <Image
                     style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
                     source={{
@@ -303,8 +278,6 @@ function HomeScreen({ navigation }) {
 
         {/* Buttons for matching  */}
         {/* Margin bottom pushes up and margin top pushes down */}
-
-        {/* <View style = {tailwind('mb-8 flex-row justify-evenly ')}> */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             testID="leftSwipe"
@@ -312,7 +285,6 @@ function HomeScreen({ navigation }) {
               swipeRef.current.swipeLeft();
             }}
             activeOpacity={0.8}
-            // style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-red-500')}>
             style={styles.button}
           >
             <Image source={nopePNG} style={styles.image} />
@@ -323,7 +295,6 @@ function HomeScreen({ navigation }) {
               swipeRef.current.swipeRight();
             }}
             activeOpacity={0.8}
-            // style = {tailwind('items-center justify-center rounded-full w-16 h-16 bg-blue-500')}>
             style={styles.button}
           >
             <Image source={likePNG} style={styles.image} />

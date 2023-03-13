@@ -133,6 +133,7 @@ function ProfileScreen({ navigation }) {
                 style={{
                   paddingVertical: 20,
                   color: "white",
+                  fontWeight: "bold",
                   fontSize: 24,
                 }}
               >
@@ -197,8 +198,8 @@ function ProfileScreen({ navigation }) {
 
       <IconMenu
         navigation={navigation}
-        screenCurr="HomeScreen"
-        screenCurrName="HomeScreen"
+        screenCurr="ProfileScreen"
+        screenCurrName="ProfileScreen"
       />
     </View>
   );

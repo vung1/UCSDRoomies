@@ -14,9 +14,10 @@ import { db } from "../../firebase";
 import useAuth from "../hooks/useAuth";
 import AddImage from "../components/AddImage";
 import ProfileHideComponents from "../components/ProfileHideComponents";
+import IconMenu from "../components/IconMenu";
 
-function CreateProfileScreen({ navigation }) {
-  const { user } = useAuth();
+function EditProfileScreen({ navigation }) {
+  const { user, logOut } = useAuth();
   const [userimage, setUserImage] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -100,12 +101,12 @@ function CreateProfileScreen({ navigation }) {
   
   return (
 
-    <View style={{ height: "100%" }}>
+    <View><View style={{ width: "100%", height: "90%" }}>
       
       <View style={styles.scaleBackground}>
         <View style={{ transform: [{ scaleX: 0.25 }] }}>
           {/* Title */}
-          <Text style={styles.screenTitle}> Create Profile </Text>
+          <Text style={styles.screenTitle}> Edit Profile </Text>
           {/* User image */}
           <View style={styles.imageContainer}>
             <AddImage storeImage={userimage} saveImage={setUserImage} />
@@ -227,8 +228,8 @@ function CreateProfileScreen({ navigation }) {
           setHouseImage4={setHouseImage4}
         />
 
-        {/* Button */}
-        <View style={{ height: 160, alignItems: "center" }}>
+        {/* Save Button */}
+        <View style={{ height: 40, alignItems: "center" }}>
           <TouchableOpacity
             disabled={incompleteForm}
             onPress={() => {
@@ -238,11 +239,31 @@ function CreateProfileScreen({ navigation }) {
             style={styles.button}
           >
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-              Create Profile
+              Save Profile
             </Text>
           </TouchableOpacity>
         </View>
+
+        {/* Logout Button */}
+        <View style={{ height: 120, alignItems: "center", marginTop:"5%" }}>
+          <TouchableOpacity
+            onPress={() => {
+              logOut();
+            }}
+            style={styles.button}
+          >
+            <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
+              Log Out
+            </Text>
+          </TouchableOpacity>
+        </View>
+
       </ScrollView>
+
+    </View>
+
+    <IconMenu navigation={navigation} screenCurr="EditProfileScreen" />
+
     </View>
   );
 }
@@ -326,4 +347,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateProfileScreen;
+export default EditProfileScreen;
