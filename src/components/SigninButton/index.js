@@ -3,6 +3,8 @@ import { Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import useAuth from "../../hooks/useAuth";
 
+const tritonLogo = require("../../../assets/images/tritonLogo.png");
+
 function SigninButton(props) {
   const { navigation, screenCurr, state, showMessages } = props;
   const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
@@ -35,7 +37,7 @@ function SigninButton(props) {
     // If no error occurs on user inputs,
     // validate user email and password & log in the user
     else {
-      logIn(state, showMessages, navigation)
+      logIn(state, showMessages, navigation);
     }
   };
 
@@ -44,17 +46,16 @@ function SigninButton(props) {
       {...props}
       testID="Signin.Button"
       onPress={() => {
-        screenCurr == "LoginScreen"
-          ? navigation.navigate("SigninScreen", "SigninScreen")
-          : handleSignin();
+        if (screenCurr === "LoginScreen") {
+          navigation.navigate("SigninScreen", "SigninScreen");
+        } else {
+          handleSignin();
+        }
       }}
       activeOpacity={0.8}
       style={styles.buttonContainer}
     >
-      <Image
-        source={require("../../../assets/images/tritonLogo.png")}
-        style={styles.image}
-      />
+      <Image source={tritonLogo} style={styles.image} />
       <Text style={styles.buttonText}> SIGN IN WITH UCSD EMAIL </Text>
     </TouchableOpacity>
   );

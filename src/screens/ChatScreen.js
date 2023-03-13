@@ -1,8 +1,17 @@
-import React, {useState, useEffect, useRef, useCallback} from "react";
-import { View, Text, TextInput, StyleSheet, SafeAreaView, Image, Button, TouchableOpacity, TouchableHighlight } from "react-native";
-import { ScrollView, RefreshControl } from "react-native-gesture-handler";
-import user_prof from "../../assets/data/user_prof";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  Button,
+  TouchableOpacity,
+  TouchableHighlight,
+} from "react-native";
 import BackArrow from "../components/BackArrow";
+import { ScrollView, RefreshControl } from "react-native-gesture-handler";
 import Svg, { Path } from "react-native-svg";
 import { db, auth } from "../../firebase";
 import { doc, setDoc, getDoc, updateDoc } from "@firebase/firestore";
@@ -13,10 +22,10 @@ function ChatScreen({ route, navigation }) {
   const { user } = useAuth();
   const [refreshing, setRefreshing] = useState(false);
   const [contentHeight, setContentHeight] = useState({ height: 90 });
-  const [curr_msg, setMsg] = useState({ message: "" });
+  const [currentMessage, setMsg] = useState({ message: "" });
   const [messages, setAllMessages] = useState([]);
   const [key, setKey] = useState("");
-  
+
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
@@ -24,7 +33,7 @@ function ChatScreen({ route, navigation }) {
     }, 2000);
   }, []);
   const scrollViewRef = useRef();
-  var prevTime = 0;
+  let prevTime = 0;
 
   useEffect(
     () => {
@@ -54,17 +63,19 @@ function ChatScreen({ route, navigation }) {
   // console.log(user_data);
   // console.log("current user photoURL: ", user_data.image);
 
-  async function sender(curr_msg, setMsg){
-    var hour = new Date().getHours();
-    var min = new Date().getMinutes();
+  async function sender(currMsg, setMessage) {
+    const hour = new Date().getHours();
+    const min = new Date().getMinutes();
 
     // intergrate with firebase
-    const timestamp = ((hour >= 10)? hour.toString() : "0" + hour) + ((min >= 10)? min.toString() : "0" + min);
-    const value = user.uid + ":" + curr_msg.message + "\\n" + timestamp; // TODO: should change to server time serverTimestamp();
+    const timestamp =
+      (hour >= 10 ? hour.toString() : `0${hour}`) +
+      (min >= 10 ? min.toString() : `0${min}`);
+    const value = `${user.uid}:${currMsg.message}\\n${timestamp}`; // TODO: should change to server time serverTimestamp();
 
     messages.push(value);
     const docData = {
-      [key]: messages, 
+      [key]: messages,
     };
     await updateDoc(doc(db, "message_for_all", "all_messages"), docData);
 
@@ -78,28 +89,27 @@ function ChatScreen({ route, navigation }) {
         messages: user_data.messages
       });
     } else {
-      const return_message = {[other_user.id]: key};
+      const returnMessage = { [other_user.id]: key };
       await updateDoc(doc(db, "users", user.uid), {
-        messages: return_message
+        messages: returnMessage,
       });
     }
 
-    setMsg({message : ""});
-  };
+    setMessage({ message: "" });
+  }
 
-  function currentTimeLag(msg){
-    var time = msg.split("\\n").slice(-1);
-    var lag = prevTime - time;
+  function currentTimeLag(msg) {
+    const time = msg.split("\\n").slice(-1);
+    const lag = prevTime - time;
     // console.log("msg: " + msg + "time "+time+ " prevTime "+prevTime + " lag "+lag);
     prevTime = time;
     return lag > 0 || lag < -10;
-  };
+  }
 
   return (
     <SafeAreaView style={styles.ver_container}>
       <View style={styles.container}>
         <View style={{ flexDirection: "row" }}>
-
           <BackArrow
             navigation={navigation}
             screen="MatchesScreen"
@@ -114,12 +124,16 @@ function ChatScreen({ route, navigation }) {
       </View>
 
       <View style={styles.message_area}>
-        <ScrollView 
-        style={styles.scrollView} 
-        vertical
-        refreshControl ={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
-        ref={scrollViewRef}
-        onContentSizeChange={() => scrollViewRef.current.scrollToEnd({animated: true})}
+        <ScrollView
+          style={styles.scrollView}
+          vertical
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ref={scrollViewRef}
+          onContentSizeChange={() =>
+            scrollViewRef.current.scrollToEnd({ animated: true })
+          }
         >
            {(messages.length == 0) ? 
            <Text 
@@ -178,83 +192,90 @@ function ChatScreen({ route, navigation }) {
         </ScrollView>
       </View>
 
-      <View style={{flex:1, padding:10}}>
-      <View style={{flexDirection:"row", alignItems:"center", }}>
-      <View style={{
-          flex: 5,
-          margin: 5,
-          height: contentHeight.height,
-          paddingLeft: 30,
-          paddingRight: 30,
-          paddingTop: 5,
-          paddingBotton: 20,
-          borderRadius: 30,
-          borderWidth:10,
-          borderColor: "#F1F1F1",
-          backgroundColor: "#F1F1F1",
-          selectionColor: "#F1F1F1",
-        }}>
-      <TextInput
-        style={{
-          height: contentHeight.height - 30,
-          borderColor: "#F1F1F1",
-          backgroundColor: "#F1F1F1",
-          selectionColor: "#F1F1F1",
-        }}
-        placeholder="Type Something..."
-        keyboardType="default"
-        blurOnSubmit={true}
-        returnKeyType="blur"
-        multiline
-        value={curr_msg.message}
-        onContentSizeChange={(e) => {
-          let inputH = Math.max(e.nativeEvent.contentSize.height+43, 60);
-          if (inputH > 83) inputH = 83;
-          
-          setContentHeight({height: inputH});
-        }}
-        onChangeText={(text) => {
-          ((text.length > 0 && text[-1] != "\n") ? setMsg({message : text}) : setMsg({message : ""}))
-          }
-        }
-        
-      />
-    </View>
-    <TouchableHighlight
-          activeOpacity={0.6}
-          color="#247DCF"
-          onPress={() => {
-            ((curr_msg.message != "") ? sender(curr_msg, setMsg) : null)
-          }
-          }
-          style={{ width: "100%", height: 60, flex:1, borderRadius: 30,}}
+      <View style={{ flex: 1, padding: 10 }}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flex: 5,
+              margin: 5,
+              height: contentHeight.height,
+              paddingLeft: 30,
+              paddingRight: 30,
+              paddingTop: 5,
+              paddingBotton: 20,
+              borderRadius: 30,
+              borderWidth: 10,
+              borderColor: "#F1F1F1",
+              backgroundColor: "#F1F1F1",
+              selectionColor: "#F1F1F1",
+            }}
           >
-    <View style={{
-      
-      backgroundColor:"#F1F1F1",
-      padding: 20,
-      borderRadius: 30,
-      height: "100%",
-      alignItems: "center",
-      flexDirection:"column",
-      }}>
-          
-          <Svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 320 512"
-            height="100%"
-            width="100%"
-          >
-            <Path 
-            d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
-            fill="#B9B9B9"
-            fillRule="evenodd"
+            <TextInput
+              style={{
+                height: contentHeight.height - 30,
+                borderColor: "#F1F1F1",
+                backgroundColor: "#F1F1F1",
+                selectionColor: "#F1F1F1",
+              }}
+              placeholder="Type Something..."
+              keyboardType="default"
+              blurOnSubmit
+              returnKeyType="blur"
+              multiline
+              value={currentMessage.message}
+              onContentSizeChange={(e) => {
+                let inputH = Math.max(
+                  e.nativeEvent.contentSize.height + 43,
+                  60,
+                );
+                if (inputH > 83) inputH = 83;
+
+                setContentHeight({ height: inputH });
+              }}
+              onChangeText={(text) => {
+                if (text.length > 0 && text[-1] != "\n") {
+                  setMsg({ message: text });
+                } else {
+                  setMsg({ message: "" });
+                }
+              }}
             />
-          </Svg>
-          
-    </View>
-    </TouchableHighlight>
-    </View>
+          </View>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            color="#247DCF"
+            onPress={() => {
+              currentMessage.message !== ""
+                ? sender(currentMessage, setMsg)
+                : null;
+            }}
+            style={{ width: "100%", height: 60, flex: 1, borderRadius: 30 }}
+          >
+            <View
+              style={{
+                backgroundColor: "#F1F1F1",
+                padding: 20,
+                borderRadius: 30,
+                height: "100%",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 320 512"
+                height="100%"
+                width="100%"
+              >
+                <Path
+                  d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+                  fill="#B9B9B9"
+                  fillRule="evenodd"
+                />
+              </Svg>
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -262,9 +283,9 @@ function ChatScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   bar: {
-    color:"#B9B9B9",
-    textAlign:"center"
- },
+    color: "#B9B9B9",
+    textAlign: "center",
+  },
   root: {
     width: "100%",
     flex: 1,
@@ -278,7 +299,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
-    flex: 1
+    flex: 1,
   },
   users: {
     flexDirection: "row",

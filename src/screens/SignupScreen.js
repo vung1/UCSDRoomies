@@ -25,11 +25,23 @@ function SignupScreen({ navigation }) {
     setEmailMsg(emailMsg);
     setPasswordMsg(passwordMsg);
     setRePasswordMsg(repasswordMsg);
-    emailMsg == "" ? setEmailInputBorder(0) : setEmailInputBorder(2);
-    passwordMsg == "" ? setPasswordInputBorder(0) : setPasswordInputBorder(2);
-    repasswordMsg == ""
-      ? setRepasswordInputBorder(0)
-      : setRepasswordInputBorder(2);
+    if (emailMsg === "") {
+      setEmailInputBorder(0);
+    } else {
+      setEmailInputBorder(2);
+    }
+
+    if (passwordMsg === "") {
+      setPasswordInputBorder(0);
+    } else {
+      setPasswordInputBorder(2);
+    }
+
+    if (repasswordMsg === "") {
+      setPasswordInputBorder(0);
+    } else {
+      setPasswordInputBorder(2);
+    }
   };
 
   return (

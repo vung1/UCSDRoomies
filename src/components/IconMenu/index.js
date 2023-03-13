@@ -12,9 +12,9 @@ function IconMenu(props) {
       <TouchableOpacity
         testID="homeIcon"
         onPress={() => {
-          screenCurr != "HomeScreen"
-            ? navigation.navigate("HomeScreen", "HomeScreen")
-            : console.log("stay");
+          if (screenCurr !== "HomeScreen") {
+            navigation.navigate("HomeScreen", "HomeScreen");
+          }
         }}
         activeOpacity={0.8}
         style={styles.button}
@@ -25,9 +25,9 @@ function IconMenu(props) {
       <TouchableOpacity
         testID="likesIcon"
         onPress={() => {
-          screenCurr != "LikesScreen"
-            ? navigation.navigate("Likes", "LikesScreen")
-            : console.log("stay");
+          if (screenCurr !== "LikesScreen") {
+            navigation.navigate("Likes", "LikesScreen");
+          }
         }}
         activeOpacity={0.8}
         style={styles.button}
@@ -38,9 +38,9 @@ function IconMenu(props) {
       <TouchableOpacity
         testID="matchesIcon"
         onPress={() => {
-          screenCurr != "MatchesScreen"
-            ? navigation.navigate("Matches", "MatchesScreen")
-            : console.log("stay");
+          if (screenCurr !== "MatchesScreen") {
+            navigation.navigate("Matches", "MatchesScreen");
+          }
         }}
         activeOpacity={0.8}
         style={styles.button}
@@ -51,11 +51,10 @@ function IconMenu(props) {
       <TouchableOpacity
         testID="profileIcon"
         onPress={() => {
-          screenCurr != "ProfileScreen"
-            ? navigation.navigate("ProfileScreen", "ProfileScreen")
-            : console.log("user");
+          if (screenCurr !== "EditProfileScreen") {
+            navigation.navigate("EditProfileScreen", "EditProfileScreen");
+          }
         }}
-        // onPress={() => console.log("user")}
         activeOpacity={0.8}
         style={styles.button}
       >

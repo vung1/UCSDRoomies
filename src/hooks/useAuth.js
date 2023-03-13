@@ -15,7 +15,7 @@ import { auth } from "../../firebase";
 
 const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
@@ -23,10 +23,10 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(
     () =>
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
+      onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
           // signed in
-          setUser(user);
+          setUser(currentUser);
         } else {
           // not signed in
           setUser(null);
@@ -41,44 +41,46 @@ export const AuthProvider = ({ children }) => {
 
     signOut(auth)
       .then(console.log("Logged out"))
-      .catch((error) => setError(error))
+      .catch((err) => setError(err))
       .finally(() => setLoading(false));
   };
 
   const logIn = (state, showMessages, navigation) => {
-      setLoading(true);
+    setLoading(true);
 
-      signInWithEmailAndPassword(auth, state.email, state.password)
+    signInWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredential) => {
-          if (userCredential) {
-              const user = userCredential.user;
-              console.log("Logged in with:", user.email);
-              navigation.navigate("HomeScreen","HomeScreen");
-          } else {
-              return Promise.reject();
-          }
+        if (userCredential) {
+          const { currentUser } = userCredential;
+          console.log("Logged in with:", currentUser.email);
+          navigation.navigate("HomeScreen", "HomeScreen");
+        } else {
+          return Promise.reject();
+        }
       })
-      .catch((error) => {
-          setError(error);
-          showMessages('', 'Your email and password do not match');
+      .catch((err) => {
+        setError(err);
+        showMessages("", "Your email and password do not match");
       })
       .finally(() => setLoading(false));
   };
 
   const register = (state, showMessages, navigation) => {
-      setLoading(true);
+    setLoading(true);
 
-      createUserWithEmailAndPassword(auth, state.email, state.password)
+    createUserWithEmailAndPassword(auth, state.email, state.password)
       .then((userCredentials) => {
-          const user = userCredentials.user;
-          console.log("Registered with:", user.email);
-          navigation.navigate("CreateProfileScreen","CreateProfileScreen");
+        const currentUser = userCredentials.user;
+        console.log("Registered with:", currentUser.email);
+        navigation.navigate("CreateProfileScreen", "CreateProfileScreen");
       })
-      .catch((error) => {
-          setError(error);
-          showMessages('Account already exists', '', '')
+      .catch((err) => {
+        setError(err);
+        showMessages("Account already exists", "", "");
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false)
+      });
   };
 
   const memoedValue = useMemo(
@@ -98,7 +100,7 @@ export const AuthProvider = ({ children }) => {
       {!loadingInitial && children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default function useAuth() {
   return useContext(AuthContext);

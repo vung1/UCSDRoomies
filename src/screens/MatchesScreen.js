@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TouchableOpacity,
   View,
@@ -10,15 +10,14 @@ import {
 
 import { ScrollView } from "react-native-gesture-handler";
 // import users from "../../assets/data/users";
+import { useCollection } from "react-firebase-hooks/firestore";
 import useAuth from "../hooks/useAuth";
 import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
 import { db, auth } from "../../firebase";
 import { setDoc, getDoc, doc, updateDoc } from "firebase/firestore";
-import { useCollection } from 'react-firebase-hooks/firestore';
 
 function MatchesScreen({ navigation }) {
-
   const { user } = useAuth();
   const [messages, setAllMessages] = useState([]);
   const [chat_map, setChatMap] = useState({});
@@ -49,7 +48,7 @@ function MatchesScreen({ navigation }) {
     });
 
     // Get all message history from firebase
-    const getMessages = async() => { 
+    const getMessages = async () => {
       const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
       if (docSnap.exists()) {
         const firebase_messages_list = docSnap.data();
@@ -58,7 +57,7 @@ function MatchesScreen({ navigation }) {
         console.log("No such document! message_for_all, all_messages");
         setDoc(doc(db, "message_for_all", "all_messages"));
       }
-    }
+    };
     getMessages();
 
     // Get all the swiped other_users

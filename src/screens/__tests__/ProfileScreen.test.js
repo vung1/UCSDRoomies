@@ -15,9 +15,19 @@ import {
 
 import * as renderer from "react-test-renderer";
 import { expect } from "@jest/globals";
-import { Button } from "react-native";
-import MatchesScreen from "../MatchesScreen";
+import Button from "react-native";
+import ProfileScreen from "../ProfileScreen";
 import IconMenu from "../../components/IconMenu";
+
+describe("Rendering tests", () => {
+  it("renders default elements", async () => {
+    await render(<ProfileScreen />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText("Profile").length).toBe(1);
+    });
+  });
+});
 
 describe("Navigation Tests", () => {
   // IconMenu test cases
@@ -25,7 +35,7 @@ describe("Navigation Tests", () => {
     const navigation = { navigate: () => {} };
     jest.spyOn(navigation, "navigate");
     // render your component
-    await render(<MatchesScreen navigation={navigation} />);
+    await render(<ProfileScreen navigation={navigation} />);
     // access your button
     const home = screen.getByTestId("homeIcon");
     // simulate button click
@@ -41,28 +51,28 @@ describe("Navigation Tests", () => {
     const navigation = { navigate: () => {} };
     jest.spyOn(navigation, "navigate");
     // render your component
-    await render(<MatchesScreen navigation={navigation} />);
+    await render(<ProfileScreen navigation={navigation} />);
     // access your button
-    const like = screen.getByTestId("likesIcon");
+    const likes = screen.getByTestId("likesIcon");
     // simulate button click
-    fireEvent.press(like);
+    fireEvent.press(likes);
     // expect result
     expect(navigation.navigate).toHaveBeenCalledWith("Likes", "LikesScreen");
   });
 
-  it("should go back to Profile page", async () => {
+  it("should go back to Matches page", async () => {
     const navigation = { navigate: () => {} };
     jest.spyOn(navigation, "navigate");
     // render your component
-    await render(<MatchesScreen navigation={navigation} />);
+    await render(<ProfileScreen navigation={navigation} />);
     // access your button
-    const profile = screen.getByTestId("profileIcon");
+    const matches = screen.getByTestId("matchesIcon");
     // simulate button click
-    fireEvent.press(profile);
+    fireEvent.press(matches);
     // expect result
     expect(navigation.navigate).toHaveBeenCalledWith(
-      "ProfileScreen",
-      "ProfileScreen",
+      "Matches",
+      "MatchesScreen",
     );
   });
 });

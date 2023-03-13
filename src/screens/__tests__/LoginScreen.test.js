@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import React from "react";
 
 import {
@@ -16,14 +18,11 @@ import { expect } from "@jest/globals";
 import LoginScreen from "../LoginScreen";
 import SigninButton from "../../components/SigninButton";
 
-describe('Rendering Tests', () => {
+describe("Rendering Tests", () => {
   it("renders default elements", async () => {
     await render(<LoginScreen />);
-
-    await waitFor(() => {
-      expect(screen.getAllByText("SIGN IN WITH UCSD EMAIL").length).toBe(1);
-      expect(screen.getAllByText("SIGN UP WITH UCSD EMAIL").length).toBe(1);
-    });
+    expect(screen.getAllByText("SIGN IN WITH UCSD EMAIL").length).toBe(1);
+    expect(screen.getAllByText("SIGN UP WITH UCSD EMAIL").length).toBe(1);
   });
 
   test("snapshot matches", () => {
@@ -33,14 +32,14 @@ describe('Rendering Tests', () => {
 });
 
 // Test navigation
-describe('Navigation Tests', () => {
+describe("Navigation Tests", () => {
   it("should go to SignIn screen when tapped", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<LoginScreen navigation={navigation} />);
+    await render(<LoginScreen navigation={navigation} />);
     // access your button
-    const button = page.getByTestId("Signin.Button");
+    const button = screen.getByTestId("Signin.Button");
     // simulate button click
     fireEvent.press(button);
     // expect result
@@ -52,11 +51,11 @@ describe('Navigation Tests', () => {
 
   it("should go to SignUp screen when tapped", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<LoginScreen navigation={navigation} />);
+    await render(<LoginScreen navigation={navigation} />);
     // access your button
-    const button = page.getByTestId("Signup.Button");
+    const button = screen.getByTestId("Signup.Button");
     // simulate button click
     fireEvent.press(button);
     // expect result
