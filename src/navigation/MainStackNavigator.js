@@ -13,6 +13,7 @@ import LikesScreen from "../screens/LikesScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import SigninScreen from "../screens/SigninScreen";
 import SignupScreen from "../screens/SignupScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
 
 import ModelScreen from "../screens/ModelScreen";
 import useAuth from "../hooks/useAuth";
@@ -33,21 +34,20 @@ function MainStackNavigator() {
       >
         {user ? (
           <>
-            {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
             <Stack.Screen
-              name="CreateProfileScreen"
-              component={CreateProfileScreen}
+              name="EditProfileScreen"
+              component={EditProfileScreen}
             />
             <Stack.Screen name="HomeScreen" component={HomeScreen} />
             <Stack.Screen name="Matches" component={MatchesScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Likes" component={LikesScreen} />
-            {/* <Stack.Screen name="ProfileScreen" component={ProfileScreen} /> */}
+            <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             <Stack.Screen name="ModelScreen" component={ModelScreen} />
-            {/* <Stack.Screen
+            <Stack.Screen
               name="CreateProfileScreen"
               component={CreateProfileScreen}
-            /> */}
+            />
           </>
         ) : (
           <>

@@ -4,9 +4,10 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 function AddImage(props) {
-  const { saveImage } = props;
+  
+  const { storeImage, saveImage } = props;
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(storeImage);
 
   const addImage = async () => {
     const img = await ImagePicker.launchImageLibraryAsync({

@@ -15,7 +15,7 @@ import useAuth from "../hooks/useAuth";
 import AddImage from "../components/AddImage";
 import ProfileHideComponents from "../components/ProfileHideComponents";
 
-function CreateProfileScreen({ navigation }) {
+function EditProfileScreen({ navigation }) {
   const { user } = useAuth();
   const [userimage, setUserImage] = useState(null);
   const [firstName, setFirstName] = useState(null);
@@ -105,7 +105,7 @@ function CreateProfileScreen({ navigation }) {
       <View style={styles.scaleBackground}>
         <View style={{ transform: [{ scaleX: 0.25 }] }}>
           {/* Title */}
-          <Text style={styles.screenTitle}> Create Profile </Text>
+          <Text style={styles.screenTitle}> Edit Profile </Text>
           {/* User image */}
           <View style={styles.imageContainer}>
             <AddImage storeImage={userimage} saveImage={setUserImage} />
@@ -238,7 +238,7 @@ function CreateProfileScreen({ navigation }) {
             style={styles.button}
           >
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-              Create Profile
+              Save Profile
             </Text>
           </TouchableOpacity>
         </View>
@@ -326,4 +326,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateProfileScreen;
+export default EditProfileScreen;
