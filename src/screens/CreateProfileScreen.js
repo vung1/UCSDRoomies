@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useTailwind } from "tailwind-rn";
 import {
   View,
   Text,
@@ -9,7 +8,6 @@ import {
   StyleSheet,
 } from "react-native";
 import { doc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
-import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView } from "react-native-gesture-handler";
 
 import { db } from "../../firebase";
@@ -18,7 +16,6 @@ import AddImage from "../components/AddImage";
 import ProfileHideComponents from "../components/ProfileHideComponents";
 
 function CreateProfileScreen({ navigation }) {
-  const tailwind = useTailwind();
   const { user } = useAuth();
 
   const [userimage, setUserImage] = useState(null);
@@ -82,9 +79,6 @@ function CreateProfileScreen({ navigation }) {
       userImages.push(userimage4);
     }
 
-    // console.log(userImages, houseImages, houseInfo);
-    // console.log(user.uid, firstName, lastName, age, bio, major, hobbies, userType);
-
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       firstName,
@@ -106,17 +100,27 @@ function CreateProfileScreen({ navigation }) {
   };
 
   return (
-    <LinearGradient colors={["#74AED6", "#247DCF"]} style={styles.background}>
-      <View style={{ marginTop: 70 }} />
 
-      <Text style={tailwind("text-xl font-bold top-3")}>Create Profile</Text>
-
-      <ScrollView style={styles.profileContainer} vertical>
-        <Text style={styles.stepTitle}>Step 1: Upload a Profile Picture</Text>
-        <View style={styles.imageContainer}>
-          <AddImage saveImage={setUserImage} />
+    <View style={{ height: "100%" }}>
+      
+      <View style={styles.scaleBackground}>
+        <View style={{ transform: [{ scaleX: 0.25 }] }}>
+          {/* Title */}
+          <Text style={styles.screenTitle}> Create Profile </Text>
+          {/* User image */}
+          <View style={styles.imageContainer}>
+            <AddImage saveImage={setUserImage} />
+          </View>
         </View>
+      </View>
 
+      <ScrollView style={{ width: "100%", marginTop: "3%" }} vertical>
+        
+        {/* User Image */}
+        <Text style={styles.stepTitle}>Step 1: Upload a Profile Picture</Text>
+        <View style={{marginTop: "1%"}}></View>
+
+        {/* First Name */}
         <Text style={styles.stepTitle}>Step 2: First Name</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -127,6 +131,7 @@ function CreateProfileScreen({ navigation }) {
           />
         </View>
 
+        {/* Last Name */}
         <Text style={styles.stepTitle}>Step 3: Last Name</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -137,6 +142,7 @@ function CreateProfileScreen({ navigation }) {
           />
         </View>
 
+        {/* Age */}
         <Text style={styles.stepTitle}>Step 4: Your Age</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -148,6 +154,7 @@ function CreateProfileScreen({ navigation }) {
           />
         </View>
 
+        {/* Bio */}
         <Text style={styles.stepTitle}>Step 5: Your Bio</Text>
         <View style={styles.largeInputContainer}>
           <TextInput
@@ -159,6 +166,7 @@ function CreateProfileScreen({ navigation }) {
           />
         </View>
 
+        {/* Major */}
         <Text style={styles.stepTitle}>Step 6: Your Major</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -169,6 +177,7 @@ function CreateProfileScreen({ navigation }) {
           />
         </View>
 
+        {/* Hobbies */}
         <Text style={styles.stepTitle}>Step 7: Your Hobbies</Text>
         <View style={styles.largeInputContainer}>
           <TextInput
@@ -180,8 +189,8 @@ function CreateProfileScreen({ navigation }) {
           />
         </View>
 
+        {/* Additional Images */}
         <Text style={styles.stepTitle}>Step 8: Your Photos</Text>
-
         <ScrollView style={styles.scrollContainer} horizontal>
           <View style={styles.scrollImage}>
             <AddImage saveImage={setUserImage1} />
@@ -197,13 +206,15 @@ function CreateProfileScreen({ navigation }) {
           </View>
         </ScrollView>
 
+        {/* Leasing Status */}
         <Text style={styles.stepTitle}>Step 9: Already Have A Leasing?</Text>
         <Switch
           value={userType}
           onValueChange={(value) => setUserType(value)}
-          style={styles.switch}
+          style={{ marginTop: "1%", marginLeft: "10%" }}
         />
 
+        {/* Leasing Information */}
         <ProfileHideComponents
           hide={userType}
           sethouseInfo={sethouseInfo}
@@ -213,7 +224,8 @@ function CreateProfileScreen({ navigation }) {
           setHouseImage4={setHouseImage4}
         />
 
-        <View style={styles.buttonContainer}>
+        {/* Button */}
+        <View style={{ height: 160, alignItems: "center" }}>
           <TouchableOpacity
             disabled={incompleteForm}
             onPress={() => {
@@ -222,34 +234,44 @@ function CreateProfileScreen({ navigation }) {
             }}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Create Profile</Text>
+            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+              Create Profile
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: "100%",
-    alignItems: "center",
+  scaleBackground: {
+    backgroundColor: "#247DCF",
+    alignSelf: "center",
+    height: "30%",
+    width: 200,
+    borderBottomRightRadius: 100,
+    borderBottomLeftRadius: 100,
+    transform: [{ scaleX: 4 }],
   },
-  profileContainer: {
-    width: "100%",
-    marginTop: "5%",
+  screenTitle: { 
+    fontSize: 24, 
+    marginTop: "30%", 
+    fontWeight: "bold", 
+    alignSelf: "center",
+    color: "white",
+  },
+  imageContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    alignSelf: "center",
+    marginTop: "12%",
   },
   stepTitle: {
     marginLeft: "10%",
     fontSize: 16,
     marginTop: "5%",
-  },
-  imageContainer: {
-    width: 100,
-    hight: 100,
-    marginTop: "1%",
-    marginLeft: "10%",
   },
   inputContainer: {
     height: 30,
@@ -280,15 +302,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   scrollImage: {
+    height: 100,
+    width: 100,
     paddingRight: 5,
-  },
-  switch: {
-    marginTop: "1%",
-    marginLeft: "10%",
-  },
-  buttonContainer: {
-    height: 180,
-    alignItems: "center",
   },
   button: {
     height: 40,
@@ -298,10 +314,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: "10%",
-  },
-  buttonText: {
-    fontSize: 15,
-    fontWeight: "bold",
+    
   },
 });
 

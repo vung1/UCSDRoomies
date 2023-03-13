@@ -133,6 +133,7 @@ function ProfileScreen({ navigation }) {
                 style={{
                   paddingVertical: 20,
                   color: "white",
+                  fontWeight: "bold",
                   fontSize: 24,
                 }}
               >

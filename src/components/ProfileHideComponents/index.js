@@ -82,6 +82,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   scrollImage: {
+    height: 100,
+    width: 100,
     paddingRight: 5,
   },
 });

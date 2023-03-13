@@ -25,11 +25,11 @@ function AddImage(props) {
   return (
     <View style={imageUploaderStyles.container}>
       {image && (
-        <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />
+        <Image source={{ uri: image }} style={{ width: "100%", height: "100%" }} />
       )}
       <View style={imageUploaderStyles.uploadBtnContainer}>
         <TouchableOpacity onPress={addImage}>
-          <Text>{image ? "Edit" : "Upload"} Image </Text>
+          <Text>{image ? "  Edit" : " Upload"} Image </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -38,8 +38,8 @@ function AddImage(props) {
 const imageUploaderStyles = StyleSheet.create({
   container: {
     elevation: 2,
-    height: 100,
-    width: 100,
+    height: "100%",
+    width: "100%",
     backgroundColor: "white",
     position: "relative",
     overflow: "hidden",
