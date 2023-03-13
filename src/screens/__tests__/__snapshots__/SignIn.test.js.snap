@@ -105,7 +105,55 @@ exports[`Rendering tests matches snapshot 1`] = `
         "marginTop": "30%",
       }
     }
-  />
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "white",
+          "borderRadius": 100,
+          "height": 200,
+          "width": 200,
+        }
+      }
+    >
+      <Image
+        source={1}
+        style={
+          Object {
+            "height": 90,
+            "marginBottom": "3%",
+            "marginTop": "8%",
+            "width": 90,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "fontFamily": "AmericanTypewriter-Bold",
+            "fontSize": 24,
+          }
+        }
+      >
+         
+        UCSD
+         
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontFamily": "AmericanTypewriter-Bold",
+            "fontSize": 24,
+          }
+        }
+      >
+         
+        Roomies
+         
+      </Text>
+    </View>
+  </View>
   <View
     style={
       Array [

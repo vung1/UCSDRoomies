@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import React from "react";
 
 import {
@@ -21,11 +23,11 @@ describe("Navigation Tests", () => {
   // IconMenu test cases
   it("should go back to Home page", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<MatchesScreen navigation={navigation} />);
+    await render(<MatchesScreen navigation={navigation} />);
     // access your button
-    const home = page.getByTestId("homeIcon");
+    const home = screen.getByTestId("homeIcon");
     // simulate button click
     fireEvent.press(home);
     // expect result
@@ -37,28 +39,31 @@ describe("Navigation Tests", () => {
 
   it("should go back to Likes page", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<MatchesScreen navigation={navigation} />);
+    await render(<MatchesScreen navigation={navigation} />);
     // access your button
-    const like = page.getByTestId("likesIcon");
+    const like = screen.getByTestId("likesIcon");
     // simulate button click
     fireEvent.press(like);
     // expect result
     expect(navigation.navigate).toHaveBeenCalledWith("Likes", "LikesScreen");
   });
 
-    it("should go back to Profile page", async () => {
+  it("should go back to Profile page", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<MatchesScreen navigation={navigation} />);
+    await render(<MatchesScreen navigation={navigation} />);
     // access your button
-    const profile = page.getByTestId("profileIcon");
+    const profile = screen.getByTestId("profileIcon");
     // simulate button click
     fireEvent.press(profile);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith("ProfileScreen", "ProfileScreen");
+    expect(navigation.navigate).toHaveBeenCalledWith(
+      "ProfileScreen",
+      "ProfileScreen",
+    );
   });
 });
 

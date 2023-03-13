@@ -1,3 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-undef */
+/* eslint-disable testing-library/prefer-screen-queries */
+/* eslint-disable testing-library/await-async-query */
+/* eslint-disable testing-library/no-promise-in-fire-event */
+/* eslint-disable testing-library/no-wait-for-side-effects */
 import React from "react";
 
 import {
@@ -23,11 +29,11 @@ import IconMenu from "../../components/IconMenu";
 describe("Navigation Tests", () => {
   it("should go back to Likes page", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<HomeScreen navigation={navigation} />);
+    await render(<HomeScreen navigation={navigation} />);
     // access your button
-    const likes = page.getByTestId("likesIcon");
+    const likes = screen.getByTestId("likesIcon");
     // simulate button click
     fireEvent.press(likes);
     // expect result
@@ -36,11 +42,11 @@ describe("Navigation Tests", () => {
 
   it("should go back to Messages page", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<HomeScreen navigation={navigation} />);
+    await render(<HomeScreen navigation={navigation} />);
     // access your button
-    const matches = page.getByTestId("matchesIcon");
+    const matches = screen.getByTestId("matchesIcon");
     // simulate button click
     fireEvent.press(matches);
     // expect result
@@ -52,15 +58,18 @@ describe("Navigation Tests", () => {
 
   it("should go back to Profile page", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<HomeScreen navigation={navigation} />);
+    await render(<HomeScreen navigation={navigation} />);
     // access your button
-    const profile = page.getByTestId("profileIcon");
+    const profile = screen.getByTestId("profileIcon");
     // simulate button click
     fireEvent.press(profile);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith("ProfileScreen", "ProfileScreen");
+    expect(navigation.navigate).toHaveBeenCalledWith(
+      "ProfileScreen",
+      "ProfileScreen",
+    );
   });
 });
 
