@@ -80,6 +80,7 @@ function CreateProfileScreen({ navigation }) {
 
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
+      userimage,
       firstName,
       lastName,
       age,
@@ -90,6 +91,8 @@ function CreateProfileScreen({ navigation }) {
       userType,
       houseInfo,
       houseImages,
+      passes : [],
+      swipes : [],
       timestamp: serverTimestamp(),
     })
       .then(() => {
