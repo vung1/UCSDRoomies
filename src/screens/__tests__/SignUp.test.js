@@ -25,9 +25,9 @@ describe("Rendering Tests", () => {
     });
   });
 
-  test("matches snapshot", () => {
+  test("matches snapshot", async () => {
     const tree = renderer.create(<SignupScreen />).toJSON();
-    expect(tree).toMatchSnapshot();
+    await expect(tree).toMatchSnapshot();
   });
 });
 
@@ -42,7 +42,7 @@ describe("Navigation Tests", () => {
     // simulate button click
     fireEvent.press(button);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith("LoginScreen", {
+    await expect(navigation.navigate).toHaveBeenCalledWith("LoginScreen", {
       screen: "LoginScreen",
     });
   });

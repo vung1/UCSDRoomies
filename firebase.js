@@ -25,7 +25,7 @@ const firebaseConfig = {
   projectId: "ucsdroomiesbackup-74839",
   storageBucket: "ucsdroomiesbackup-74839.appspot.com",
   messagingSenderId: "921771591759",
-  appId: "1:921771591759:web:d27104cbf9857f5824823a"
+  appId: "1:921771591759:web:d27104cbf9857f5824823a",
 };
 
 let app;

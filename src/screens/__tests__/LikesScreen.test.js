@@ -63,7 +63,7 @@ describe("Navigation Tests", () => {
     // simulate button click
     fireEvent.press(profile);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith(
+    await expect(navigation.navigate).toHaveBeenCalledWith(
       "ProfileScreen",
       "ProfileScreen",
     );
