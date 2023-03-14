@@ -32,8 +32,8 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build on EAS
-        run: eas build --platform all --non-interactive
+      # - name: Build on EAS
+      #   run: eas build --platform all --non-interactive
 
       - name: Find yarn cache
         id: yarn-cache-path
@@ -56,4 +56,4 @@ jobs:
         run: yarn test
 
       - name: Publish update
-        run: eas update --auto
+        run: eas update --auto --non-interactive
