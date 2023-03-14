@@ -23,7 +23,7 @@ describe("Navigation Tests", () => {
   // IconMenu test cases
   it("should go back to Home page", async () => {
     const navigation = { navigate: () => {} };
-    jest.spyOn(navigation, "navigate");
+    await jest.spyOn(navigation, "navigate");
     // render your component
     await render(<MatchesScreen navigation={navigation} />);
     // access your button
@@ -31,7 +31,7 @@ describe("Navigation Tests", () => {
     // simulate button click
     fireEvent.press(home);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith(
+    await expect(navigation.navigate).toHaveBeenCalledWith(
       "HomeScreen",
       "HomeScreen",
     );
@@ -39,7 +39,7 @@ describe("Navigation Tests", () => {
 
   it("should go back to Likes page", async () => {
     const navigation = { navigate: () => {} };
-    jest.spyOn(navigation, "navigate");
+    await jest.spyOn(navigation, "navigate");
     // render your component
     await render(<MatchesScreen navigation={navigation} />);
     // access your button
@@ -47,12 +47,15 @@ describe("Navigation Tests", () => {
     // simulate button click
     fireEvent.press(like);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith("Likes", "LikesScreen");
+    await expect(navigation.navigate).toHaveBeenCalledWith(
+      "Likes",
+      "LikesScreen",
+    );
   });
 
   it("should go back to Profile page", async () => {
     const navigation = { navigate: () => {} };
-    jest.spyOn(navigation, "navigate");
+    await jest.spyOn(navigation, "navigate");
     // render your component
     await render(<MatchesScreen navigation={navigation} />);
     // access your button
@@ -60,27 +63,37 @@ describe("Navigation Tests", () => {
     // simulate button click
     fireEvent.press(profile);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith(
+    await expect(navigation.navigate).toHaveBeenCalledWith(
       "ProfileScreen",
       "ProfileScreen",
     );
   });
 });
 
-// Logout test
-describe("Logout Test", () => {
-  const mockLogOut = jest.fn();
-  test("should logout of app", async () => {
-    // await render(<HomeScreen />);
-    render(
-      <Button
-        title="mock button"
-        testID="logout.Button"
-        onPress={mockLogOut}
-      />,
-    );
-    const logoutButton = screen.getByTestId("logout.Button");
-    fireEvent.press(logoutButton);
-    expect(mockLogOut).toHaveBeenCalledTimes(1);
+describe("matching users test", () => {
+  const user1 = { id: 1, likes: [2, 3] };
+  const user2 = { id: 2, likes: [1, 3] };
+  const user3 = { id: 3, likes: [2, 2] };
+
+  function matchUsers(sampleUser1, sampleUser2) {
+    if (
+      sampleUser1.likes.includes(sampleUser2.id) &&
+      sampleUser2.likes.includes(sampleUser1.id)
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  it("matches two users who like each other", () => {
+    expect(matchUsers(user1, user2)).toBe(true);
+  });
+
+  it("does not match two users who do not like each other", () => {
+    expect(matchUsers(user1, user3)).toBe(false);
+  });
+
+  it("matches two users who like each other, regardless of order", () => {
+    expect(matchUsers(user2, user1)).toBe(true);
   });
 });
