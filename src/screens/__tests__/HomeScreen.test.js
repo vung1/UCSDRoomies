@@ -66,7 +66,7 @@ describe("Navigation Tests", () => {
     // simulate button click
     fireEvent.press(profile);
     // expect result
-    expect(navigation.navigate).toHaveBeenCalledWith(
+    await expect(navigation.navigate).toHaveBeenCalledWith(
       "ProfileScreen",
       "ProfileScreen",
     );
@@ -75,7 +75,7 @@ describe("Navigation Tests", () => {
 
 describe("Swiper", () => {
   console.warn = jest.fn(); // Mock console.warn
-  it("swipes left and right properly", () => {
+  it("swipes left and right properly", async () => {
     const { getAllByTestId } = render(
       <Swiper>
         <View
@@ -95,11 +95,11 @@ describe("Swiper", () => {
 
     const swiperPages = getAllByTestId(/^page/);
 
-    expect(swiperPages.length).toBe(5);
+    await expect(swiperPages.length).toBe(5);
 
     swiperPages.forEach((page, index) => {
       expect(page.props.style.left).toBe(undefined); // Verify the page is positioned correctly based on index
     });
-    expect(console.warn).toHaveBeenCalledTimes(0); // Assert that the warning was logged once
+    await expect(console.warn).toHaveBeenCalledTimes(0); // Assert that the warning was logged once
   });
 });

@@ -85,15 +85,15 @@ describe("matching users test", () => {
     return false;
   }
 
-  it("matches two users who like each other", () => {
+  it("matches two users who like each other", async () => {
     expect(matchUsers(user1, user2)).toBe(true);
   });
 
-  it("does not match two users who do not like each other", () => {
+  it("does not match two users who do not like each other", async () => {
     expect(matchUsers(user1, user3)).toBe(false);
   });
 
-  it("matches two users who like each other, regardless of order", () => {
+  it("matches two users who like each other, regardless of order", async () => {
     expect(matchUsers(user2, user1)).toBe(true);
   });
 });

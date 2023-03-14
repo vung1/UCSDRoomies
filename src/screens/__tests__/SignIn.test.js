@@ -123,6 +123,6 @@ describe("Firebase authentication tests", () => {
   test("signInWIthEmailAndPassword", async () => {
     // Execute the mocked function
     const result = signInWithEmailAndPassword(auth, "brian@ucsd.edu", "123456");
-    expect(result).toBe(true);
+    await expect(result).toBe(true);
   });
 });

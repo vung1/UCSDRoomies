@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "lint": "yarn run eslint --quiet --ext .js,.jsx ./src/",
     "lint:dev": "yarn run eslint --ext .js,.jsx ./src/",
-    "test": "jest --silent",
+    "test": "jest --silent --forceExit",
     "test:dev": "jest",
     "test:watch": "jest --watch",
     "fix:tailwind": "tailwind-rn",
