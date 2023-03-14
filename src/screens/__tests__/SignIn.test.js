@@ -51,6 +51,7 @@ describe("Sign in logic tests", () => {
     const { getByTestId, getByText } = render(<SigninScreen />);
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-wait-for-side-effects, testing-library/prefer-screen-queries
       fireEvent.press(getByTestId("Signin.Button"));
       screen.getByText("Please enter your UCSD email");
     });
@@ -59,42 +60,32 @@ describe("Sign in logic tests", () => {
   it("email does not end in @ucsd.edu", async () => {
     const { getByTestId, getByText, queryByText } = render(<SigninScreen />);
 
-    await waitFor(() => {
-      fireEvent.changeText(getByTestId("Signin.Email"), "email@yahoo.com");
-      fireEvent.press(getByTestId("Signin.Button"));
-      screen.getByText("Please enter your UCSD email in correct format");
-      screen.getByText("Please enter your password");
-    });
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    fireEvent.changeText(getByTestId("Signin.Email"), "email@yahoo.com");
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    fireEvent.press(getByTestId("Signin.Button"));
+    screen.getByText("Please enter your UCSD email in correct format");
+    screen.getByText("Please enter your password");
   });
 
   it("email does not have stuff before @ucsd.edu", async () => {
     const { getByTestId, getByText, queryByText } = render(<SigninScreen />);
 
-    await waitFor(() => {
-      fireEvent.changeText(getByTestId("Signin.Email"), "@ucsd.edu");
-      fireEvent.press(getByTestId("Signin.Button"));
-      screen.getByText("Please enter your UCSD email in correct format");
-    });
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    fireEvent.changeText(getByTestId("Signin.Email"), "@ucsd.edu");
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    fireEvent.press(getByTestId("Signin.Button"));
+    screen.getByText("Please enter your UCSD email in correct format");
   });
 
   it("email is filled, but password is not", async () => {
     const { getByTestId, getByText, queryByText } = render(<SigninScreen />);
 
-    await waitFor(() => {
-      fireEvent.changeText(getByTestId("Signin.Email"), "test@ucsd.edu");
-      fireEvent.press(getByTestId("Signin.Button"));
-      screen.getByText("Please enter your password");
-    });
-  });
-
-  it("email is filled, but password is not", async () => {
-    const { getByTestId, getByText, queryByText } = render(<SigninScreen />);
-
-    await waitFor(() => {
-      fireEvent.changeText(getByTestId("Signin.Email"), "test@ucsd.edu");
-      fireEvent.press(getByTestId("Signin.Button"));
-      screen.getByText("Please enter your password");
-    });
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    fireEvent.changeText(getByTestId("Signin.Email"), "test@ucsd.edu");
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    fireEvent.press(getByTestId("Signin.Button"));
+    screen.getByText("Please enter your password");
   });
 });
 
@@ -102,11 +93,11 @@ describe("Sign in logic tests", () => {
 describe("Back button Test", () => {
   it("should go back to LoginScreen", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<SigninScreen navigation={navigation} />);
+    await render(<SigninScreen navigation={navigation} />);
     // access your button
-    const button = page.getByTestId("BackButton");
+    const button = screen.getByTestId("BackButton");
     // simulate button click
     fireEvent.press(button);
     // expect result
@@ -126,6 +117,7 @@ describe("Firebase authentication tests", () => {
   }));
 
   // Import the function from the mocked module
+  // eslint-disable-next-line no-shadow, global-require, import/extensions
   const { signInWithEmailAndPassword } = require("../../hooks/useAuth.js");
   // const { logIn, loading } = useAuth();
 

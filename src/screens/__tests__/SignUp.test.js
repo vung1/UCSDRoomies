@@ -34,11 +34,11 @@ describe("Rendering Tests", () => {
 describe("Navigation Tests", () => {
   it("should go back to LoginScreen", async () => {
     const navigation = { navigate: () => {} };
-    spyOn(navigation, "navigate");
+    jest.spyOn(navigation, "navigate");
     // render your component
-    const page = render(<SignupScreen navigation={navigation} />);
+    await render(<SignupScreen navigation={navigation} />);
     // access your button
-    const button = page.getByTestId("BackButton");
+    const button = screen.getByTestId("BackButton");
     // simulate button click
     fireEvent.press(button);
     // expect result
