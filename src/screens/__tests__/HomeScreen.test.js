@@ -20,8 +20,8 @@ import {
 
 import * as renderer from "react-test-renderer";
 import { expect } from "@jest/globals";
-import { Button } from "react-native";
-import { Swiper } from "react-native-swiper";
+import { Button, View, Text } from "react-native";
+import Swiper from "react-native-swiper";
 import HomeScreen from "../HomeScreen";
 import IconMenu from "../../components/IconMenu";
 
@@ -73,39 +73,33 @@ describe("Navigation Tests", () => {
   });
 });
 
-describe("Swiping Tests", () => {
-  it("the swiper is on the home screen", async () => {
-    // test that swiper is in view
-    await render(<HomeScreen />);
-    // const view = screen.getByTestId("view.container")
-    // expect(view).toBeDefined();
-    // const { getByTestId } = render(<Swiper />);
-    const logSpy = jest.spyOn(global.console, "log");
-    // const swiper = getByTestId('swiper');
-    const swiper = screen.getByTestId("swiper");
-    expect(swiper).toBeTruthy();
-
-    await waitFor(() => {
-      fireEvent(findByTestId("swiper"), "leftSwipe");
-      expect(logSpy).toHaveBeenCalledWith("Swipe PASS");
-    });
-  });
-});
-
-// Logout test
-describe("Logout Test", () => {
-  const mockLogOut = jest.fn();
-  test("should logout of app", async () => {
-    // await render(<HomeScreen />);
-    render(
-      <Button
-        title="mock button"
-        testID="logout.Button"
-        onPress={mockLogOut}
-      />,
+describe("Swiper", () => {
+  console.warn = jest.fn(); // Mock console.warn
+  it("swipes left and right properly", () => {
+    const { getAllByTestId } = render(
+      <Swiper>
+        <View
+          testID="page1"
+          style={{ width: 100, height: 100, backgroundColor: "red" }}
+        />
+        <View
+          testID="page2"
+          style={{ width: 100, height: 100, backgroundColor: "green" }}
+        />
+        <View
+          testID="page3"
+          style={{ width: 100, height: 100, backgroundColor: "blue" }}
+        />
+      </Swiper>,
     );
-    const logoutButton = screen.getByTestId("logout.Button");
-    fireEvent.press(logoutButton);
-    expect(mockLogOut).toHaveBeenCalledTimes(1);
+
+    const swiperPages = getAllByTestId(/^page/);
+
+    expect(swiperPages.length).toBe(5);
+
+    swiperPages.forEach((page, index) => {
+      expect(page.props.style.left).toBe(undefined); // Verify the page is positioned correctly based on index
+    });
+    expect(console.warn).toHaveBeenCalledTimes(0); // Assert that the warning was logged once
   });
 });

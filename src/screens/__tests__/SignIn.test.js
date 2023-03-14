@@ -113,7 +113,6 @@ describe("Firebase authentication tests", () => {
   jest.mock("../../hooks/useAuth.js", () => ({
     __esModule: true,
     signInWithEmailAndPassword: jest.fn(() => true),
-    // logIn: jest.fn(() => false)
   }));
 
   // Import the function from the mocked module
@@ -124,24 +123,6 @@ describe("Firebase authentication tests", () => {
   test("signInWIthEmailAndPassword", async () => {
     // Execute the mocked function
     const result = signInWithEmailAndPassword(auth, "brian@ucsd.edu", "123456");
-    // spyOn((auth,'brian@ucsd.edu','123456'),signInWithEmailAndPassword);
-    // result.mockResolvedValue(true);
-    // const user = await getService().login('brian@ucsd.edu','123456');
-
-    // Expect to return the mocked value
-    // expect(result).resolves.toEqual(true);
-    // expect(result_spy).toHaveBeenCalledWith(auth,'brian@ucsd.edu','123456')
     expect(result).toBe(true);
   });
-
-  // test("email and password do not match", async () => {
-  //   const { getByTestId, getByText, queryByText,} = render(<SigninScreen />);
-
-  //   await waitFor(() => {
-  //     fireEvent.changeText(getByTestId("Signin.Email"),"test@ucsd.edu");
-  //     fireEvent.changeText(getByTestId("Signin.Password"),"letmein");
-  //     fireEvent.press(getByTestId("Signin.Button"));
-  //     screen.getByText("Your email and password do not match");
-  //   });
-  // });
 });

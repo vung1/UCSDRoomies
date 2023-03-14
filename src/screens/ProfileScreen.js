@@ -251,6 +251,7 @@ function ProfileScreen({ navigation }) {
 
       <IconMenu
         navigation={navigation}
+        testIdAttribute="prof_nav"
         screenCurr="ProfileScreen"
         screenCurrName="ProfileScreen"
       />

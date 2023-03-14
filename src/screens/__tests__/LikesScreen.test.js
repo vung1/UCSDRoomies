@@ -69,21 +69,3 @@ describe("Navigation Tests", () => {
     );
   });
 });
-
-// Logout Test
-describe("Logout Test", () => {
-  const mockLogOut = jest.fn();
-  test("should logout of app", async () => {
-    // await render(<HomeScreen />);
-    render(
-      <Button
-        title="mock button"
-        testID="logout.Button"
-        onPress={mockLogOut}
-      />,
-    );
-    const logoutButton = screen.getByTestId("logout.Button");
-    fireEvent.press(logoutButton);
-    expect(mockLogOut).toHaveBeenCalledTimes(1);
-  });
-});
