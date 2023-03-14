@@ -11,48 +11,51 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 // import users from "../../assets/data/users";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { setDoc, getDoc, doc, updateDoc } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
 import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
 import { db, auth } from "../../firebase";
-import { setDoc, getDoc, doc, updateDoc } from "firebase/firestore";
 
 function MatchesScreen({ navigation }) {
   const { user } = useAuth();
   const [messages, setAllMessages] = useState([]);
-  const [chat_map, setChatMap] = useState({});
+  const [chatMap, setChatMap] = useState({});
   // const [all_users, setAllUsers] = useState([]); // all the users except the current login user info
-  const [user_data, setUserData] = useState({}); // current logged in user data
-  const [matched_users, setMatches] = useState([]); // all the swiped and matched other users
+  const [userData, setUserData] = useState({}); // current logged in user data
+  const [matchedUsers, setMatches] = useState([]); // all the swiped and matched other users
 
   useEffect(() => {
     // let unsub;
 
     // Get current login user chat history
-    db.collection('users').get().then(snapshot => {
-      // Get all users info from firebase include current login user
-      const users_map = {};
-      snapshot.docs.map((doc) => {
-        users_map[doc.data().id] = doc.data();
+    db.collection("users")
+      .get()
+      .then((snapshot) => {
+        // Get all users info from firebase include current login user
+        const usersMap = {};
+        snapshot.docs.map((doc) => {
+          usersMap[doc.data().id] = doc.data();
+        });
+        // setAllUsers(usersMap);
+        setUserData(usersMap[user.uid]);
+        // Find current user and get messages historys KEYS
+        if ("messages" in usersMap[user.uid]) {
+          setChatMap(usersMap[user.uid].messages);
+        } else {
+          setChatMap({});
+        }
       })
-      // setAllUsers(users_map);
-      setUserData(users_map[user.uid]);
-      // Find current user and get messages historys KEYS
-      if ("messages" in users_map[user.uid]) {
-        setChatMap(users_map[user.uid].messages);
-      } else {
-        setChatMap({});
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+      .catch((error) => {
+        console.error(error);
+      });
 
     // Get all message history from firebase
     const getMessages = async () => {
       const docSnap = await getDoc(doc(db, "message_for_all", "all_messages"));
       if (docSnap.exists()) {
-        const firebase_messages_list = docSnap.data();
-        setAllMessages(firebase_messages_list);
+        const firebaseMessagesList = docSnap.data();
+        setAllMessages(firebaseMessagesList);
       } else {
         console.log("No such document! message_for_all, all_messages");
         setDoc(doc(db, "message_for_all", "all_messages"));
@@ -64,25 +67,37 @@ function MatchesScreen({ navigation }) {
     async function getSwipedUsers() {
       const docSnap = await getDoc(doc(db, "users", user.uid));
       if (docSnap.exists()) {
-        db.collection('users').get().then(snapshot => {
-          // Get all users info from firebase include current login user
-          const users_map = {};
-          snapshot.docs.map((doc) => {
-            users_map[doc.data().id] = doc.data();
-          });
+        db.collection("users")
+          .get()
+          .then((snapshot) => {
+            // Get all users info from firebase include current login user
+            const usersMap = {};
+            snapshot.docs.map((document) => {
+              usersMap[document.data().id] = document.data();
+            });
 
-          const matchArr = [];
-          docSnap.data().swipes.forEach((swiped_id) => {
-            const curr = users_map[swiped_id];
-            // console.log(curr.swipes);
-            if (typeof curr.swipes !== 'undefined' && curr.swipes.length !== 0 && curr.swipes.includes(user.uid)) {
-              matchArr.push({ id:curr.id, firstName:curr.firstName, lastName:curr.lastName, userimage:curr.userimage });
-            }
+            const matchArr = [];
+            docSnap.data().swipes.forEach((swipedId) => {
+              const curr = usersMap[swipedId];
+              // console.log(curr.swipes);
+              if (
+                typeof curr.swipes !== "undefined" &&
+                curr.swipes.length !== 0 &&
+                curr.swipes.includes(user.uid)
+              ) {
+                matchArr.push({
+                  id: curr.id,
+                  firstName: curr.firstName,
+                  lastName: curr.lastName,
+                  userimage: curr.userimage,
+                });
+              }
+            });
+            setMatches(matchArr);
+          })
+          .catch((error) => {
+            console.error(error);
           });
-          setMatches(matchArr);
-        }).catch((error) => {
-          console.error(error);
-        });
       } else {
         console.log("No such document! users, user.uid");
       }
@@ -90,88 +105,98 @@ function MatchesScreen({ navigation }) {
     getSwipedUsers();
 
     // return unsub;
-  }, [chat_map]); // messages, matched_users
-
-  // console.log(matched_users);
-  // console.log(all_users)
+  }, [chatMap]); // messages, matchedUsers
 
   return (
     <View style={styles.ver_container}>
       <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={{ flexDirection: "row" }}>
-          <Text
-            style={{
-              fontSize: 24,
-              color: "#247DCF",
-              marginLeft: 20,
-            }}
-          >
-            New Matches
-          </Text>
-        </View>
-        <ScrollView style={styles.scrollView} horizontal>
-          <View style={styles.users}>
-            {/* {all_users.map((other_user) => ( */}
-            {matched_users.map((other_user) => (
-              <View key={other_user.id}>
-              <TouchableOpacity
-              onPress={() =>
-                navigation.navigate("Chat", {
-                  other_user, user_data
-                })
-              }
-              >
-                <View style={styles.user} >
-                  <Image source={{ uri: other_user.userimage }} style={styles.simp_image} />
-                  <Text style={styles.name}>{other_user.firstName}</Text>
-                </View>
-              </TouchableOpacity>
-              </View>
-            ))}
+        <View style={styles.container}>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: "#247DCF",
+                marginLeft: 20,
+              }}
+            >
+              New Matches
+            </Text>
           </View>
-        </ScrollView>
-      </View>
-      <View style={styles.message_area}>
-        <ScrollView style={styles.scrollView} vertical>
-          <View style={styles.container}>
-            {/* {all_users.map((other_user) =>  */}
-            {matched_users.map((other_user) => 
-                // chat_map[other_user.id] is the key, id_id, to get the actual chat data
-                (messages[chat_map[other_user.id]]!=null && messages[chat_map[other_user.id]].length!=0) ? ( //(true) ? (
+          <ScrollView style={styles.scrollView} horizontal>
+            <View style={styles.users}>
+              {/* {all_users.map((other_user) => ( */}
+              {matchedUsers.map((otherUser) => (
+                <View key={otherUser.id}>
                   <TouchableOpacity
-                  onPress={() =>
+                    onPress={() =>
                       navigation.navigate("Chat", {
-                        other_user, user_data
+                        otherUser,
+                        userData,
                       })
                     }
                   >
-                    <View style={styles.message_box} key={other_user.id}>
-                      <View style={styles.user} key={other_user.id}>
+                    <View style={styles.user}>
+                      <Image
+                        source={{ uri: otherUser.userimage }}
+                        style={styles.simp_image}
+                      />
+                      <Text style={styles.name}>{otherUser.firstName}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+        <View style={styles.message_area}>
+          <ScrollView style={styles.scrollView} vertical>
+            <View style={styles.container}>
+              {/* {all_users.map((other_user) =>  */}
+              {matchedUsers.map((otherUser) =>
+                // chatMap[otherUser.id] is the key, id_id, to get the actual chat data
+                messages[chatMap[otherUser.id]] != null &&
+                messages[chatMap[otherUser.id]].length !== 0 ? ( // (true) ? (
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Chat", {
+                        otherUser,
+                        userData,
+                      })
+                    }
+                  >
+                    <View style={styles.message_box} key={otherUser.id}>
+                      <View style={styles.user} key={otherUser.id}>
                         <Image
-                          source={{ uri: other_user.userimage }}
+                          source={{ uri: otherUser.userimage }}
                           style={styles.simp_image}
                         />
                       </View>
                       <View style={styles.message_mid}>
-                        <Text style={styles.msg_name}>{other_user.firstName}</Text>
+                        <Text style={styles.msg_name}>
+                          {otherUser.firstName}
+                        </Text>
                         <Text style={styles.message}>
-                          {messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[0].split(":")[1]}
+                          {
+                            messages[chatMap[otherUser.id]]
+                              .slice(-1)[0]
+                              .split("\\n")[0]
+                              .split(":")[1]
+                          }
                         </Text>
                       </View>
                       <View>
                         <Text style={styles.time} />
                         <Text style={styles.time}>
-                          {messages[chat_map[other_user.id]][0].split("\\n")[1]}
+                          {messages[chatMap[otherUser.id]][0].split("\\n")[1]}
                         </Text>
                       </View>
                     </View>
                   </TouchableOpacity>
                 ) : null,
-            )}
-          </View>
-        </ScrollView>
-      </View>
+              )}
+            </View>
+          </ScrollView>
+        </View>
       </SafeAreaView>
 
       <IconMenu navigation={navigation} screenCurr="MatchesScreen" />

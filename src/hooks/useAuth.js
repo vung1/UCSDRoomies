@@ -79,7 +79,7 @@ export function AuthProvider({ children }) {
         showMessages("Account already exists", "", "");
       })
       .finally(() => {
-        setLoading(false)
+        setLoading(false);
       });
   };
 

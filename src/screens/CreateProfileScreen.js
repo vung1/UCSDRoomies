@@ -92,8 +92,8 @@ function CreateProfileScreen({ navigation }) {
       userType,
       houseInfo,
       houseImages,
-      passes : [],
-      swipes : [],
+      passes: [],
+      swipes: [],
       timestamp: serverTimestamp(),
     })
       .then(() => {
@@ -101,11 +101,9 @@ function CreateProfileScreen({ navigation }) {
       })
       .catch((error) => console.log("TTTTTTT error", error.message));
   };
-  
-  return (
 
+  return (
     <View style={{ height: "100%" }}>
-      
       <View style={styles.scaleBackground}>
         <View style={{ transform: [{ scaleX: 0.25 }] }}>
           {/* Title */}
@@ -118,10 +116,9 @@ function CreateProfileScreen({ navigation }) {
       </View>
 
       <ScrollView style={{ width: "100%", marginTop: "3%" }} vertical>
-        
         {/* User Image */}
         <Text style={styles.stepTitle}>Step 1: Upload a Profile Picture</Text>
-        <View style={{marginTop: "1%"}}></View>
+        <View style={{ marginTop: "1%" }} />
 
         {/* First Name */}
         <Text style={styles.stepTitle}>Step 2: First Name</Text>
@@ -261,10 +258,10 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 100,
     transform: [{ scaleX: 4 }],
   },
-  screenTitle: { 
-    fontSize: 24, 
-    marginTop: "30%", 
-    fontWeight: "bold", 
+  screenTitle: {
+    fontSize: 24,
+    marginTop: "30%",
+    fontWeight: "bold",
     alignSelf: "center",
     color: "white",
   },

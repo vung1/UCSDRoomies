@@ -19,6 +19,15 @@ module.exports = {
     "react-native/react-native": true,
   },
   rules: {
+    "import/no-extraneous-dependencies": [
+      "off",
+      {
+        devDependencies: false,
+        optionalDependencies: false,
+        peerDependencies: false,
+      },
+    ],
+
     "no-use-before-define": "off",
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off",

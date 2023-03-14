@@ -96,7 +96,9 @@ function AnimatedStack(props) {
       );
 
       const onSwipe = event.velocityX > 0 ? onSwipeRight : onSwipeLeft;
-      onSwipe && runOnJS(onSwipe)(currentProfile);
+      if (onSwipe) {
+        runOnJS(onSwipe)(currentProfile);
+      }
     },
   });
 
