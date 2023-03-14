@@ -46,9 +46,18 @@ function MatchesScreen({ navigation }) {
           setChatMap({});
         }
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      // setAllUsers(users_map);
+
+      setUserData(users_map[user.uid]);
+      // Find current user and get messages historys KEYS
+      if ("messages" in users_map[user.uid]) {
+        setChatMap(users_map[user.uid].messages);
+      } else {
+        setChatMap({});
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
 
     // Get all message history from firebase
     const getMessages = async () => {
@@ -105,7 +114,12 @@ function MatchesScreen({ navigation }) {
     getSwipedUsers();
 
     // return unsub;
-  }, [chatMap]); // messages, matchedUsers
+
+  }, [matched_users]); // messages, matched_users
+
+  // console.log(matched_users);
+  // console.log(messages)
+
 
   return (
     <View style={styles.ver_container}>
@@ -187,7 +201,9 @@ function MatchesScreen({ navigation }) {
                       <View>
                         <Text style={styles.time} />
                         <Text style={styles.time}>
-                          {messages[chatMap[otherUser.id]][0].split("\\n")[1]}
+                          {
+                            messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[1].slice(0,2) + ":" + messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[1].slice(2,4)
+                          }
                         </Text>
                       </View>
                     </View>

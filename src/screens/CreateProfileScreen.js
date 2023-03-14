@@ -92,8 +92,9 @@ function CreateProfileScreen({ navigation }) {
       userType,
       houseInfo,
       houseImages,
-      passes: [],
-      swipes: [],
+      passes : [],
+      swipes : [],
+      messages: [],
       timestamp: serverTimestamp(),
     })
       .then(() => {
