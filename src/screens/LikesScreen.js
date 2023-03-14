@@ -68,9 +68,11 @@ function LikesScreen({ navigation }) {
               {swipes.map((currentUser, index) => (
                 <View style={styles.user} key={currentUser.id}>
                   <TouchableOpacity
-                    onPress={() => navigation.navigate("ProfileScreen", {
-                      currentUser
-                    })}
+                    onPress={() =>
+                      navigation.navigate("ProfileScreen", {
+                        currentUser,
+                      })
+                    }
                   >
                     <ImageBackground
                       source={{ uri: currentUser.userimage }}

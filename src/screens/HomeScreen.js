@@ -31,7 +31,7 @@ import HomeLogo from "../components/HomeLogo";
 import { db, auth } from "../../firebase";
 
 import useAuth from "../hooks/useAuth";
-import users from "../../assets/data/users"
+import users from "../../assets/data/users";
 
 const nopePNG = require("../../assets/images/nope.png");
 const likePNG = require("../../assets/images/like.png");
@@ -257,40 +257,45 @@ function HomeScreen({ navigation }) {
             }}
             renderCard={(card) =>
               card ? (
-                  <TouchableOpacity
-                  onPress={() => navigation.navigate("ProfileScreen", {
-                    card
-                  })}
-                  style={{height:"100%", width:"100%", backgroundColor:"green"}}
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ProfileScreen", {
+                      card,
+                    })
+                  }
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    backgroundColor: "green",
+                  }}
                 >
                   <View key={card.id} style={styles.card}>
-                  <Image
-                    style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
-                    source={{ uri: card.userimage }}
-                  />
-                  <View
-                    style={[
-                      tailwind(
-                        "absolute bottom-0 bg-white w-full flex-row justify-between items-center h-20 px-6 py-2 rounded-b-xl",
-                      ),
-                      styles.cardShadow,
-                    ]}
-                  >
-                    <View>
+                    <Image
+                      style={tailwind(
+                        "absolute top-0 h-full w-full rounded-xl ",
+                      )}
+                      source={{ uri: card.userimage }}
+                    />
+                    <View
+                      style={[
+                        tailwind(
+                          "absolute bottom-0 bg-white w-full flex-row justify-between items-center h-20 px-6 py-2 rounded-b-xl",
+                        ),
+                        styles.cardShadow,
+                      ]}
+                    >
+                      <View>
+                        <Text style={tailwind("text-xl font-bold")}>
+                          {card.firstName}
+                        </Text>
+                        <Text>{card.classification}</Text>
+                      </View>
                       <Text style={tailwind("text-xl font-bold")}>
-                        {card.firstName}
+                        {card.age}
                       </Text>
-                      <Text>{card.classification}</Text>
                     </View>
-                    <Text style={tailwind("text-xl font-bold")}>
-                      {card.age}
-                    </Text>
                   </View>
-                </View>
-
                 </TouchableOpacity>
-                
-                
               ) : (
                 <View style={styles.card}>
                   <Image

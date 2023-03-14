@@ -22,7 +22,6 @@ import IconMenu from "../components/IconMenu";
 import useAuth from "../hooks/useAuth";
 import { db, auth } from "../../firebase";
 
-import user_prof from "../../assets/data/user_prof";
 // import React from "react";
 
 function ProfileScreen({ route, navigation }) {
@@ -31,14 +30,14 @@ function ProfileScreen({ route, navigation }) {
   const [userD, setUserData] = useState([]);
   const [load, setLoad] = useState(false);
 
-  var userData = (currentUser) ? currentUser : userD;
+  let userData = currentUser || userD;
 
   useEffect(() => {
     async function getDocuments() {
       await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
         // const currentUserData = docSnapshot.data();
         setUserData(docSnapshot.data());
-        userData = (currentUser) ? currentUser : userD;
+        userData = currentUser || userD;
       });
     }
     getDocuments().then(() => {
@@ -50,9 +49,10 @@ function ProfileScreen({ route, navigation }) {
 
   const Tab = createMaterialTopTabNavigator();
 
-  const Posts = ({route}) => {
-    const { type } = route.params;
-    var imageGall = (type=="user") ? userData.userImages:userData.houseImages ;
+  function Posts({ currentRoute }) {
+    const { type } = currentRoute.params;
+    const imageGall =
+      type === "user" ? userData.userImages : userData.houseImages;
 
     return (
       <ScrollView
@@ -92,7 +92,7 @@ function ProfileScreen({ route, navigation }) {
     );
   }
 
-  const tabBarOptions = ({ route }) => ({
+  const tabBarOptions = ({ currentRoute }) => ({
     tabBarShowLabel: false,
     tabBarIndicatorStyle: {
       backgroundColor: "black",
@@ -100,11 +100,11 @@ function ProfileScreen({ route, navigation }) {
     },
     tabBarIcon: ({ focused }) => {
       let color;
-      if (route.name === "Apartment") {
+      if (currentRoute.name === "Apartment") {
         color = focused ? "black" : "grey";
         return <MaterialIcons name="apartment" size={23} color={color} />;
       }
-      if (route.name === "Posts") {
+      if (currentRoute.name === "Posts") {
         color = focused ? "black" : "grey";
         return <MaterialIcons name="perm-identity" size={23} color={color} />;
       }
@@ -216,7 +216,7 @@ function ProfileScreen({ route, navigation }) {
               [`Major:${userData.major}`, `Interests:${userData.hobbies}`],
               "About",
             )}
-            
+
             {/* Line */}
             <View
               style={{
@@ -245,12 +245,14 @@ function ProfileScreen({ route, navigation }) {
               initialParams={{ type: "user" }} // TODO:connect to firebase
               options={tabBarOptions}
             />
-            {(userData.userType)? <Tab.Screen
-              name="Apartment"
-              component={Posts}
-              initialParams={{ type: "house" }} // TODO:connect to firebase
-              options={tabBarOptions}
-            />:null}
+            {userData.userType ? (
+              <Tab.Screen
+                name="Apartment"
+                component={Posts}
+                initialParams={{ type: "house" }} // TODO:connect to firebase
+                options={tabBarOptions}
+              />
+            ) : null}
           </Tab.Navigator>
         </View>
       </View>

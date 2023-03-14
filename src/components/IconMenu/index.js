@@ -52,7 +52,7 @@ function IconMenu(props) {
         testID="profileIcon"
         onPress={() => {
           // if (screenCurr !== "ProfileScreen") {
-            navigation.navigate("ProfileScreen", "ProfileScreen");
+          navigation.navigate("ProfileScreen", "ProfileScreen");
           // }
         }}
         activeOpacity={0.8}
