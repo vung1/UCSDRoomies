@@ -43,6 +43,7 @@ function SigninButton(props) {
 
   return (
     <TouchableOpacity
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       testID="Signin.Button"
       onPress={() => {

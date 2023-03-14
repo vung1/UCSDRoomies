@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable consistent-return */
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useState, useEffect } from "react";
 import {
   View,

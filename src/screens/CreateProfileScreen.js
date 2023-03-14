@@ -83,7 +83,6 @@ function CreateProfileScreen({ navigation }) {
       userimage,
       firstName,
       lastName,
-      userimage,
       age,
       bio,
       major,
@@ -92,8 +91,8 @@ function CreateProfileScreen({ navigation }) {
       userType,
       houseInfo,
       houseImages,
-      passes : [],
-      swipes : [],
+      passes: [],
+      swipes: [],
       messages: [],
       timestamp: serverTimestamp(),
     })

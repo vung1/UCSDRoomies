@@ -49,6 +49,7 @@ export function AuthProvider({ children }) {
     setLoading(true);
 
     signInWithEmailAndPassword(auth, state.email, state.password)
+      // eslint-disable-next-line consistent-return
       .then((userCredential) => {
         if (userCredential) {
           const { currentUser } = userCredential;

@@ -9,13 +9,10 @@ import {
 } from "react-native";
 
 import { ScrollView } from "react-native-gesture-handler";
-// import users from "../../assets/data/users";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { setDoc, getDoc, doc, updateDoc } from "firebase/firestore";
+import { setDoc, getDoc, doc } from "firebase/firestore";
 import useAuth from "../hooks/useAuth";
-import BackArrow from "../components/BackArrow";
 import IconMenu from "../components/IconMenu";
-import { db, auth } from "../../firebase";
+import { db } from "../../firebase";
 
 function MatchesScreen({ navigation }) {
   const { user } = useAuth();
@@ -23,7 +20,7 @@ function MatchesScreen({ navigation }) {
   const [chatMap, setChatMap] = useState({});
   // const [all_users, setAllUsers] = useState([]); // all the users except the current login user info
   const [userData, setUserData] = useState({}); // current logged in user data
-  const [matchedUsers, setMatches] = useState([]); // all the swiped and matched other users
+  const [matachedUsers, setMatches] = useState([]); // all the swiped and matched other users
 
   useEffect(() => {
     // let unsub;
@@ -34,10 +31,12 @@ function MatchesScreen({ navigation }) {
       .then((snapshot) => {
         // Get all users info from firebase include current login user
         const usersMap = {};
-        snapshot.docs.map((doc) => {
-          usersMap[doc.data().id] = doc.data();
+        // eslint-disable-next-line array-callback-return
+        snapshot.docs.map((document) => {
+          usersMap[document.data().id] = document.data();
         });
         // setAllUsers(usersMap);
+
         setUserData(usersMap[user.uid]);
         // Find current user and get messages historys KEYS
         if ("messages" in usersMap[user.uid]) {
@@ -46,18 +45,9 @@ function MatchesScreen({ navigation }) {
           setChatMap({});
         }
       })
-      // setAllUsers(users_map);
-
-      setUserData(users_map[user.uid]);
-      // Find current user and get messages historys KEYS
-      if ("messages" in users_map[user.uid]) {
-        setChatMap(users_map[user.uid].messages);
-      } else {
-        setChatMap({});
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
+      .catch((error) => {
+        console.error(error);
+      });
 
     // Get all message history from firebase
     const getMessages = async () => {
@@ -81,6 +71,7 @@ function MatchesScreen({ navigation }) {
           .then((snapshot) => {
             // Get all users info from firebase include current login user
             const usersMap = {};
+            // eslint-disable-next-line array-callback-return
             snapshot.docs.map((document) => {
               usersMap[document.data().id] = document.data();
             });
@@ -114,12 +105,10 @@ function MatchesScreen({ navigation }) {
     getSwipedUsers();
 
     // return unsub;
+  }, [matachedUsers]); // messages, matachedUsers
 
-  }, [matched_users]); // messages, matched_users
-
-  // console.log(matched_users);
+  // console.log(matachedUsers);
   // console.log(messages)
-
 
   return (
     <View style={styles.ver_container}>
@@ -139,7 +128,7 @@ function MatchesScreen({ navigation }) {
           <ScrollView style={styles.scrollView} horizontal>
             <View style={styles.users}>
               {/* {all_users.map((other_user) => ( */}
-              {matchedUsers.map((otherUser) => (
+              {matachedUsers.map((otherUser) => (
                 <View key={otherUser.id}>
                   <TouchableOpacity
                     onPress={() =>
@@ -165,8 +154,8 @@ function MatchesScreen({ navigation }) {
         <View style={styles.message_area}>
           <ScrollView style={styles.scrollView} vertical>
             <View style={styles.container}>
-              {/* {all_users.map((other_user) =>  */}
-              {matchedUsers.map((otherUser) =>
+              {/* {all_users.map((otherUser) =>  */}
+              {matachedUsers.map((otherUser) =>
                 // chatMap[otherUser.id] is the key, id_id, to get the actual chat data
                 messages[chatMap[otherUser.id]] != null &&
                 messages[chatMap[otherUser.id]].length !== 0 ? ( // (true) ? (
@@ -201,9 +190,13 @@ function MatchesScreen({ navigation }) {
                       <View>
                         <Text style={styles.time} />
                         <Text style={styles.time}>
-                          {
-                            messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[1].slice(0,2) + ":" + messages[chat_map[other_user.id]].slice(-1)[0].split("\\n")[1].slice(2,4)
-                          }
+                          {`${messages[chatMap[otherUser.id]]
+                            .slice(-1)[0]
+                            .split("\\n")[1]
+                            .slice(0, 2)}:${messages[chatMap[otherUser.id]]
+                            .slice(-1)[0]
+                            .split("\\n")[1]
+                            .slice(2, 4)}`}
                         </Text>
                       </View>
                     </View>

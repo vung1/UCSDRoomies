@@ -6,7 +6,7 @@ const tritonLogo = require("../../../assets/images/tritonLogo.png");
 
 function SignupButton(props) {
   const { navigation, screenCurr, state, showMessages } = props;
-  const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+  const reg = /^\w+([.-]?\w+)*@ucsd.edu/;
   const { register, loading } = useAuth();
 
   let emailMsg = "";
@@ -30,7 +30,7 @@ function SignupButton(props) {
       error = true;
     }
     // Check input password
-    if (state.password == "") {
+    if (state.password === "") {
       passwordMsg = "Please enter your password";
       error = true;
     } else {
@@ -58,6 +58,7 @@ function SignupButton(props) {
   return (
     <View>
       <TouchableOpacity
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         testID="Signup.Button"
         onPress={() => {
