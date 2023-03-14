@@ -32,7 +32,6 @@ function TypeInBox(props) {
       <View style={{ flex: 5 }}>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeText}
           placeholder="Type Something..."
           keyboardType="default"
           returnKeyType="send"
@@ -49,6 +48,7 @@ function TypeInBox(props) {
             setContentHeight(contentHeight + inputH);
           }}
           onChangeText={(textMessage) => {
+            onChangeText();
             setMsg({ message: textMessage });
           }}
         />

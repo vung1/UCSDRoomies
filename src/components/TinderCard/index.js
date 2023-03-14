@@ -2,6 +2,7 @@ import React from "react";
 import { Text, ImageBackground, View, StyleSheet } from "react-native";
 
 function Card(props) {
+  // eslint-disable-next-line react/destructuring-assignment
   const { name, image, bio } = props.user;
   return (
     <View style={styles.card}>
