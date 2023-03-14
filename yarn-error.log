@@ -1,20 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\bnguy\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  /usr/local/bin/node /usr/local/bin/yarn install
 
 PATH: 
-  D:\MinGW\bin;D:\cygwin\bin;D:\Program Files (x86)\Intel\iCLS Client\;D:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;D:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;D:\Program Files\Intel\Intel(R) Management Engine Components\DAL;D:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;D:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\System32\OpenSSH\;D:\Program Files\Intel\WiFi\bin\;D:\Program Files\Common Files\Intel\WirelessCommon\;D:\Program Files\Java\jdk1.8.0_201\bin;D:\Program Files\apache-maven-3.6.0\bin;D:\Program Files\apache-maven-3.6.0\bin;D:\Program Files\Oracle\VirtualBox;D:\Program Files\Go\bin;D:\Program Files\Git\cmd;C:\Users\bnguy\AppData\Local\Android\Sdk\platform-tools;C:\Users\bnguy\AppData\Local\Android\Sdk;C:\Users\bnguy\AppData\Roaming\nvm;C:\Program Files\nodejs;D:\Program Files\nodejs\;C:\Users\bnguy\AppData\Roaming\local\bin;D:\Users\bnguy\Documents\GitHub\CSE130\02-random-art-brian-nguyen329\bin;D:\Users\bnguy\AppData\Local\Programs\Python\Python38\Scripts\;D:\Users\bnguy\AppData\Local\Programs\Python\Python38\;D:\Users\bnguy\AppData\Local\Programs\Python\Python38-32\Scripts\;D:\Users\bnguy\AppData\Local\Programs\Python\Python38-32\;C:\Users\bnguy\AppData\Local\Programs\Python\Launcher\;C:\Users\bnguy\AppData\Local\Microsoft\WindowsApps;C:\Users\bnguy\AppData\Local\atom\bin;D:\Users\bnguy\AppData\Local\Programs\Microsoft VS Code\bin;D:\Modeltech_pe_edu_10.4a\win32pe_edu;D:\intelFPGA_lite\20.1\modelsim_ase\win32aloem;C:\Users\bnguy\AppData\Local\Microsoft\WindowsApps;D:\ghcup\bin;C:\Users\bnguy\AppData\Local\GitHubDesktop\bin;C:\Users\bnguy\go\bin;C:\Users\bnguy\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\bnguy\AppData\Roaming\npm
+  /opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/danlinjiang/.cabal/bin:/Users/danlinjiang/.ghcup/bin:/opt/local/bin:/opt/local/sbin
 
 Yarn version: 
   1.22.19
 
 Node version: 
-  19.6.0
+  18.14.0
 
 Platform: 
-  win32 x64
+  darwin x64
 
 Trace: 
-  Error: EPERM: operation not permitted, copyfile 'C:\Users\bnguy\AppData\Local\Yarn\Cache\v6\npm-unicode-property-aliases-ecmascript-2.1.0-integrity\node_modules\unicode-property-aliases-ecmascript\package.json' -> 'D:\Users\bnguy\Desktop\CSE210\UCSDRoomies\node_modules\unicode-property-aliases-ecmascript\package.json'
+  Error: EACCES: permission denied, unlink '/Users/danlinjiang/Desktop/CSE210/UCSDRoomies/node_modules/@icons/material/AccessPointIcon.js'
 
 npm manifest: 
   {
@@ -82,6 +82,7 @@ npm manifest:
       "react-native-vector-icons": "^9.2.0",
       "react-native-wind": "^1.2.0",
       "react-navigation-stack": "^2.10.4",
+      "react-router-dom": "^6.9.0",
       "react-test-renderer": "18.1.0",
       "redux-mock-store": "^1.5.4",
       "tailwind": "^4.0.0",
@@ -3150,6 +3151,11 @@ Lockfile:
       "@react-navigation/elements" "^1.3.15"
       color "^4.2.3"
       warn-once "^0.1.0"
+  
+  "@remix-run/router@1.4.0":
+    version "1.4.0"
+    resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.4.0.tgz#74935d538e4df8893e47831a7aea362f295bcd39"
+    integrity sha512-BJ9SxXux8zAg991UmT8slpwpsd31K1dHHbD3Ba4VzD+liLQ4WAMSxQp2d2ZPRPfN0jN2NPRowcSSoM7lCaF08Q==
   
   "@rushstack/eslint-patch@^1.1.0":
     version "1.2.0"
@@ -11233,6 +11239,21 @@ Lockfile:
     version "0.4.3"
     resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.4.3.tgz"
     integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
+  
+  react-router-dom@^6.9.0:
+    version "6.9.0"
+    resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.9.0.tgz#dd8b4e461453bd4cad2e6404493d1a5b4bfea758"
+    integrity sha512-/seUAPY01VAuwkGyVBPCn1OXfVbaWGGu4QN9uj0kCPcTyNYgL1ldZpxZUpRU7BLheKQI4Twtl/OW2nHRF1u26Q==
+    dependencies:
+      "@remix-run/router" "1.4.0"
+      react-router "6.9.0"
+  
+  react-router@6.9.0:
+    version "6.9.0"
+    resolved "https://registry.yarnpkg.com/react-router/-/react-router-6.9.0.tgz#0f503d9becbc62d9e4ddc0f9bd4026e0fd29fbf5"
+    integrity sha512-51lKevGNUHrt6kLuX3e/ihrXoXCa9ixY/nVWRLlob4r/l0f45x3SzBvYJe3ctleLUQQ5fVa4RGgJOTH7D9Umhw==
+    dependencies:
+      "@remix-run/router" "1.4.0"
   
   react-shallow-renderer@^16.15.0:
     version "16.15.0"

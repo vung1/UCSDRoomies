@@ -22,19 +22,23 @@ import IconMenu from "../components/IconMenu";
 import useAuth from "../hooks/useAuth";
 import { db, auth } from "../../firebase";
 
-import userProf from "../../assets/data/user_prof";
+import user_prof from "../../assets/data/user_prof";
 // import React from "react";
 
-function ProfileScreen({ navigation }) {
+function ProfileScreen({ route, navigation }) {
+  const { currentUser } = route.params;
   const { user, logOut } = useAuth();
-  const [userData, setUserData] = useState([]);
+  const [userD, setUserData] = useState([]);
   const [load, setLoad] = useState(false);
+
+  var userData = (currentUser) ? currentUser : userD;
 
   useEffect(() => {
     async function getDocuments() {
       await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
         // const currentUserData = docSnapshot.data();
         setUserData(docSnapshot.data());
+        userData = (currentUser) ? currentUser : userD;
       });
     }
     getDocuments().then(() => {
@@ -46,8 +50,9 @@ function ProfileScreen({ navigation }) {
 
   const Tab = createMaterialTopTabNavigator();
 
-  function Posts({ route }) {
-    const { imageGall } = route.params;
+  const Posts = ({route}) => {
+    const { type } = route.params;
+    var imageGall = (type=="user") ? userData.userImages:userData.houseImages ;
 
     return (
       <ScrollView
@@ -166,7 +171,7 @@ function ProfileScreen({ navigation }) {
               </Text>
 
               <Image
-                source={{ uri: userData.userimge }}
+                source={{ uri: userData.userimage }}
                 style={{ width: 100, height: 100, borderRadius: 100 }}
               />
               <Text
@@ -211,6 +216,7 @@ function ProfileScreen({ navigation }) {
               [`Major:${userData.major}`, `Interests:${userData.hobbies}`],
               "About",
             )}
+            
             {/* Line */}
             <View
               style={{
@@ -236,15 +242,15 @@ function ProfileScreen({ navigation }) {
             <Tab.Screen
               name="Posts"
               component={Posts}
-              initialParams={{ imageGall: userData.userImages }} // TODO:connect to firebase
+              initialParams={{ type: "user" }} // TODO:connect to firebase
               options={tabBarOptions}
             />
-            <Tab.Screen
+            {(userData.userType)? <Tab.Screen
               name="Apartment"
               component={Posts}
-              initialParams={{ imageGall: userData.houseImages }} // TODO:connect to firebase
+              initialParams={{ type: "house" }} // TODO:connect to firebase
               options={tabBarOptions}
-            />
+            />:null}
           </Tab.Navigator>
         </View>
       </View>
