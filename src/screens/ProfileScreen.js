@@ -25,16 +25,20 @@ import { db, auth } from "../../firebase";
 import user_prof from "../../assets/data/user_prof";
 // import React from "react";
 
-function ProfileScreen({ navigation }) {
+function ProfileScreen({ route, navigation }) {
+  const { currentUser } = route.params;
   const { user, logOut } = useAuth();
-  const [userData, setUserData] = useState([]);
+  const [userD, setUserData] = useState([]);
   const [load, setLoad] = useState(false);
+
+  var userData = (currentUser) ? currentUser : userD;
 
   useEffect(() => {
     async function getDocuments() {
       await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
         // const currentUserData = docSnapshot.data();
         setUserData(docSnapshot.data());
+        userData = (currentUser) ? currentUser : userD;
       });
     }
     getDocuments().then(() => {
@@ -241,12 +245,12 @@ function ProfileScreen({ navigation }) {
               initialParams={{ type: "user" }} // TODO:connect to firebase
               options={tabBarOptions}
             />
-            <Tab.Screen
+            {(userData.userType)? <Tab.Screen
               name="Apartment"
               component={Posts}
               initialParams={{ type: "house" }} // TODO:connect to firebase
               options={tabBarOptions}
-            />
+            />:null}
           </Tab.Navigator>
         </View>
       </View>

@@ -30,8 +30,7 @@ function LikesScreen({ navigation }) {
       ).then((querySnapshot) => {
         const passArr = [];
         querySnapshot.forEach((doc) => {
-          const { firstName, lastName, photoURL } = doc.data();
-          passArr.push({ id: doc.id, firstName, lastName, photoURL });
+          passArr.push(doc.data());
         });
         setSwipes(passArr);
       });
@@ -69,10 +68,12 @@ function LikesScreen({ navigation }) {
               {swipes.map((currentUser, index) => (
                 <View style={styles.user} key={currentUser.id}>
                   <TouchableOpacity
-                    onPress={() => console.log(`profile ${currentUser.id}`)}
+                    onPress={() => navigation.navigate("ProfileScreen", {
+                      currentUser
+                    })}
                   >
                     <ImageBackground
-                      source={{ uri: currentUser.photoURL }}
+                      source={{ uri: currentUser.userimage }}
                       style={styles.simp_image}
                       imageStyle={{ borderRadius: 10, overflow: "hidden" }}
                     >

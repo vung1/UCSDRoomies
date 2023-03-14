@@ -31,6 +31,7 @@ import HomeLogo from "../components/HomeLogo";
 import { db, auth } from "../../firebase";
 
 import useAuth from "../hooks/useAuth";
+import users from "../../assets/data/users"
 
 const nopePNG = require("../../assets/images/nope.png");
 const likePNG = require("../../assets/images/like.png");
@@ -256,7 +257,13 @@ function HomeScreen({ navigation }) {
             }}
             renderCard={(card) =>
               card ? (
-                <View key={card.id} style={styles.card}>
+                  <TouchableOpacity
+                  onPress={() => navigation.navigate("ProfileScreen", {
+                    card
+                  })}
+                  style={{height:"100%", width:"100%", backgroundColor:"green"}}
+                >
+                  <View key={card.id} style={styles.card}>
                   <Image
                     style={tailwind("absolute top-0 h-full w-full rounded-xl ")}
                     source={{ uri: card.userimage }}
@@ -280,6 +287,10 @@ function HomeScreen({ navigation }) {
                     </Text>
                   </View>
                 </View>
+
+                </TouchableOpacity>
+                
+                
               ) : (
                 <View style={styles.card}>
                   <Image
