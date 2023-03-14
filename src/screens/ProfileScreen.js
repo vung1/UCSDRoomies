@@ -19,39 +19,31 @@ import IconMenu from "../components/IconMenu";
 import useAuth from "../hooks/useAuth";
 import { db, auth } from "../../firebase";
 
-
-
 import userProf from "../../assets/data/user_prof";
 // import React from "react";
 
 function ProfileScreen({ navigation }) {
-
   const { user, logOut } = useAuth();
   const [userData, setUserData] = useState([]);
-  const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     async function getDocuments() {
-      await getDoc(
-        doc(db, "users", user.uid),
-      ).then((docSnapshot) => {
+      await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
         // const currentUserData = docSnapshot.data();
         setUserData(docSnapshot.data());
       });
     }
     getDocuments().then(() => {
-      setLoad(true)
-    })
+      setLoad(true);
+    });
 
-    console.log(userData)
-    
-   
+    console.log(userData);
   }, [load]);
 
   const Tab = createMaterialTopTabNavigator();
 
   function Posts({ route }) {
-
     const { imageGall } = route.params;
 
     return (
@@ -67,26 +59,26 @@ function ProfileScreen({ navigation }) {
             flexDirection: "row",
           }}
         >
-          {imageGall && imageGall.map((img) => (
-           
-            <View
-              style={{
-                padding: 5,
-                width: "50%",
-                height: 150,
-              }}
-            >
-              <Image
+          {imageGall &&
+            imageGall.map((img) => (
+              <View
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  borderRadius: 10,
-                  backgroundColor: "grey",
+                  padding: 5,
+                  width: "50%",
+                  height: 150,
                 }}
-                source={{ uri: img }}
-              />
-            </View>
-          ))}
+              >
+                <Image
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: 10,
+                    backgroundColor: "grey",
+                  }}
+                  source={{ uri: img }}
+                />
+              </View>
+            ))}
         </View>
       </ScrollView>
     );
@@ -185,19 +177,25 @@ function ProfileScreen({ navigation }) {
               </Text>
             </View>
           </View>
-          <View style={{ 
-            position: "absolute", right: "8%", top: "16%"}}>
+          <View
+            style={{
+              position: "absolute",
+              right: "8%",
+              top: "16%",
+            }}
+          >
             <TouchableOpacity
               onPress={() => {
                 logOut();
               }}
               style={{
-                backgroundColor: "white", 
-                height: 25, 
-                width: 80, 
+                backgroundColor: "white",
+                height: 25,
+                width: 80,
                 borderRadius: 12.5,
-                justifyContent:"center",
-                alignItems:"center"}}
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
               <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
                 Log Out
@@ -206,7 +204,10 @@ function ProfileScreen({ navigation }) {
           </View>
           <View style={styles.second}>
             {/* ABOUT */}
-            {infoSec(["Major:"+userData.major, "Interests:" + userData.hobbies], "About")} 
+            {infoSec(
+              [`Major:${userData.major}`, `Interests:${userData.hobbies}`],
+              "About",
+            )}
             {/* Line */}
             <View
               style={{
@@ -218,7 +219,10 @@ function ProfileScreen({ navigation }) {
 
             {/* Apartment */}
             {userData.userType
-              ? infoSec(["House Information:" + userData.houseInfo], "Apartment") 
+              ? infoSec(
+                  [`House Information:${userData.houseInfo}`],
+                  "Apartment",
+                )
               : null}
           </View>
         </View>

@@ -4,7 +4,6 @@ import { View, Image, Text, TouchableOpacity, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 function AddImage(props) {
-  
   const { storeImage, saveImage } = props;
 
   const [image, setImage] = useState(storeImage);
@@ -26,7 +25,10 @@ function AddImage(props) {
   return (
     <View style={imageUploaderStyles.container}>
       {image && (
-        <Image source={{ uri: image }} style={{ width: "100%", height: "100%" }} />
+        <Image
+          source={{ uri: image }}
+          style={{ width: "100%", height: "100%" }}
+        />
       )}
       <View style={imageUploaderStyles.uploadBtnContainer}>
         <TouchableOpacity onPress={addImage}>

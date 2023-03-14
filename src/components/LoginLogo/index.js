@@ -4,7 +4,6 @@ import { Text, Image, View, StyleSheet } from "react-native";
 const appLogoPNG = require("../../../assets/images/appLogo.png");
 
 function LoginLogo() {
-
   return (
     <View style={styles.logoContainer}>
       <Image source={appLogoPNG} style={styles.image} />

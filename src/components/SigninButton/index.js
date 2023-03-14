@@ -7,7 +7,7 @@ const tritonLogo = require("../../../assets/images/tritonLogo.png");
 
 function SigninButton(props) {
   const { navigation, screenCurr, state, showMessages } = props;
-  const reg = /^\w+([\.-]?\w+)*@ucsd.edu/;
+  const reg = /^\w+([.-]?\w+)*@ucsd.edu/;
 
   const { logIn, loading } = useAuth();
 
@@ -18,15 +18,15 @@ function SigninButton(props) {
     showMessages("", "");
     let error = false;
     // Check input email
-    if (state.email == "") {
+    if (state.email === "") {
       emailMsg = "Please enter your UCSD email";
       error = true;
-    } else if (reg.test(state.email) != true) {
+    } else if (reg.test(state.email) !== true) {
       emailMsg = "Please enter your UCSD email in correct format";
       error = true;
     }
     // Check input password
-    if (state.password == "") {
+    if (state.password === "") {
       passwordMsg = "Please enter your password";
       error = true;
     }

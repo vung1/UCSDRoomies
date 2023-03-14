@@ -98,172 +98,167 @@ function EditProfileScreen({ navigation }) {
       })
       .catch((error) => console.log("TTTTTTT error", error.message));
   };
-  
+
   return (
-
-    <View><View style={{ width: "100%", height: "90%" }}>
-      
-      <View style={styles.scaleBackground}>
-        <View style={{ transform: [{ scaleX: 0.25 }] }}>
-          {/* Title */}
-          <Text style={styles.screenTitle}> Edit Profile </Text>
-          {/* User image */}
-          <View style={styles.imageContainer}>
-            <AddImage storeImage={userimage} saveImage={setUserImage} />
+    <View>
+      <View style={{ width: "100%", height: "90%" }}>
+        <View style={styles.scaleBackground}>
+          <View style={{ transform: [{ scaleX: 0.25 }] }}>
+            {/* Title */}
+            <Text style={styles.screenTitle}> Edit Profile </Text>
+            {/* User image */}
+            <View style={styles.imageContainer}>
+              <AddImage storeImage={userimage} saveImage={setUserImage} />
+            </View>
           </View>
         </View>
-      </View>
 
-      <ScrollView style={{ width: "100%", marginTop: "3%" }} vertical>
-        
-        {/* User Image */}
-        <Text style={styles.stepTitle}>Step 1: Upload a Profile Picture</Text>
-        <View style={{marginTop: "1%"}}></View>
+        <ScrollView style={{ width: "100%", marginTop: "3%" }} vertical>
+          {/* User Image */}
+          <Text style={styles.stepTitle}>Step 1: Upload a Profile Picture</Text>
+          <View style={{ marginTop: "1%" }} />
 
-        {/* First Name */}
-        <Text style={styles.stepTitle}>Step 2: First Name</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={firstName}
-            style={styles.inputText}
-            onChangeText={(nameText) => setFirstName(nameText)}
-            placeholder="Enter your first name"
-          />
-        </View>
-
-        {/* Last Name */}
-        <Text style={styles.stepTitle}>Step 3: Last Name</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={lastName}
-            style={styles.inputText}
-            onChangeText={(nameText) => setLastName(nameText)}
-            placeholder="Enter your second name"
-          />
-        </View>
-
-        {/* Age */}
-        <Text style={styles.stepTitle}>Step 4: Your Age</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={age}
-            style={styles.inputText}
-            onChangeText={(ageText) => setAge(ageText)}
-            keyboardType="numeric"
-            placeholder="Enter your age"
-          />
-        </View>
-
-        {/* Bio */}
-        <Text style={styles.stepTitle}>Step 5: Your Bio</Text>
-        <View style={styles.largeInputContainer}>
-          <TextInput
-            value={bio}
-            style={styles.inputText}
-            multiline
-            onChangeText={(bioText) => setBio(bioText)}
-            placeholder="Write a short bio about yourself"
-          />
-        </View>
-
-        {/* Major */}
-        <Text style={styles.stepTitle}>Step 6: Your Major</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            value={major}
-            style={styles.inputText}
-            onChangeText={(majorText) => setMajor(majorText)}
-            placeholder="Enter your major"
-          />
-        </View>
-
-        {/* Hobbies */}
-        <Text style={styles.stepTitle}>Step 7: Your Hobbies</Text>
-        <View style={styles.largeInputContainer}>
-          <TextInput
-            value={hobbies}
-            style={styles.inputText}
-            multiline
-            onChangeText={(hobbiesText) => setHobbies(hobbiesText)}
-            placeholder="Enter your interests"
-          />
-        </View>
-
-        {/* Additional Images */}
-        <Text style={styles.stepTitle}>Step 8: Your Photos</Text>
-        <ScrollView style={styles.scrollContainer} horizontal>
-          <View style={styles.scrollImage}>
-            <AddImage storeImage={userimage1} saveImage={setUserImage1} />
+          {/* First Name */}
+          <Text style={styles.stepTitle}>Step 2: First Name</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={firstName}
+              style={styles.inputText}
+              onChangeText={(nameText) => setFirstName(nameText)}
+              placeholder="Enter your first name"
+            />
           </View>
-          <View style={styles.scrollImage}>
-            <AddImage storeImage={userimage2} saveImage={setUserImage2} />
+
+          {/* Last Name */}
+          <Text style={styles.stepTitle}>Step 3: Last Name</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={lastName}
+              style={styles.inputText}
+              onChangeText={(nameText) => setLastName(nameText)}
+              placeholder="Enter your second name"
+            />
           </View>
-          <View style={styles.scrollImage}>
-            <AddImage storeImage={userimage3} saveImage={setUserImage3} />
+
+          {/* Age */}
+          <Text style={styles.stepTitle}>Step 4: Your Age</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={age}
+              style={styles.inputText}
+              onChangeText={(ageText) => setAge(ageText)}
+              keyboardType="numeric"
+              placeholder="Enter your age"
+            />
           </View>
-          <View style={styles.scrollImage}>
-            <AddImage storeImage={userimage4} saveImage={setUserImage4} />
+
+          {/* Bio */}
+          <Text style={styles.stepTitle}>Step 5: Your Bio</Text>
+          <View style={styles.largeInputContainer}>
+            <TextInput
+              value={bio}
+              style={styles.inputText}
+              multiline
+              onChangeText={(bioText) => setBio(bioText)}
+              placeholder="Write a short bio about yourself"
+            />
+          </View>
+
+          {/* Major */}
+          <Text style={styles.stepTitle}>Step 6: Your Major</Text>
+          <View style={styles.inputContainer}>
+            <TextInput
+              value={major}
+              style={styles.inputText}
+              onChangeText={(majorText) => setMajor(majorText)}
+              placeholder="Enter your major"
+            />
+          </View>
+
+          {/* Hobbies */}
+          <Text style={styles.stepTitle}>Step 7: Your Hobbies</Text>
+          <View style={styles.largeInputContainer}>
+            <TextInput
+              value={hobbies}
+              style={styles.inputText}
+              multiline
+              onChangeText={(hobbiesText) => setHobbies(hobbiesText)}
+              placeholder="Enter your interests"
+            />
+          </View>
+
+          {/* Additional Images */}
+          <Text style={styles.stepTitle}>Step 8: Your Photos</Text>
+          <ScrollView style={styles.scrollContainer} horizontal>
+            <View style={styles.scrollImage}>
+              <AddImage storeImage={userimage1} saveImage={setUserImage1} />
+            </View>
+            <View style={styles.scrollImage}>
+              <AddImage storeImage={userimage2} saveImage={setUserImage2} />
+            </View>
+            <View style={styles.scrollImage}>
+              <AddImage storeImage={userimage3} saveImage={setUserImage3} />
+            </View>
+            <View style={styles.scrollImage}>
+              <AddImage storeImage={userimage4} saveImage={setUserImage4} />
+            </View>
+          </ScrollView>
+
+          {/* Leasing Status */}
+          <Text style={styles.stepTitle}>Step 9: Already Have A Leasing?</Text>
+          <Switch
+            value={userType}
+            onValueChange={(value) => setUserType(value)}
+            style={{ marginTop: "1%", marginLeft: "10%" }}
+          />
+
+          {/* Leasing Information */}
+          <ProfileHideComponents
+            hide={userType}
+            sethouseInfo={sethouseInfo}
+            houseimage1={houseimage1}
+            houseimage2={houseimage2}
+            houseimage3={houseimage3}
+            houseimage4={houseimage4}
+            setHouseImage1={setHouseImage1}
+            setHouseImage2={setHouseImage2}
+            setHouseImage3={setHouseImage3}
+            setHouseImage4={setHouseImage4}
+          />
+
+          {/* Save Button */}
+          <View style={{ height: 40, alignItems: "center" }}>
+            <TouchableOpacity
+              disabled={incompleteForm}
+              onPress={() => {
+                console.log("Build Profile");
+                updateUserProfile();
+              }}
+              style={styles.button}
+            >
+              <Text style={{ fontSize: 15, fontWeight: "bold" }}>
+                Save Profile
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Logout Button */}
+          <View style={{ height: 120, alignItems: "center", marginTop: "5%" }}>
+            <TouchableOpacity
+              onPress={() => {
+                logOut();
+              }}
+              style={styles.button}
+            >
+              <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
+                Log Out
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
+      </View>
 
-        {/* Leasing Status */}
-        <Text style={styles.stepTitle}>Step 9: Already Have A Leasing?</Text>
-        <Switch
-          value={userType}
-          onValueChange={(value) => setUserType(value)}
-          style={{ marginTop: "1%", marginLeft: "10%" }}
-        />
-
-        {/* Leasing Information */}
-        <ProfileHideComponents
-          hide={userType}
-          sethouseInfo={sethouseInfo}
-          houseimage1={houseimage1}
-          houseimage2={houseimage2}
-          houseimage3={houseimage3}
-          houseimage4={houseimage4}
-          setHouseImage1={setHouseImage1}
-          setHouseImage2={setHouseImage2}
-          setHouseImage3={setHouseImage3}
-          setHouseImage4={setHouseImage4}
-        />
-
-        {/* Save Button */}
-        <View style={{ height: 40, alignItems: "center" }}>
-          <TouchableOpacity
-            disabled={incompleteForm}
-            onPress={() => {
-              console.log("Build Profile");
-              updateUserProfile();
-            }}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 15, fontWeight: "bold" }}>
-              Save Profile
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Logout Button */}
-        <View style={{ height: 120, alignItems: "center", marginTop:"5%" }}>
-          <TouchableOpacity
-            onPress={() => {
-              logOut();
-            }}
-            style={styles.button}
-          >
-            <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
-              Log Out
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-      </ScrollView>
-
-    </View>
-
-    <IconMenu navigation={navigation} screenCurr="EditProfileScreen" />
-
+      <IconMenu navigation={navigation} screenCurr="EditProfileScreen" />
     </View>
   );
 }
@@ -278,10 +273,10 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 100,
     transform: [{ scaleX: 4 }],
   },
-  screenTitle: { 
-    fontSize: 24, 
-    marginTop: "30%", 
-    fontWeight: "bold", 
+  screenTitle: {
+    fontSize: 24,
+    marginTop: "30%",
+    fontWeight: "bold",
     alignSelf: "center",
     color: "white",
   },

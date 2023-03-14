@@ -30,7 +30,6 @@ function MainStackNavigator() {
           backgroundColor: "#FFFFFF",
           animation: "none",
         }}
-        
       >
         {user ? (
           <>
@@ -40,15 +39,33 @@ function MainStackNavigator() {
             <Stack.Screen name="Likes" component={LikesScreen} />
             <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
             {/* <Stack.Screen name="ModelScreen" component={ModelScreen} /> */}
-            <Stack.Screen name="CreateProfileScreen" component={CreateProfileScreen}/>
-            <Stack.Screen name="EditProfileScreen" component={EditProfileScreen}/>
+            <Stack.Screen
+              name="CreateProfileScreen"
+              component={CreateProfileScreen}
+            />
+            <Stack.Screen
+              name="EditProfileScreen"
+              component={EditProfileScreen}
+            />
           </>
         ) : (
           <>
             <Stack.Screen name="InitScreen" component={InitScreen} />
-            <Stack.Screen name="LoginScreen" component={LoginScreen} options={{animation:"fade"}}/>
-            <Stack.Screen name="SigninScreen" component={SigninScreen} options={{animation:"slide_from_bottom"}}/>
-            <Stack.Screen name="SignupScreen" component={SignupScreen} options={{animation:"slide_from_bottom"}}/>
+            <Stack.Screen
+              name="LoginScreen"
+              component={LoginScreen}
+              options={{ animation: "fade" }}
+            />
+            <Stack.Screen
+              name="SigninScreen"
+              component={SigninScreen}
+              options={{ animation: "slide_from_bottom" }}
+            />
+            <Stack.Screen
+              name="SignupScreen"
+              component={SignupScreen}
+              options={{ animation: "slide_from_bottom" }}
+            />
           </>
         )}
       </Stack.Navigator>

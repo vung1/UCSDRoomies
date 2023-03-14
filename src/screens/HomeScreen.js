@@ -109,8 +109,8 @@ function HomeScreen({ navigation }) {
   const tailwind = useTailwind();
   const { user } = useAuth(); // auth.currentUser;
   const [profiles, setProfiles] = useState([]);
-  const [passes_user_ids, setPassesIds] = useState([]);
-  const [swipes_user_ids, setSwipesIds] = useState([]);
+  const [passesUserIds, setPassesIds] = useState([]);
+  const [swipesUserIds, setSwipesIds] = useState([]);
 
   // if the database is empty, redirect to ModelScreen
   // useLayoutEffect(() => onSnapshot(doc(db, "users", user.uid), (snapshot) => {
@@ -177,9 +177,9 @@ function HomeScreen({ navigation }) {
 
     setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
 
-    passes_user_ids.push(userSwiped.id);
-    setPassesIds(passes_user_ids);
-    updateDoc(doc(db, "users", user.uid), {passes : passes_user_ids});
+    passesUserIds.push(userSwiped.id);
+    setPassesIds(passesUserIds);
+    updateDoc(doc(db, "users", user.uid), { passes: passesUserIds });
   };
 
   const swipeRight = async (cardIndex) => {
@@ -192,9 +192,9 @@ function HomeScreen({ navigation }) {
 
     setDoc(doc(db, "users", user.uid, "swipes", userSwiped.id), userSwiped);
 
-    swipes_user_ids.push(userSwiped.id);
-    setSwipesIds(swipes_user_ids);
-    updateDoc(doc(db, "users", user.uid), {swipes : swipes_user_ids});
+    swipesUserIds.push(userSwiped.id);
+    setSwipesIds(swipesUserIds);
+    updateDoc(doc(db, "users", user.uid), { swipes: swipesUserIds });
   };
 
   return (
