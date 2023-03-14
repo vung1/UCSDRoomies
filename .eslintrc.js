@@ -27,7 +27,7 @@ module.exports = {
         peerDependencies: false,
       },
     ],
-
+    "no-shadow": "off",
     "no-use-before-define": "off",
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off",

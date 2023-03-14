@@ -49,8 +49,8 @@ function ProfileScreen({ route, navigation }) {
 
   const Tab = createMaterialTopTabNavigator();
 
-  function Posts({ currentRoute }) {
-    const { type } = currentRoute.params;
+  function Posts({ route }) {
+    const { type } = route.params;
     const imageGall =
       type === "user" ? userData.userImages : userData.houseImages;
 
@@ -92,7 +92,7 @@ function ProfileScreen({ route, navigation }) {
     );
   }
 
-  const tabBarOptions = ({ currentRoute }) => ({
+  const tabBarOptions = ({ route }) => ({
     tabBarShowLabel: false,
     tabBarIndicatorStyle: {
       backgroundColor: "black",
@@ -100,11 +100,11 @@ function ProfileScreen({ route, navigation }) {
     },
     tabBarIcon: ({ focused }) => {
       let color;
-      if (currentRoute.name === "Apartment") {
+      if (route.name === "Apartment") {
         color = focused ? "black" : "grey";
         return <MaterialIcons name="apartment" size={23} color={color} />;
       }
-      if (currentRoute.name === "Posts") {
+      if (route.name === "Posts") {
         color = focused ? "black" : "grey";
         return <MaterialIcons name="perm-identity" size={23} color={color} />;
       }
