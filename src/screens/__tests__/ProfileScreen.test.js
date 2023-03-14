@@ -92,6 +92,6 @@ describe("Logout Test", () => {
     );
     const logoutButton = screen.getByTestId("logout.Button");
     fireEvent.press(logoutButton);
-    expect(mockLogOut).toHaveBeenCalledTimes(1);
+    await expect(mockLogOut).toHaveBeenCalledTimes(1);
   });
 });
