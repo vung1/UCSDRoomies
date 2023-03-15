@@ -105,7 +105,7 @@ function HomeScreen({ navigation }) {
 
     fetchCards();
     return unsub;
-  }, [profiles, userType]); // [userType, profiles, user.uid]);
+  }, [db, userType]); // [userType, profiles, user.uid]);
 
   // console.log(profiles);
 
