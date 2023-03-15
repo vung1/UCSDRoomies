@@ -36,74 +36,6 @@ import users from "../../assets/data/users";
 const nopePNG = require("../../assets/images/nope.png");
 const likePNG = require("../../assets/images/like.png");
 
-const DUMMY_DATA = [
-  {
-    firstName: "Mya",
-    lastName: "Bolds",
-    age: 30,
-    classification: "Graduate Student",
-    majors: "Computer Science",
-    photoURL:
-      "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/287545022_1091736855020876_5602520662715136881_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=XpnHAeTSAHIAX-NZ7w7&_nc_ht=scontent-lax3-2.xx&oh=00_AfCZ98S4q_HGWA4StuZgQxAQGUKlmfYCj-zuBPpZiuMOnA&oe=6402A954",
-    id: "123",
-  },
-
-  {
-    firstName: "Victor",
-    lastName: "Ung",
-    age: 30,
-    classification: "Graduate Student",
-    majors: "Computer Science",
-    photoURL:
-      "https://scontent-lax3-2.xx.fbcdn.net/v/t1.6435-9/34604303_2112995925596886_8035880099964256256_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Fqr1cJlYiJgAX8lfcTn&_nc_ht=scontent-lax3-2.xx&oh=00_AfA2u9CK2fhN1wfhUjkyohjV0UHuh2SPOImPkrYnmDm0_w&oe=641B71D5",
-    id: "456",
-  },
-
-  {
-    firstName: "Darlene",
-    lastName: "Jiang",
-    age: 30,
-    classification: "Graduate Student",
-    majors: "Computer Science",
-    photoURL:
-      "https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/326464979_1189459725017205_2497974280865416237_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=Sxn0I1LLMNoAX-_25HR&_nc_ht=scontent-lax3-2.xx&oh=00_AfAA06Fh-jIjtcR9p9rZ0gnJsXz28jNDA8uD-jxmBw6x1g&oe=64033D73",
-    id: "789",
-  },
-
-  {
-    firstName: "Josh",
-    lastName: "Yan",
-    age: 30,
-    classification: "Graduate Student",
-    majors: "Computer Science",
-    photoURL:
-      "https://scontent-lax3-1.xx.fbcdn.net/v/t1.6435-9/37081933_213393819314265_6367120236990169088_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=qppccfxWV9oAX-VWNls&_nc_ht=scontent-lax3-1.xx&oh=00_AfCUSGY3klKxDVKn8WUwq2rC3Yt8mzSzueW0_y6VLbmgog&oe=641B6496",
-    id: "101112",
-  },
-
-  {
-    firstName: "Jack",
-    lastName: "Sun",
-    age: 30,
-    classification: "Graduate Student",
-    majors: "Computer Science",
-    photoURL:
-      "https://scontent-lax3-2.xx.fbcdn.net/v/t1.6435-9/192436271_1214099862361681_8439239647122206602_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=9gVc74c9qLEAX8aqgQE&tn=fCUD-PsIbWKfLdzZ&_nc_ht=scontent-lax3-2.xx&oh=00_AfDdr1GFfQRImzwC25eaR91_Odz5aXOfqrcxT5034-M6hQ&oe=641B85CD",
-    id: "1052700",
-  },
-
-  {
-    firstName: "Brian",
-    lastName: "Nguyen",
-    age: 30,
-    classification: "Graduate Student",
-    majors: "Computer Science",
-    photoURL:
-      "https://scontent-lax3-1.xx.fbcdn.net/v/t39.30808-6/289682412_3185058221746238_7439599793167202859_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=R8mv1hISX0wAX9no2wj&_nc_ht=scontent-lax3-1.xx&oh=00_AfDPwbVwyn5JVdVCfmE1TDtAIcXFcHTUbTKDk4-7nt0rfg&oe=6402FB00",
-    id: "131415",
-  },
-];
-
 function HomeScreen({ navigation }) {
   // const navigation = useNavigation();
   const swipeRef = React.useRef(null);
@@ -112,6 +44,7 @@ function HomeScreen({ navigation }) {
   const [profiles, setProfiles] = useState([]);
   const [passesUserIds, setPassesIds] = useState([]);
   const [swipesUserIds, setSwipesIds] = useState([]);
+  const [userType, setUserType] = useState(false);
 
   // if the database is empty, redirect to ModelScreen
   // useLayoutEffect(() => onSnapshot(doc(db, "users", user.uid), (snapshot) => {
@@ -122,6 +55,13 @@ function HomeScreen({ navigation }) {
 
   useEffect(() => {
     let unsub;
+
+    async function getDocuments() {
+      await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
+        setUserType(docSnapshot.data().userType);
+      });
+    }
+    getDocuments();
 
     const fetchCards = async () => {
       const passes = await getDocs(
@@ -152,6 +92,7 @@ function HomeScreen({ navigation }) {
           setProfiles(
             snapshot.docs
               .filter((document) => document.id !== user.uid)
+              .filter((document) => document.data().userType !== userType)
               .map((document) => ({
                 id: document.id,
                 swipe_pass_timestamp: serverTimestamp(),
@@ -164,7 +105,7 @@ function HomeScreen({ navigation }) {
 
     fetchCards();
     return unsub;
-  }, [db]);
+  }, [profiles, userType]); // [userType, profiles, user.uid]);
 
   // console.log(profiles);
 
@@ -255,26 +196,26 @@ function HomeScreen({ navigation }) {
                 },
               },
             }}
-            renderCard={(card) =>
-              card ? (
+            renderCard={(currentUser) =>
+              currentUser ? (
                 <TouchableOpacity
-                  onPress={() =>
+                  onPress={() => {
+                    // console.log(currentUser, "this is the currentUser");
                     navigation.navigate("ProfileScreen", {
-                      card,
-                    })
-                  }
+                      currentUser,
+                    });
+                  }}
                   style={{
                     height: "100%",
                     width: "100%",
-                    backgroundColor: "green",
                   }}
                 >
-                  <View key={card.id} style={styles.card}>
+                  <View key={currentUser.id} style={styles.currentUser}>
                     <Image
                       style={tailwind(
                         "absolute top-0 h-full w-full rounded-xl ",
                       )}
-                      source={{ uri: card.userimage }}
+                      source={{ uri: currentUser.userimage }}
                     />
                     <View
                       style={[
@@ -286,12 +227,12 @@ function HomeScreen({ navigation }) {
                     >
                       <View>
                         <Text style={tailwind("text-xl font-bold")}>
-                          {card.firstName}
+                          {currentUser.firstName}
                         </Text>
-                        <Text>{card.classification}</Text>
+                        <Text>{currentUser.classification}</Text>
                       </View>
                       <Text style={tailwind("text-xl font-bold")}>
-                        {card.age}
+                        {currentUser.age}
                       </Text>
                     </View>
                   </View>
@@ -381,7 +322,7 @@ const styles = StyleSheet.create({
     height: "70%",
     top: "-8%",
   },
-  card: {
+  currentUser: {
     justifyContent: "center",
     alignItems: "center",
     height: "68%",

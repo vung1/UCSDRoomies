@@ -30,21 +30,28 @@ function ProfileScreen({ route, navigation }) {
   const [userD, setUserData] = useState([]);
   const [load, setLoad] = useState(false);
 
-  let userData = currentUser || userD;
+  let userData = null;
+  if (currentUser) {
+    userData = currentUser;
+  } else {
+    userData = userD;
+  }
 
   useEffect(() => {
     async function getDocuments() {
       await getDoc(doc(db, "users", user.uid)).then((docSnapshot) => {
         // const currentUserData = docSnapshot.data();
         setUserData(docSnapshot.data());
-        userData = currentUser || userD;
+        if (currentUser) {
+          userData = currentUser;
+        } else {
+          userData = userD;
+        }
       });
     }
     getDocuments().then(() => {
       setLoad(true);
     });
-
-    console.log(userData);
   }, [load]);
 
   const Tab = createMaterialTopTabNavigator();
@@ -192,23 +199,27 @@ function ProfileScreen({ route, navigation }) {
               top: "16%",
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                logOut();
-              }}
-              style={{
-                backgroundColor: "white",
-                height: 25,
-                width: 80,
-                borderRadius: 12.5,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 15, fontWeight: "bold", color: "red" }}>
-                Log Out
-              </Text>
-            </TouchableOpacity>
+            {!currentUser ? (
+              <TouchableOpacity
+                onPress={() => {
+                  logOut();
+                }}
+                style={{
+                  backgroundColor: "white",
+                  height: 25,
+                  width: 80,
+                  borderRadius: 12.5,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 15, fontWeight: "bold", color: "red" }}
+                >
+                  Log Out
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
           <View style={styles.second}>
             {/* ABOUT */}

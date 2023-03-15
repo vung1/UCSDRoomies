@@ -23,8 +23,6 @@ function MatchesScreen({ navigation }) {
   const [matachedUsers, setMatches] = useState([]); // all the swiped and matched other users
 
   useEffect(() => {
-    // let unsub;
-
     // Get current login user chat history
     db.collection("users")
       .get()
